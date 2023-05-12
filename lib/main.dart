@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:need_moto/controllers/VehicleBookingController.dart';
 import 'package:need_moto/controllers/controllerkyc.dart';
@@ -5,13 +6,14 @@ import 'package:need_moto/controllers/filecontroller.dart';
 import 'package:need_moto/controllers/main_controller.dart';
 import 'package:need_moto/controllers/menucontroller.dart';
 import 'package:need_moto/mywidget.dart';
+import 'package:need_moto/screens/admin_dashboard.dart';
 import 'package:need_moto/screens/screenshot.dart';
 import 'package:need_moto/screens/seventh.dart';
 import 'package:need_moto/screens/sixth.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/screens/tenth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart' as auth_ui;
 import 'package:need_moto/screens/Home.dart';
 
 import 'controllers/booking_controller.dart';
@@ -36,6 +38,13 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  bool isAdmin(User? user) {
+    // Check if the user's email address matches the admin email
+    String adminEmail = 'tyagichirag2025@gmail.com'; // Replace with your admin email
+    return user != null && user.email == adminEmail;
+  }
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -46,25 +55,48 @@ class MyApp extends StatelessWidget {
           // GetPage(name: '/sixth', page: () => sixth()),
           GetPage(name: '/home', page: () => Home()),
           GetPage(name: '/seventh', page: () => seventh()),
-          // GetPage(name: '/tenth', page: () => Tenth()),
-          GetPage(name: '/ss', page: () => MyHomePageView()),
+          GetPage(name: '/adminDashboard', page: () => AdminDashboard()),
           GetPage(
-              name: '/signInScreen',
-              page: () => SignInScreen(
-                    providers: [
-                      EmailAuthProvider(),
-                    ],
-                    actions: [
-                      AuthStateChangeAction<SignedIn>((context, state) {
-                        //Navigator.pushReplacementNamed(context, '/tenth');
-                        Get.offNamed('/home');
-                      }),
-                      AuthStateChangeAction<UserCreated>((context, state) {
-                        //Navigator.pushReplacementNamed(context, '/tenth');
-                        Get.offNamed('/home');
-                      }),
-                    ],
-                  )),
+            name: '/signInScreen',
+            page: () => auth_ui.SignInScreen(
+            providers: [
+            auth_ui.EmailAuthProvider(),
+            ],
+            actions: [
+              auth_ui.AuthStateChangeAction<auth_ui.SignedIn>((context, state) {
+                // Check if the signed-in user is an admin
+                if (isAdmin(state.user)) {
+                  Get.offNamed('/adminDashboard'); // Redirect to the admin dashboard
+                } else {
+                  Get.offNamed('/home'); // Redirect to the regular user home page
+                }
+              }),
+              auth_ui.AuthStateChangeAction<auth_ui.UserCreated>((context, state) {
+                 // Redirect to the regular user home page after user creation
+                 Get.offNamed('/home');
+              }),
+            ],
+         ),
+    ),
+
+    // GetPage(
+          //     name: '/signInScreen',
+          //     page: () => SignInScreen(
+          //           providers: [
+          //             EmailAuthProvider(),
+          //           ],
+          //           actions: [
+          //             AuthStateChangeAction<SignedIn>((context, state) {
+          //               //Navigator.pushReplacementNamed(context, '/tenth');
+          //               Get.offNamed('/home');
+          //             }),
+          //             AuthStateChangeAction<UserCreated>((context, state) {
+          //               //Navigator.pushReplacementNamed(context, '/tenth');
+          //               Get.offNamed('/home');
+          //             }),
+          //           ],
+          //         ))
+
         ]);
   }
 }
