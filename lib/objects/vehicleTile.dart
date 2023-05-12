@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/controllers/main_controller.dart';
 import 'package:need_moto/objects/check_kyc.dart';
 import 'package:need_moto/objects/request.dart';
 import 'package:need_moto/screens/tenth.dart';
@@ -17,6 +20,7 @@ class VehicleTile extends StatefulWidget {
   final String ownerName;
   final String ownerPhoneNumber;
   final String average;
+  final String vehicleNumber;
   // final String userId;
 
   RxString userseats;
@@ -48,6 +52,7 @@ class VehicleTile extends StatefulWidget {
     required this.returnDateTime,
     required this.delivery,
     required this.purpose,
+    required this.vehicleNumber,
     // required this.userId
   });
 
@@ -56,7 +61,7 @@ class VehicleTile extends StatefulWidget {
 }
 
 class _VehicleTileState extends State<VehicleTile> {
-  bool kycdone = false;
+  bool kycdone = true;
   // getKycStatus() async {
   //   await CheckKyc.checkKycdone(widget.userId).then((iskycdone) {
   //     setState(() {
@@ -65,6 +70,54 @@ class _VehicleTileState extends State<VehicleTile> {
   //     });
   //   });
   // }
+  MainController mainController = Get.find();
+
+  void storeUserRequestData() {
+    // Get the current user ID
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    // Generate a timestamp
+    DateTime currentTime = DateTime.now();
+    String timestamp = currentTime.millisecondsSinceEpoch.toString();
+
+    // Create the document ID by combining the user ID and timestamp
+    String documentId = '$currentUserId-$timestamp';
+
+    // Create a reference to the document in the "users" collection
+    DocumentReference userRequestRef =
+    FirebaseFirestore.instance.collection('requests').doc(documentId);
+
+    // Define the data to be stored in the document
+    Map<String, dynamic> userRequestData = {
+      // Add your desired fields and values here
+      'vehicleNumber': widget.vehicleNumber,
+      'vehicleName': widget.vehicleName,
+      'userID': currentUserId,
+      'delivery': widget.delivery,
+      'purpose': widget.purpose,
+      'pickupDataTime': widget.pickupDateTime,
+      'returnDateTime': widget.returnDateTime,
+      'source': widget.source,
+      'destination': widget.destination,
+      'status': mainController.requestStatusController.text,
+
+
+    };
+
+    // Store the data in the Firestore document
+    userRequestRef
+        .set(userRequestData)
+        .then((value) {
+      // Document created successfully
+      // You can add any additional actions or navigate to another screen here
+      print('uploaded');
+    })
+        .catchError((error) {
+      // An error occurred while creating the document
+      // Handle the error appropriately
+      print('cannot upload');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,22 +183,26 @@ class _VehicleTileState extends State<VehicleTile> {
                     onPressed: () {
                       // Handle booking logic here
                       // showCupertinoAlertDialog(context);
-                      Get.to(Request(
-                          vehicleLocation: widget.vehicleLocation,
-                          source: widget.source,
-                          destination: widget.destination,
-                          delivery: widget.delivery,
-                          pickupDateTime: widget.pickupDateTime,
-                          returnDateTime: widget.returnDateTime,
-                          purpose: widget.purpose,
-                          imgUrl: widget.imgUrl,
-                          vehicleName: widget.vehicleName,
-                          seats: widget.seats,
-                          average: widget.average,
-                          kpml: widget.kpml,
-                          type: widget.type,
-                          ownerName: widget.ownerName,
-                          ownerPhoneNumber: widget.ownerPhoneNumber));
+                      storeUserRequestData();
+                      print('called');
+                      // Get.to(Request(
+                      //     vehicleLocation: widget.vehicleLocation,
+                      //     source: widget.source,
+                      //     destination: widget.destination,
+                      //     delivery: widget.delivery,
+                      //     pickupDateTime: widget.pickupDateTime,
+                      //     returnDateTime: widget.returnDateTime,
+                      //     purpose: widget.purpose,
+                      //     imgUrl: widget.imgUrl,
+                      //     vehicleName: widget.vehicleName,
+                      //     seats: widget.seats,
+                      //     average: widget.average,
+                      //     kpml: widget.kpml,
+                      //     type: widget.type,
+                      //     ownerName: widget.ownerName,
+                      //     ownerPhoneNumber: widget.ownerPhoneNumber,
+                      //     vehicleNumber: widget.vehicleNumber,
+                      // ));
                     },
                     child: Text('Book Now'),
                     style: ElevatedButton.styleFrom(

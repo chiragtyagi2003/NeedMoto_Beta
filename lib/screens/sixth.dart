@@ -99,6 +99,7 @@ class _sixthState extends State<sixth> {
                           car["ownerName"];
                       mainController.ownerPhoneNumberController.text =
                           "9999223222";
+                      mainController.vehicleNumberController.text = car['vehicleNumber'];
 
                       return VehicleTile(
 //key: ValueKey(index),
@@ -108,14 +109,13 @@ class _sixthState extends State<sixth> {
                         rentalPricePerKm:
                             mainController.rentalPricePerKmController.text,
                         perKm: mainController.perKmController.text,
-                        distanceFromYou:
-                            mainController.distanceFromYouController.text,
+                        distanceFromYou: mainController.distanceFromYouController.text,
                         kpml: mainController.kpmlController.text,
                         type: mainController.typeController.text,
                         ownerName: mainController.ownerNameController.text,
-                        ownerPhoneNumber:
-                            mainController.ownerPhoneNumberController.text,
+                        ownerPhoneNumber: mainController.ownerPhoneNumberController.text,
                         average: mainController.averageController.text,
+                        vehicleNumber: mainController.vehicleNumberController.text,
                         ////
                         delivery: widget.delivery,
                         source: widget.source,
@@ -125,6 +125,7 @@ class _sixthState extends State<sixth> {
                         purpose: widget.purpose,
                         vehicleLocation: widget.vehicleLocation,
                         userseats: widget.seats,
+
                       );
                     },
                   ),

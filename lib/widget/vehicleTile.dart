@@ -16,6 +16,7 @@ class VehicleTile extends StatefulWidget {
   final String ownerName;
   final String ownerPhoneNumber;
   final String average;
+  final String vehicleNumber;
   // final String userId;
 
   RxString userseats;
@@ -47,6 +48,7 @@ class VehicleTile extends StatefulWidget {
     required this.returnDateTime,
     required this.delivery,
     required this.purpose,
+    required this.vehicleNumber,
     // required this.userId
   });
 

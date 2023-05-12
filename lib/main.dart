@@ -7,7 +7,6 @@ import 'package:need_moto/controllers/main_controller.dart';
 import 'package:need_moto/controllers/menucontroller.dart';
 import 'package:need_moto/mywidget.dart';
 import 'package:need_moto/screens/admin_dashboard.dart';
-import 'package:need_moto/screens/screenshot.dart';
 import 'package:need_moto/screens/seventh.dart';
 import 'package:need_moto/screens/sixth.dart';
 import 'package:get/get.dart';
@@ -28,7 +27,6 @@ void main() async {
   await Firebase.initializeApp();
   Get.put(BookingColntroller());
   Get.put(KycController());
-  Get.put(MyHomePageController());
   Get.put(MainController());
   Get.put(FileController('qFm8nd1BODSFfJLEsGNFLzjbOiN2'));
   Get.put(VehicleBookingController());

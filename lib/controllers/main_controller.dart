@@ -15,4 +15,9 @@ class MainController extends GetxController {
   TextEditingController distanceFromYouController = TextEditingController();
   TextEditingController brandNameController = TextEditingController();
   TextEditingController modelNameController = TextEditingController();
+  TextEditingController vehicleNumberController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  TextEditingController distanceRangeController = TextEditingController();
+  TextEditingController rentalPricePerDayController = TextEditingController();
+  TextEditingController requestStatusController = TextEditingController(text: 'pending');
 }
