@@ -1,9 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:need_moto/controllers/main_controller.dart';
+import 'package:need_moto/functions.dart';
+import 'package:need_moto/functions.dart';
 import 'package:need_moto/screens/Request_Pending.dart';
 import 'package:need_moto/widget/car.dart';
 
 import '../controllers/booking_controller.dart';
+import '../screens/ReqAccept.dart';
 
 class Request extends StatelessWidget {
   final String imgUrl;
@@ -14,6 +21,13 @@ class Request extends StatelessWidget {
   final String type;
   final String ownerName;
   final String ownerPhoneNumber;
+  final String vehiclePlateNumber;
+  final String base_12;
+  final String base_24;
+  final String pricePerKmCust;
+  final String pricerPerHourCust;
+
+
 
   String vehicleLocation;
   String source;
@@ -24,7 +38,8 @@ class Request extends StatelessWidget {
   String purpose;
 
   Request(
-      {required this.imgUrl,
+      {
+      required this.imgUrl,
       required this.vehicleName,
       required this.seats,
       required this.average,
@@ -38,8 +53,107 @@ class Request extends StatelessWidget {
       required this.pickupDateTime,
       required this.source,
       required this.destination,
-      required this.vehicleLocation});
+      required this.vehicleLocation,
+      required this.vehiclePlateNumber,
+      required this.pricePerKmCust,
+      required this.pricerPerHourCust,
+      required this.base_12,
+      required this.base_24,
+      });
 
+
+  MainController mainController = Get.find();
+
+  double totalPrice = 0.0;
+
+  void storeUserRequestData() {
+    // Get the current user ID
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    // Generate a timestamp
+    DateTime currentTime = DateTime.now();
+    String timestamp = currentTime.millisecondsSinceEpoch.toString();
+
+    // Create the document ID by combining the user ID and timestamp
+    String documentId = '$currentUserId-$timestamp';
+
+    // Create a reference to the document in the "users" collection
+    DocumentReference userRef =
+    FirebaseFirestore.instance.collection('bookings').doc(documentId);
+
+    // Define the data to be stored in the document
+    Map<String, dynamic> userData = {
+      // Add your desired fields and values here
+      'vehicleNumber': vehiclePlateNumber,
+      'vehicleName': vehicleName,
+      'source': source,
+      'destination': destination,
+      'pickupDateTime': pickupDateTime,
+      'returnDateTime': returnDateTime,
+      'purpose': purpose,
+      'delivery': delivery,
+      'status': mainController.requestStatusController.text,
+      'userId': currentUserId,
+      'vehicleNeedFromLocation': vehicleLocation,
+    };
+
+    // Store the data in the Firestore document
+    userRef
+        .set(userData)
+        .then((value) {
+      // Document created successfully
+      // You can add any additional actions or navigate to another screen here
+      print("made request");
+    })
+        .catchError((error) {
+      // An error occurred while creating the document
+      // Handle the error appropriately
+      print("couldn't make request");
+    });
+  }
+  void calculateRentalPrice(double base_12, double base_24, double pricePerHourCust, double pricePerKmCust) {
+
+    double basePrice;
+    double distanceLimit;
+    double? numberOfExtraHours = double.tryParse(mainController.extraHoursController.text);
+    if (numberOfExtraHours == null) {
+      print('Invalid value for numberOfExtraHours');
+      return;
+    }
+
+    double? distance = double.tryParse(mainController.distanceController.text);
+    if (distance == null) {
+      print('Invalid value for distance');
+      return;
+    }
+
+    double? userChoiceHours = double.tryParse(mainController.userChoiceHoursController.text);
+    if (userChoiceHours == null) {
+      print('Invalid value for userChoiceHours');
+      return;
+    }
+
+    // Set base price and distance limit based on conditions
+    if (userChoiceHours == 12) {
+      basePrice = base_12;
+    } else {
+      basePrice = base_24;
+    }
+
+    if (userChoiceHours == 12) {
+      distanceLimit = 150.0;
+    } else {
+      distanceLimit = 350.0;
+    }
+
+    double extraHoursCost = numberOfExtraHours * pricePerHourCust;
+    double distanceCost = (distance - distanceLimit) * pricePerKmCust;
+
+    double totalCost = basePrice + extraHoursCost + distanceCost;
+    print(totalCost);
+    mainController.totalPriceController.text  = totalCost.toString();
+    print(mainController.totalPriceController.text);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -255,6 +369,29 @@ class Request extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                 onPressed: () {
+                  storeUserRequestData();
+                  // print(double.parse(base_12));
+                  // print(double.parse(base_24));
+                  // print(double.parse(pricerPerHourCust));
+                  // print(double.parse(pricePerKmCust));
+                  //  calculateRentalPrice(
+                  //     double.parse(base_12),
+                  //     double.parse(base_24),
+                  //     double.parse(pricerPerHourCust),
+                  //     double.parse(pricePerKmCust));
+                  try {
+                    double parsedBase12 = double.parse(base_12);
+                    double parsedBase24 = double.parse(base_24);
+                    double parsedPricePerHourCust = double.parse(pricerPerHourCust);
+                    double parsedPricePerKmCust = double.parse(pricePerKmCust);
+
+                    calculateRentalPrice(parsedBase12, parsedBase24, parsedPricePerHourCust, parsedPricePerKmCust);
+                  } catch (e) {
+                    print('Error parsing double: $e');
+                  }
+
+                  print('called');
+
                   // BookingColntroller.instance.booking(
                   //   source,
                   //   destination,
@@ -267,7 +404,7 @@ class Request extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => RequestPending()));
+                          builder: (context) => ReqAccept()));
                 },
                 child: Text(
                   'Book Now',

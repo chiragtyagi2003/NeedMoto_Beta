@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:need_moto/controllers/main_controller.dart';
 
 class ReqAccept extends StatelessWidget {
-  const ReqAccept({Key? key}) : super(key: key);
-
+  MainController mainController  = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,6 +211,16 @@ class ReqAccept extends StatelessWidget {
                             Text('Vehicle number'),
                             SizedBox(width: 20,),
                             Text('TS08EC2505')
+                          ],
+                        ),
+
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text('Total Price'),
+                            SizedBox(width: 20,),
+                            Text(mainController.totalPriceController.text),
                           ],
                         ),
                       ],

@@ -17,6 +17,11 @@ class VehicleTile extends StatefulWidget {
   final String ownerPhoneNumber;
   final String average;
   final String vehicleNumber;
+  final String base_12;
+  final String base_24;
+  final String pricePerKmCust;
+  final String pricerPerHourCust;
+
   // final String userId;
 
   RxString userseats;
@@ -49,6 +54,10 @@ class VehicleTile extends StatefulWidget {
     required this.delivery,
     required this.purpose,
     required this.vehicleNumber,
+    required this.pricePerKmCust,
+    required this.pricerPerHourCust,
+    required this.base_12,
+    required this.base_24,
     // required this.userId
   });
 
@@ -131,6 +140,7 @@ class _VehicleTileState extends State<VehicleTile> {
                     onPressed: () {
                       // Handle booking logic here
                       // showCupertinoAlertDialog(context);
+
                       Get.to(Request(
                           vehicleLocation: widget.vehicleLocation,
                           source: widget.source,
@@ -146,7 +156,13 @@ class _VehicleTileState extends State<VehicleTile> {
                           kpml: widget.kpml,
                           type: widget.type,
                           ownerName: widget.ownerName,
-                          ownerPhoneNumber: widget.ownerPhoneNumber));
+                          ownerPhoneNumber: widget.ownerPhoneNumber,
+                          vehiclePlateNumber: widget.vehicleNumber,
+                          base_12: widget.base_12,
+                          base_24: widget.base_24,
+                          pricePerKmCust: widget.pricePerKmCust,
+                          pricerPerHourCust: widget.pricerPerHourCust,
+                      ));
                     },
                     child: Text('Book Now'),
                     style: ElevatedButton.styleFrom(

@@ -100,7 +100,10 @@ class _sixthState extends State<sixth> {
                       mainController.ownerPhoneNumberController.text =
                           "9999223222";
                       mainController.vehicleNumberController.text = car['vehicleNumber'];
-
+                      mainController.base24PriceController.text = car['base_24'];
+                      mainController.base12PriceController.text = car['base_12'];
+                      mainController.pricePerHourCust.text = car['pricePerHourCust'];
+                      mainController.pricePerKmCust.text = car['pricePerKmCust'];
                       return VehicleTile(
 //key: ValueKey(index),
                         imgUrl: mainController.imgUrlController.text,
@@ -109,11 +112,13 @@ class _sixthState extends State<sixth> {
                         rentalPricePerKm:
                             mainController.rentalPricePerKmController.text,
                         perKm: mainController.perKmController.text,
-                        distanceFromYou: mainController.distanceFromYouController.text,
+                        distanceFromYou:
+                            mainController.distanceFromYouController.text,
                         kpml: mainController.kpmlController.text,
                         type: mainController.typeController.text,
                         ownerName: mainController.ownerNameController.text,
-                        ownerPhoneNumber: mainController.ownerPhoneNumberController.text,
+                        ownerPhoneNumber:
+                            mainController.ownerPhoneNumberController.text,
                         average: mainController.averageController.text,
                         vehicleNumber: mainController.vehicleNumberController.text,
                         ////
@@ -125,7 +130,10 @@ class _sixthState extends State<sixth> {
                         purpose: widget.purpose,
                         vehicleLocation: widget.vehicleLocation,
                         userseats: widget.seats,
-
+                        pricePerKmCust : mainController.pricePerKmCust.text,
+                        pricerPerHourCust : mainController.pricePerHourCust.text,
+                        base_12: mainController.base12PriceController.text,
+                        base_24: mainController.base24PriceController.text,
                       );
                     },
                   ),

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/main_controller.dart';
+
 class DistanceSlider extends StatelessWidget {
   final double minValue;
   final double maxValue;
   final int divisions;
 
-  DistanceSlider({this.minValue = 50.0, this.maxValue = 100.0, this.divisions = 10});
+  MainController mainController = Get.find();
+
+  DistanceSlider({this.minValue = 50.0, this.maxValue = 1000.0, this.divisions = 10});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,8 @@ class DistanceSlider extends StatelessWidget {
                 label: sliderController.sliderValue.value.toStringAsFixed(1),
                 onChanged: (newValue) {
                   sliderController.sliderValue.value = newValue;
+                  mainController.distanceController.text = newValue.toString();
+                  //print(mainController.distanceController.text);
                 },
               ),
             ),
