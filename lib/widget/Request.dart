@@ -404,7 +404,21 @@ class Request extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ReqAccept()));
+                          builder: (context) => ReqAccept(
+                            vehicleLocation: vehicleLocation,
+                            source: source,
+                            destination: destination,
+                            pickupDateTime: pickupDateTime,
+                            returnDateTime: returnDateTime,
+                            delivery: delivery,
+                            purpose: purpose,
+                            ownerName: ownerName,
+                            ownerPhoneNumber: ownerPhoneNumber,
+                            type: type,
+                            vehicleNumber: vehiclePlateNumber,
+                            vehicleName: vehicleName,
+                            seats: seats,
+                          )));
                 },
                 child: Text(
                   'Book Now',

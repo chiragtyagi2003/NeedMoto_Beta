@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/main.dart';
 import 'package:need_moto/widget/request.dart';
 import 'package:need_moto/screens/tenth.dart';
+
+import '../controllers/main_controller.dart';
 
 class VehicleTile extends StatefulWidget {
   final String imgUrl;
@@ -66,7 +69,11 @@ class VehicleTile extends StatefulWidget {
 }
 
 class _VehicleTileState extends State<VehicleTile> {
+
+  MainController mainController = Get.find();
   bool kycdone = false;
+  double rentalPrice = 0.0;
+  String distance = "150";
   // getKycStatus() async {
   //   await CheckKyc.checkKycdone(widget.userId).then((iskycdone) {
   //     setState(() {
@@ -76,6 +83,128 @@ class _VehicleTileState extends State<VehicleTile> {
   //   });
   // }
 
+  // void calculateRentalPrice() {
+  //
+  //   double basePrice;
+  //   double distanceLimit;
+  //   double pricePerKmCust = double.parse(mainController.pricePerKmCust.text);
+  //   double pricePerHourCust = double.parse(mainController.pricePerHourCust.text);
+  //   double? numberOfExtraHours = double.tryParse(mainController.extraHoursController.text);
+  //   if (numberOfExtraHours == null) {
+  //     print('Invalid value for numberOfExtraHours');
+  //     return;
+  //   }
+  //
+  //   double? distance = double.tryParse(mainController.distanceController.text);
+  //   if (distance == null) {
+  //     print('Invalid value for distance');
+  //     return;
+  //   }
+  //
+  //   double? userChoiceHours = double.tryParse(mainController.userChoiceHoursController.text);
+  //   if (userChoiceHours == null) {
+  //     print('Invalid value for userChoiceHours');
+  //     return;
+  //   }
+  //
+  //   // Set base price and distance limit based on conditions
+  //   if (userChoiceHours == 12) {
+  //     basePrice = double.parse(mainController.base12PriceController.text);
+  //   } else {
+  //     basePrice = double.parse(mainController.base24PriceController.text);
+  //   }
+  //
+  //   if (userChoiceHours == 12) {
+  //     distanceLimit = 150.0;
+  //   } else {
+  //     distanceLimit = 350.0;
+  //   }
+  //
+  //   double extraHoursCost = numberOfExtraHours * pricePerHourCust;
+  //   double distanceCost = (distance - distanceLimit) * pricePerKmCust;
+  //
+  //   double totalCost = basePrice + extraHoursCost + distanceCost;
+  //   print(totalCost);
+  //   mainController.totalPriceController.text  = totalCost.toString();
+  //   print(mainController.totalPriceController.text);
+  // }
+
+  double calculateRentalPrice() {
+    // Retrieve the necessary values from the mainController or any other relevant source
+    double pricePerKmCust = double.parse(widget.pricePerKmCust);
+    double numberOfExtraHours = double.parse(mainController.extraHoursController.text);
+    double distance = double.parse(mainController.distanceController.text);
+    double userChoiceHours = double.parse(mainController.userChoiceHoursController.text);
+    double basePrice = userChoiceHours == 12 ? double.parse(widget.base_12) : double.parse(widget.base_24);
+    double distanceLimit = userChoiceHours == 12 ? 150.0 : 350.0;
+
+    // Perform the calculations
+    double extraHoursCost = numberOfExtraHours * double.parse(widget.pricerPerHourCust);
+    double distanceCost = (distance - distanceLimit) * pricePerKmCust;
+    double totalCost = basePrice + extraHoursCost + distanceCost;
+
+    setState(() {
+      rentalPrice = totalCost;
+    });
+
+    return rentalPrice;
+  }
+
+  //
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   // Add listeners to relevant controllers for parameter changes
+  //   mainController.pricePerKmCust.addListener(calculateRentalPrice);
+  //   mainController.extraHoursController.addListener(calculateRentalPrice);
+  //   mainController.distanceController.addListener(calculateRentalPrice);
+  //   mainController.userChoiceHoursController.addListener(calculateRentalPrice);
+  //   setState(() {
+  //     // Update rental price whenever distance changes
+  //     calculateRentalPrice();
+  //   });
+  //   //
+  //   // // // Calculate initial rental price
+  //   calculateRentalPrice();
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   // Remove listeners to prevent memory leaks
+  //   mainController.pricePerKmCust.removeListener(calculateRentalPrice);
+  //   mainController.extraHoursController.removeListener(calculateRentalPrice);
+  //   mainController.distanceController.removeListener(calculateRentalPrice);
+  //   mainController.userChoiceHoursController.removeListener(calculateRentalPrice);
+  //
+  //   super.dispose();
+  // }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mainController.distanceController.addListener(() {
+      setState(() {
+        distance = mainController.distanceController.text;
+        rentalPrice = calculateRentalPrice();
+      });
+    });
+
+    mainController.extraHoursController.addListener(() {
+      setState(() {
+        rentalPrice = calculateRentalPrice();
+      });
+    });
+
+    mainController.userChoiceHoursController.addListener(() {
+      setState(() {
+        rentalPrice  = calculateRentalPrice();
+      });
+    });
+
+
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -119,7 +248,7 @@ class _VehicleTileState extends State<VehicleTile> {
 
                   // Rental Price Per Km and Per Km
                   Text(
-                    'Rs ${widget.rentalPricePerKm}/- Per day ${widget.perKm} km',
+                    'Rs ${rentalPrice.toStringAsFixed(2)}/- Per day ${distance} km',
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
@@ -139,8 +268,6 @@ class _VehicleTileState extends State<VehicleTile> {
                   ElevatedButton(
                     onPressed: () {
                       // Handle booking logic here
-                      // showCupertinoAlertDialog(context);
-
                       Get.to(Request(
                           vehicleLocation: widget.vehicleLocation,
                           source: widget.source,

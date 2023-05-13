@@ -6,6 +6,7 @@ import 'package:need_moto/controllers/filecontroller.dart';
 import 'package:need_moto/controllers/main_controller.dart';
 import 'package:need_moto/controllers/menucontroller.dart';
 import 'package:need_moto/mywidget.dart';
+import 'package:need_moto/screens/admin_dashboard.dart';
 // import 'package:need_moto/screens/screenshot.dart';
 import 'package:need_moto/screens/seventh.dart';
 import 'package:need_moto/screens/sixth.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
           // GetPage(name: '/sixth', page: () => sixth()),
           GetPage(name: '/home', page: () => Home()),
           GetPage(name: '/seventh', page: () => seventh()),
+          GetPage(name: '/adminDashboard', page: () => AdminDashboard()),
           // GetPage(name: '/tenth', page: () => Tenth()),
           //GetPage(name: '/ss', page: () => MyHomePageView()),
           GetPage(

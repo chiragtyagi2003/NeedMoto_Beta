@@ -3,18 +3,45 @@ import 'package:get/get.dart';
 
 import '../controllers/main_controller.dart';
 
-class DistanceSlider extends StatelessWidget {
+class DistanceSlider extends StatefulWidget {
   final double minValue;
   final double maxValue;
   final int divisions;
 
+  DistanceSlider({this.minValue = 50.0, this.maxValue = 1000.0, this.divisions = 100});
+
+  @override
+  State<DistanceSlider> createState() => _DistanceSliderState();
+}
+
+class _DistanceSliderState extends State<DistanceSlider> {
+  double initialValue = 0.0;
+  double minValue = 150.0;
+
   MainController mainController = Get.find();
 
-  DistanceSlider({this.minValue = 50.0, this.maxValue = 1000.0, this.divisions = 10});
+  final sliderController = Get.put(DistanceSliderController());
+
+  @override
+  void initState() {
+    super.initState();
+    setMinValue();
+    sliderController.sliderValue.value = minValue;
+    mainController.userChoiceHoursController.addListener(setMinValue);
+  }
+
+  @override
+  void dispose() {
+    mainController.userChoiceHoursController.removeListener(setMinValue);
+    super.dispose();
+  }
+
+  void setMinValue() {
+    minValue = mainController.userChoiceHoursController.text == '12' ? 150.0 : widget.minValue;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final sliderController = Get.put(DistanceSliderController());
 
     return Column(
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -33,22 +60,24 @@ class DistanceSlider extends StatelessWidget {
         )),
         Row(
           children: [
-            Obx(() => SizedBox(
-              width: 265.0,
-              child: Slider(
-                value: sliderController.sliderValue.value,
-                min: minValue,
-                max: maxValue,
-                divisions: divisions,
-                label: sliderController.sliderValue.value.toStringAsFixed(1),
-                onChanged: (newValue) {
-                  sliderController.sliderValue.value = newValue;
-                  mainController.distanceController.text = newValue.toString();
-                  //print(mainController.distanceController.text);
-                },
+            Expanded(
+              child: Obx(() => SizedBox(
+                width: 265.0,
+                child: Slider(
+                  value: sliderController.sliderValue.value,
+                  min: minValue,
+                  max: widget.maxValue,
+                  divisions: widget.divisions,
+                  label: sliderController.sliderValue.value.toStringAsFixed(1),
+                  onChanged: (newValue) {
+                    sliderController.sliderValue.value = newValue;
+                    mainController.distanceController.text = newValue.toString();
+                    //print(mainController.distanceController.text);
+                  },
+                ),
               ),
-            ),
           ),
+            ),
 
             Obx(() =>
                 Container

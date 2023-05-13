@@ -16,7 +16,6 @@ import '../widget/vehicleTile.dart';
 
 class sixth extends StatefulWidget {
   sixth({
-    Key? key,
     required this.seats,
     required this.vehicleLocation,
     required this.source,
@@ -25,7 +24,7 @@ class sixth extends StatefulWidget {
     required this.returnDateTime,
     required this.delivery,
     required this.purpose,
-  }) : super(key: key);
+  });
   RxString seats;
   String vehicleLocation;
   String source;
@@ -75,7 +74,7 @@ class _sixthState extends State<sixth> {
                 thickness: 1,
               ),
               Obx(
-                () => SizedBox(
+                () => Container(
                   height: 400,
                   child: ListView.builder(
                     itemCount: vehicleBookingController.filteredCars.length,

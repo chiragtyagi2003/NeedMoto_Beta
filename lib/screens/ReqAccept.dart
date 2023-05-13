@@ -4,7 +4,41 @@ import 'package:get/get.dart';
 import 'package:need_moto/controllers/main_controller.dart';
 
 class ReqAccept extends StatelessWidget {
+  String vehicleLocation;
+  String source;
+  String destination;
+  String pickupDateTime;
+  String returnDateTime;
+  String delivery;
+  String purpose;
+  String ownerName;
+  String ownerPhoneNumber;
+  String type;
+  String vehicleNumber;
+  String vehicleName;
+  String seats;
+
   MainController mainController  = Get.find();
+
+  ReqAccept({
+    required this.vehicleLocation,
+    required this.source,
+    required this.destination,
+    required this.pickupDateTime,
+    required this.returnDateTime,
+    required this.delivery,
+    required this.purpose,
+    required this.ownerName,
+    required this.ownerPhoneNumber,
+    required this.type,
+    required this.vehicleNumber,
+    required this.vehicleName,
+    required this.seats,
+  });
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +96,7 @@ class ReqAccept extends StatelessWidget {
                   width: 380,
                   height: 50,
                   decoration: BoxDecoration(border:Border.all(color: Colors.black),borderRadius: BorderRadius.circular(20),color: Colors.grey.shade400),
-                  child: Text('Maruthi swift / 5 Seater / 2000/-',textAlign: TextAlign.center,style: TextStyle(fontSize: 18),),
+                  child: Text('${vehicleName}/${seats} seater/ 2000 /-',textAlign: TextAlign.center,style: TextStyle(fontSize: 18),),
                 ),
                 SizedBox(height: 10,),
                 Row(
@@ -78,6 +112,8 @@ class ReqAccept extends StatelessWidget {
                             width: 150,
                             height: 35,
                             child: TextField(
+                                controller: TextEditingController(text: source),
+                                enabled: false,
                                 decoration: InputDecoration(hintText: 'hyderabad'))),
                       ],
                     ),
@@ -98,6 +134,8 @@ class ReqAccept extends StatelessWidget {
                             width: 150,
                             height: 35,
                             child: TextField(
+                                controller: TextEditingController(text: destination),
+                                enabled: false,
                                 decoration: InputDecoration(hintText: 'Chittoor'))),
                       ],
                     ),
@@ -116,6 +154,8 @@ class ReqAccept extends StatelessWidget {
                             width: 150,
                             height: 35,
                             child: TextField(
+                                controller: TextEditingController(text: pickupDateTime),
+                                enabled: false,
                                 decoration: InputDecoration(hintText: '22-04-23'))),
                       ],
                     ),
@@ -136,6 +176,8 @@ class ReqAccept extends StatelessWidget {
                             width: 150,
                             height: 35,
                             child: TextField(
+                                controller: TextEditingController(text: returnDateTime),
+                                enabled: false,
                                 decoration: InputDecoration(hintText: '24-02-23'))),
                       ],
                     ),
@@ -154,6 +196,8 @@ class ReqAccept extends StatelessWidget {
                             width: 150,
                             height: 35,
                             child: TextField(
+                                controller: TextEditingController(text: delivery),
+                                enabled: false,
                                 decoration: InputDecoration(hintText: 'Pickup'))),
                       ],
                     ),
@@ -169,6 +213,8 @@ class ReqAccept extends StatelessWidget {
                             width: 150,
                             height: 35,
                             child: TextField(
+                                controller: TextEditingController(text: purpose),
+                                enabled: false,
                                 decoration: InputDecoration(hintText: 'Function'))),
                       ],
                     ),
@@ -188,11 +234,11 @@ class ReqAccept extends StatelessWidget {
                             Container(width: 50,height: 50,decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),child: Image.asset('assets/images/wheel.png'),)
                           ],
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(height: 10,), 
                         Row(
                           children: [
                             SizedBox(width: 113,),
-                            Container(width: 150,height: 50,child: Text('Abhinandhan\n+91 9949494949'))
+                            Container(width: 150,height: 50,child: Text('${ownerName}\n+91 ${ownerPhoneNumber}'))
                           ],
                         ),
                         SizedBox(height: 30,),
@@ -201,7 +247,7 @@ class ReqAccept extends StatelessWidget {
                           children: [
                             Text('Fuel type'),
                             SizedBox(width: 100,),
-                            Text('Petrol')
+                            Text(type),
                           ],
                         ),
                         SizedBox(height: 10,),
@@ -210,7 +256,7 @@ class ReqAccept extends StatelessWidget {
                           children: [
                             Text('Vehicle number'),
                             SizedBox(width: 20,),
-                            Text('TS08EC2505')
+                            Text(vehicleNumber),
                           ],
                         ),
 
@@ -236,7 +282,7 @@ class ReqAccept extends StatelessWidget {
                     ),
                     SizedBox(width: 150,
                       height: 50,
-                      child: ElevatedButton(style:ElevatedButton.styleFrom(backgroundColor: Colors.orange,shape: StadiumBorder()),onPressed: () {}, child: Text('Cancle Ride',style: TextStyle(color: Colors.white,fontSize: 20),)),
+                      child: ElevatedButton(style:ElevatedButton.styleFrom(backgroundColor: Colors.orange,shape: StadiumBorder()),onPressed: () {}, child: Text('Cancel Ride',style: TextStyle(color: Colors.white,fontSize: 20),)),
                     ),
                   ],
                 )
