@@ -5,6 +5,7 @@ import 'package:need_moto/controllers/filecontroller.dart';
 import 'package:need_moto/controllers/main_controller.dart';
 import 'package:need_moto/controllers/menucontroller.dart';
 import 'package:need_moto/mywidget.dart';
+import 'package:need_moto/screens/StartingPage.dart';
 import 'package:need_moto/screens/screenshot.dart';
 import 'package:need_moto/screens/seventh.dart';
 import 'package:need_moto/screens/sixth.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        initialRoute: '/signInScreen',
+        // initialRoute: '/signInScreen',
+        initialRoute: '/StartPage',
         debugShowCheckedModeBanner: false,
         getPages: [
           // GetPage(name: '/sixth', page: () => sixth()),
@@ -49,22 +51,24 @@ class MyApp extends StatelessWidget {
           // GetPage(name: '/tenth', page: () => Tenth()),
           GetPage(name: '/ss', page: () => MyHomePageView()),
           GetPage(
-              name: '/signInScreen',
-              page: () => SignInScreen(
-                    providers: [
-                      EmailAuthProvider(),
-                    ],
-                    actions: [
-                      AuthStateChangeAction<SignedIn>((context, state) {
-                        //Navigator.pushReplacementNamed(context, '/tenth');
-                        Get.offNamed('/home');
-                      }),
-                      AuthStateChangeAction<UserCreated>((context, state) {
-                        //Navigator.pushReplacementNamed(context, '/tenth');
-                        Get.offNamed('/home');
-                      }),
-                    ],
-                  )),
+              // name: '/signInScreen',
+              // page: () => SignInScreen(
+              //       providers: [
+              //         EmailAuthProvider(),
+              //       ],
+              //       actions: [
+              //         AuthStateChangeAction<SignedIn>((context, state) {
+              //           //Navigator.pushReplacementNamed(context, '/tenth');
+              //           Get.offNamed('/home');
+              //         }),
+              //         AuthStateChangeAction<UserCreated>((context, state) {
+              //           //Navigator.pushReplacementNamed(context, '/tenth');
+              //           Get.offNamed('/home');
+              //         }),
+              //       ],
+              //     )
+              name: '/StartPage',
+              page: () => AnimatedCardsListView())
         ]);
   }
 }
