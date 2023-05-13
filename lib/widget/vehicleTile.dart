@@ -140,6 +140,7 @@ class _VehicleTileState extends State<VehicleTile> {
 
     // Perform the calculations
     double extraHoursCost = numberOfExtraHours * double.parse(widget.pricerPerHourCust);
+    print(extraHoursCost);
     double distanceCost = (distance - distanceLimit) * pricePerKmCust;
     double totalCost = basePrice + extraHoursCost + distanceCost;
 
@@ -203,6 +204,7 @@ class _VehicleTileState extends State<VehicleTile> {
       });
     });
 
+    calculateRentalPrice();
 
   }
   @override

@@ -100,7 +100,8 @@ class ReqAccept extends StatelessWidget {
                 ),
                 SizedBox(height: 10,),
                 Row(
-                  children: [Padding(padding: EdgeInsets.all(10)),
+                  children: [
+                    //Padding(padding: EdgeInsets.all(10)),
                     Column(
                       children: [Padding(padding: EdgeInsets.all(15)),
                         Container(
@@ -142,7 +143,8 @@ class ReqAccept extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [Padding(padding: EdgeInsets.all(10)),
+                  children: [
+                    //Padding(padding: EdgeInsets.all(10)),
                     Column(
                       children: [Padding(padding: EdgeInsets.all(15)),
                         Container(
@@ -184,7 +186,8 @@ class ReqAccept extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [Padding(padding: EdgeInsets.all(10)),
+                  children: [
+                    // Padding(padding: EdgeInsets.all(10)),
                     Column(
                       children: [Padding(padding: EdgeInsets.all(15)),
                         Container(

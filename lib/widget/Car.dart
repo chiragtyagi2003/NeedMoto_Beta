@@ -43,7 +43,7 @@ class Car extends StatelessWidget {
               ),
               SizedBox(width: 20,),
               Text(vehicleName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.white),),
-              SizedBox(width: 100,),
+              SizedBox(width: 60,),
               Text('4.5',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.white),),
               Icon(Icons.star,color: Colors.orange,)
             ],

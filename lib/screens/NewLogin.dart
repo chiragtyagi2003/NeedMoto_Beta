@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/screens/Home.dart';
 import 'package:need_moto/screens/NewSignup.dart';
+import 'package:need_moto/screens/admin_dashboard.dart';
 
 class LoginPage extends StatelessWidget {
 
@@ -12,20 +13,27 @@ class LoginPage extends StatelessWidget {
 
   Future<void> loginUser() async {
     try {
-      UserCredential userCredential =
-      await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
 
       if (userCredential.user != null) {
         // User logged in successfully
-        Get.to(Home());
+        if (emailController.text == 'tyagichirag2025@gmail.com') {
+          // Redirect to admin page
+          // Replace 'AdminPage()' with the desired admin page widget
+          Get.to(() => AdminDashboard());
+        } else {
+          // Redirect to home page
+          Get.to(() => Home());
+        }
       }
     } catch (e) {
       print('Error logging in user: $e');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

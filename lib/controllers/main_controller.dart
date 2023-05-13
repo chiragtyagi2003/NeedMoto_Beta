@@ -27,6 +27,6 @@ class MainController extends GetxController {
   TextEditingController pricePerHourCust = TextEditingController();
   TextEditingController userChoiceHoursController = TextEditingController(text: '12');
   TextEditingController distanceController = TextEditingController(text: '150');
-  TextEditingController extraHoursController = TextEditingController();
+  TextEditingController extraHoursController = TextEditingController(text: '12');
   TextEditingController totalPriceController = TextEditingController();
 }
