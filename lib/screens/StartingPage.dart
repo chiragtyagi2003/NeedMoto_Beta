@@ -18,35 +18,30 @@ const data = [
     "content":
         "Rent one of our cutting-edge self-driving cars and experience the future of transportation. Our vehicles are equipped with state-of-the-art technology and safety features to provide a seamless and safe autonomous driving experience.",
     "buttonText": "Let's Drive",
-    "color": "#C345ED"
   },
   {
     "Title": "Need Heavy Vehicles..? We got you",
     "content":
         "Need to move heavy equipment or materials? Rent one of our heavy vehicles, designed to handle even the toughest jobs with ease.",
     "buttonText": 'Create Account Now!',
-    "color": "#45C1ED",
   },
   {
     "Title": "Carry your Goods with us",
     "content":
         " Our cargo vans and trucks are perfect for transporting goods of all kinds. With a range of sizes available, we've got you covered for all your cargo needs.",
     "buttonText": "Let's go!",
-    "color": "#ED8B45",
   },
   {
     "Title": "Industrial Works",
     "content":
         "Our industrial vehicles are built to withstand the demands of any job site. Whether you need a crane truck, bulldozer, or excavator, we've got the equipment you need to get the job done.",
     "buttonText": "Intrested!",
-    "color": "#E3E650",
   },
   {
     "Title": "Farming",
     "content":
         " Our farm vehicles are perfect for all your agricultural needs. From tractors to combines, we've got the machinery you need to help you run your farm efficiently and effectively.",
     "buttonText": "Join Us",
-    "color": "#A4D14A",
     // 'colors': Color.fromARGB(255, 237, 139, 69),
   },
 ];
@@ -85,7 +80,8 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                   'Login',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF20A4F3)),
               ),
               SizedBox(
                 width: 15,
@@ -99,7 +95,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 188, 254, 130)),
+                    backgroundColor: Color(0xFF182B3A)),
               ),
               SizedBox(
                 width: 15,
@@ -168,6 +164,14 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
 
                             // alignment: Alignment.center,
                             decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color(0xFF20A4F3),
+                                    Color(0xFF182B3A)
+                                  ],
+                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Color(0xffDDDDDD),
@@ -176,12 +180,12 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                     offset: Offset(0.0, 0.0),
                                   )
                                 ],
-                                color: Color(int.parse(
-                                        data[index]['color']
-                                            .toString()
-                                            .substring(1, 7),
-                                        radix: 16) +
-                                    0xFF000000),
+                                // color: Color(int.parse(
+                                //         data[index]['color']
+                                //             .toString()
+                                //             .substring(1, 7),
+                                //         radix: 16) +
+                                //     0xFF000000),
                                 borderRadius: BorderRadius.circular(20)),
                             margin: EdgeInsets.all(10),
                             width: MediaQuery.of(context).size.width,
@@ -200,7 +204,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                         data[index]['Title'].toString(),
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 17,
+                                            fontSize: 20,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -230,7 +234,8 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                           ),
                                         ),
                                         style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.orange),
+                                            backgroundColor: Color.fromARGB(
+                                                255, 255, 200, 0)),
                                       ),
                                       SizedBox(
                                         height: 10,

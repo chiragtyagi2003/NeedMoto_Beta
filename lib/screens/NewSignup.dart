@@ -146,13 +146,14 @@ class _SignupPageState extends State<SignupPage> {
                           minWidth: double.infinity,
                           height: 60,
                           onPressed: () {},
-                          color: Color.fromARGB(255, 188, 254, 130),
+                          color: Color(0xFF182B3A),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40)),
                           child: Text(
                             "Sign Up",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
+                              color: Colors.white,
                               fontSize: 16,
                             ),
                           ),

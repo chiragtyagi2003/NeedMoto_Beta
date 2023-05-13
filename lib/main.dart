@@ -12,7 +12,6 @@ import 'package:need_moto/screens/sixth.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/screens/tenth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:need_moto/screens/Home.dart';
 
 import 'controllers/booking_controller.dart';
