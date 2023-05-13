@@ -291,6 +291,7 @@ class _VehicleTileState extends State<VehicleTile> {
                           base_24: widget.base_24,
                           pricePerKmCust: widget.pricePerKmCust,
                           pricerPerHourCust: widget.pricerPerHourCust,
+                          rentalPrice: rentalPrice,
                       ));
                     },
                     child: Text('Book Now'),

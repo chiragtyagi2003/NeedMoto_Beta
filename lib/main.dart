@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:need_moto/controllers/PaymentController.dart';
 import 'package:need_moto/controllers/VehicleBookingController.dart';
 import 'package:need_moto/controllers/controllerkyc.dart';
 import 'package:need_moto/controllers/filecontroller.dart';
@@ -31,6 +32,7 @@ void main() async {
   Get.put(MyHomePageController());
   Get.put(MainController());
   Get.put(UserController());
+  Get.put(PaymentController());
   Get.put(FileController('qFm8nd1BODSFfJLEsGNFLzjbOiN2'));
   Get.put(VehicleBookingController());
   runApp(const MyApp());

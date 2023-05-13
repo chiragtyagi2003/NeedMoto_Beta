@@ -26,6 +26,7 @@ class Request extends StatelessWidget {
   final String base_24;
   final String pricePerKmCust;
   final String pricerPerHourCust;
+  final double rentalPrice;
 
 
 
@@ -59,6 +60,7 @@ class Request extends StatelessWidget {
       required this.pricerPerHourCust,
       required this.base_12,
       required this.base_24,
+      required this.rentalPrice,
       });
 
 
@@ -418,6 +420,7 @@ class Request extends StatelessWidget {
                             vehicleNumber: vehiclePlateNumber,
                             vehicleName: vehicleName,
                             seats: seats,
+                            rentalPrice: rentalPrice,
                           )));
                 },
                 child: Text(

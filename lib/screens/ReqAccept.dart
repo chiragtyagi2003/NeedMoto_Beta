@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/controllers/main_controller.dart';
 
+import '../controllers/PaymentController.dart';
+
 class ReqAccept extends StatelessWidget {
   String vehicleLocation;
   String source;
@@ -17,8 +19,10 @@ class ReqAccept extends StatelessWidget {
   String vehicleNumber;
   String vehicleName;
   String seats;
+  double rentalPrice;
 
   MainController mainController  = Get.find();
+  PaymentController paymentController = Get.find();
 
   ReqAccept({
     required this.vehicleLocation,
@@ -34,6 +38,7 @@ class ReqAccept extends StatelessWidget {
     required this.vehicleNumber,
     required this.vehicleName,
     required this.seats,
+    required this.rentalPrice,
   });
 
 
@@ -281,7 +286,14 @@ class ReqAccept extends StatelessWidget {
                   children: [
                     SizedBox(width: 150,
                       height: 50,
-                      child: ElevatedButton(style:ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey.shade500,shape: StadiumBorder()),onPressed: () {}, child: Text('Pay',style: TextStyle(color: Colors.white,fontSize: 20),)),
+                      child: ElevatedButton(
+                          style:ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey.shade500,
+                              shape: StadiumBorder()),
+                          onPressed: () {
+                            paymentController.amount.value = rentalPrice as int;
+                            paymentController.makePayment();
+                          },
+                          child: Text('Pay',style: TextStyle(color: Colors.white,fontSize: 20),)),
                     ),
                     SizedBox(width: 150,
                       height: 50,
