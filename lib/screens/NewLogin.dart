@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/screens/NewSignup.dart';
+import 'package:need_moto/screens/Home.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -67,7 +68,9 @@ class LoginPage extends StatelessWidget {
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(Home());
+                      },
                       color: Color(0xFF20A4F3),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40)),

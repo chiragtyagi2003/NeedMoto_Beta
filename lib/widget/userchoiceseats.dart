@@ -72,17 +72,13 @@ class _UserChoiceSeatsState extends State<UserChoiceSeats> {
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          Container(
-                            // height: 20.0,
-
-                            child: UserChoiceButton(
-                              icon: Icons.event_seat_sharp,
-                              label: '4',
-                              isSelected:
-                                  userChoiceController.selectedButton.value ==
-                                      '4',
-                              onTap: handleButtonTap,
-                            ),
+                          UserChoiceButton(
+                            icon: Icons.event_seat_sharp,
+                            label: '4',
+                            isSelected:
+                                userChoiceController.selectedButton.value ==
+                                    '4',
+                            onTap: handleButtonTap,
                           ),
                           UserChoiceButton(
                             icon: Icons.event_seat_sharp,
@@ -212,8 +208,8 @@ class UserChoiceButton extends StatelessWidget {
         },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 6),
-          height: 15,
-          width: 80,
+          height: 5,
+          width: 75,
           decoration: BoxDecoration(
             color: isSelected ? Colors.blue : Colors.grey.shade300,
             borderRadius: BorderRadius.circular(40),
