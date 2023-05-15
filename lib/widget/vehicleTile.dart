@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/widget/Request2.dart';
 import 'package:need_moto/widget/request.dart';
 import 'package:need_moto/screens/tenth.dart';
 
@@ -129,22 +130,37 @@ class _VehicleTileState extends State<VehicleTile> {
                     onPressed: () {
                       // Handle booking logic here
                       // showCupertinoAlertDialog(context);
-                      Get.to(Request(
-                          vehicleLocation: widget.vehicleLocation,
-                          source: widget.source,
-                          destination: widget.destination,
-                          delivery: widget.delivery,
-                          pickupDateTime: widget.pickupDateTime,
-                          returnDateTime: widget.returnDateTime,
-                          purpose: widget.purpose,
-                          imgUrl: widget.imgUrl,
-                          vehicleName: widget.vehicleName,
-                          seats: widget.seats,
-                          average: widget.average,
-                          kpml: widget.kpml,
-                          type: widget.type,
-                          ownerName: widget.ownerName,
-                          ownerPhoneNumber: widget.ownerPhoneNumber));
+                      Get.to(
+                        DetailsPage(
+                            milage: widget.kpml,
+                            type: widget.type,
+                            speed: widget.average,
+                            bags: '5',
+                            carImage: 'assets/i30n.png',
+                            carName: widget.vehicleName,
+                            carPrice: widget.rentalPricePerKm,
+                            carRating: '4.5',
+                            isRotated: true,
+                            people: widget.seats,
+                            ownername: widget.ownerName,
+                            phonenumber: widget.ownerPhoneNumber),
+                      );
+                      // Get.to(Request(
+                      //     vehicleLocation: widget.vehicleLocation,
+                      //     source: widget.source,
+                      //     destination: widget.destination,
+                      //     delivery: widget.delivery,
+                      //     pickupDateTime: widget.pickupDateTime,
+                      //     returnDateTime: widget.returnDateTime,
+                      //     purpose: widget.purpose,
+                      //     imgUrl: widget.imgUrl,
+                      //     vehicleName: widget.vehicleName,
+                      //     seats: widget.seats,
+                      //     average: widget.average,
+                      //     kpml: widget.kpml,
+                      //     type: widget.type,
+                      //     ownerName: widget.ownerName,
+                      //     ownerPhoneNumber: widget.ownerPhoneNumber));
                     },
                     child: Text('Book Now'),
                     style: ElevatedButton.styleFrom(
@@ -163,7 +179,9 @@ class _VehicleTileState extends State<VehicleTile> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Image.network(widget.imgUrl),
+              child: Hero(
+                  tag: widget.vehicleName,
+                  child: Image.asset('assets/i30n.png')),
             ),
           ),
         ],
@@ -171,48 +189,49 @@ class _VehicleTileState extends State<VehicleTile> {
     );
   }
 
-  showCupertinoAlertDialog(BuildContext context) {
-    showDialog(
-        builder: (context) => CupertinoAlertDialog(
-              title: Column(
-                children: <Widget>[
-                  Text(
-                    "Complete your KYC",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-              content: Text(
-                "Please complete your KYC\n to book vehicle",
-                style: TextStyle(fontSize: 16),
-              ),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  child: Text("Yes"),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Tenth(
-                                  seats: widget.userseats,
-                                  vehicleLocation: widget.vehicleLocation,
-                                  source: widget.source,
-                                  destination: widget.destination,
-                                  pickupDateTime: widget.pickupDateTime,
-                                  returnDateTime: widget.returnDateTime,
-                                  delivery: widget.delivery,
-                                  purpose: widget.purpose,
-                                )));
-                  },
-                ),
-                CupertinoDialogAction(
-                  child: Text("No"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-        context: context);
-  }
+//   showCupertinoAlertDialog(BuildContext context) {
+//     showDialog(
+//         builder: (context) => CupertinoAlertDialog(
+//               title: Column(
+//                 children: <Widget>[
+//                   Text(
+//                     "Complete your KYC",
+//                     style: TextStyle(fontSize: 20),
+//                   ),
+//                 ],
+//               ),
+//               content: Text(
+//                 "Please complete your KYC\n to book vehicle",
+//                 style: TextStyle(fontSize: 16),
+//               ),
+//               actions: <Widget>[
+//                 CupertinoDialogAction(
+//                   child: Text("Yes"),
+//                   onPressed: () {
+//                     Navigator.push(
+//                         context,
+//                         MaterialPageRoute(
+//                             builder: (context) => Tenth(
+//                                   seats: widget.userseats,
+//                                   vehicleLocation: widget.vehicleLocation,
+//                                   source: widget.source,
+//                                   destination: widget.destination,
+//                                   pickupDateTime: widget.pickupDateTime,
+//                                   returnDateTime: widget.returnDateTime,
+//                                   delivery: widget.delivery,
+//                                   purpose: widget.purpose,
+//                                 )));
+//                   },
+//                 ),
+//                 CupertinoDialogAction(
+//                   child: Text("No"),
+//                   onPressed: () {
+//                     Navigator.of(context).pop();
+//                   },
+//                 ),
+//               ],
+//             ),
+//         context: context);
+//   }
+// }
 }

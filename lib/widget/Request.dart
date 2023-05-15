@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:need_moto/screens/Request_Pending.dart';
 import 'package:need_moto/widget/car.dart';
 
-import '../controllers/booking_controller.dart';
-
 class Request extends StatelessWidget {
   final String imgUrl;
   final String vehicleName;
