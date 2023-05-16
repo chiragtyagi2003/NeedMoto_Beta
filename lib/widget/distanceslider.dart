@@ -16,7 +16,7 @@ class DistanceSlider extends StatefulWidget {
 
 class _DistanceSliderState extends State<DistanceSlider> {
   double initialValue = 0.0;
-  double minValue = 150.0;
+  double minValue = 50.0;
 
   MainController mainController = Get.find();
 
@@ -37,7 +37,7 @@ class _DistanceSliderState extends State<DistanceSlider> {
   }
 
   void setMinValue() {
-    minValue = mainController.userChoiceHoursController.text == '12' ? 150.0 : widget.minValue;
+    minValue = mainController.userChoiceHoursController.text == '12' ? 150.0 : 350.0;
   }
 
   @override
