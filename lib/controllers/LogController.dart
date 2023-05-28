@@ -20,42 +20,42 @@ class LogController extends GetxController {
           seats: 5,
           pickup: '23-03-23',
           drop: '27-02-23',
-          delivery: 'H.D'),
+          delivery: 'Home Delivery'),
       Request(
           request: 'Request Accepted',
           reqImage: 'assets/images/green.png',
           seats: 4,
           pickup: '11-05-24',
           drop: '14-05-24',
-          delivery: 'S.P'),
+          delivery: 'Self Pickup'),
       Request(
           request: 'Request Rejected',
           reqImage: 'assets/images/red.png',
           seats: 5,
           pickup: '23-03-23',
           drop: '27-02-23',
-          delivery: 'H.D'),
+          delivery: 'Home Delivery'),
       Request(
           request: 'Request Accepted',
           reqImage: 'assets/images/green.png',
           seats: 4,
           pickup: '11-05-24',
           drop: '14-05-24',
-          delivery: 'S.P'),
+          delivery: 'Self Pickup'),
       Request(
           request: 'Request Accepted',
           reqImage: 'assets/images/green.png',
           seats: 4,
           pickup: '11-05-24',
           drop: '14-05-24',
-          delivery: 'S.P'),
+          delivery: 'Self Pickup'),
       Request(
           request: 'Request Pending',
           reqImage: 'assets/images/red.png',
           seats: 5,
           pickup: '23-03-23',
           drop: '27-02-23',
-          delivery: 'H.D'),
+          delivery: 'Home Delivery'),
     ];
     productData.assignAll(serverResponse);
     print(productData);

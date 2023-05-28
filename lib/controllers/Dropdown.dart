@@ -9,4 +9,10 @@ class DropdownController extends GetxController {
     selectedItem.value = value;
   }
 
+  var selectType = ''.obs;
+  List<String> option = ['Home Delivery','Pick up'];
+
+  void setvalue(String value){
+    selectType.value = value;
+  }
 }

@@ -6,11 +6,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
       backgroundColor: Colors.white,
       leading: IconButton(
         icon: Icon(
-            Icons.menu,
-            color: Colors.black,
+          Icons.menu,
+          color: Colors.black,
         ),
         onPressed: () {
           // Handle menu button press
@@ -18,11 +19,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          border: Border.all(
-            color: Colors.black,
-            width: 1.0
-          ),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.black12, width: 1.0),
           color: Colors.white,
         ),
         child: TextField(
@@ -32,7 +30,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             border: InputBorder.none,
           ),
         ),
-        width: 200.0,
+        width: 320.0,
+        height: 45,
       ),
       actions: [
         CircleAvatar(
@@ -47,11 +46,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             },
           ),
         ),
-        SizedBox(width: 5.0,),
+        SizedBox(
+          width: 5.0,
+        ),
       ],
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(65);
 }

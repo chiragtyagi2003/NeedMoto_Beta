@@ -204,7 +204,10 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                         data[index]['Title'].toString(),
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 20,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
