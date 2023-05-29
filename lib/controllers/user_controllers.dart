@@ -6,7 +6,7 @@ class UserController extends GetxController {
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userPhoneNumberController = TextEditingController();
   TextEditingController userDobController = TextEditingController();
-  TextEditingController userKycStatusController = TextEditingController(text: 'pending');
+  TextEditingController userKycStatusController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
 
 }

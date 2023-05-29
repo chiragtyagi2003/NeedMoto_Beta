@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/controllers/controllerkyc.dart';
 
+import '../screens/Home.dart';
 import '../screens/sixth.dart';
 
 class KycPopUp extends StatefulWidget {
@@ -86,6 +87,7 @@ class _KycPopUpState extends State<KycPopUp> {
                 delivery: widget.delivery,
                 purpose: widget.purpose,
               ));
+              // Get.offAll(Home());
             },
             child: Container(
               width: 95.0,

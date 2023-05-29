@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,8 +15,8 @@ import '../widget/kycwarning.dart';
 import '../widget/uploadtiledoc.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-class Tenth extends StatefulWidget {
-  Tenth({
+class userKYC extends StatefulWidget {
+  userKYC({
     Key? key,
     required this.seats,
     required this.vehicleLocation,
@@ -36,22 +37,33 @@ class Tenth extends StatefulWidget {
   String purpose;
 
   @override
-  State<Tenth> createState() => _TenthState();
+  State<userKYC> createState() => _userKYCState();
 }
 
-class _TenthState extends State<Tenth> {
+class _userKYCState extends State<userKYC> {
   final imageController = Get.put(ImageController());
-  final FileController fileController =
-      Get.put(FileController('qFm8nd1BODSFfJLEsGNFLzjbOiN2'));
 
+  String userID = "";
+  late FileController fileController = Get.put(FileController());
   //ref for storage for storing kyc docs
   // final storageRef = firebase_storage.FirebaseStorage.instance.ref().child('user-kyc-docs');
 
+  // Get the current user's ID
+  String getCurrentUserId() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      print(user.uid);
+      return user.uid;
+    }
+    return 'qFm8nd1BODSFfJLEsGNFLzjbOiN2';
+  }
+
+  // final FileController fileController = Get.put(FileController('qFm8nd1BODSFfJLEsGNFLzjbOiN2'));
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Get.put(FileController('qFm8nd1BODSFfJLEsGNFLzjbOiN2'), tag: 'user-docs');
+    userID = getCurrentUserId();
   }
 
   @override

@@ -13,7 +13,7 @@ import 'package:need_moto/screens/screenshot.dart';
 import 'package:need_moto/screens/seventh.dart';
 import 'package:need_moto/screens/sixth.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/screens/tenth.dart';
+import 'package:need_moto/screens/userkyc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:need_moto/screens/Home.dart';
 
@@ -33,7 +33,7 @@ void main() async {
   Get.put(MainController());
   Get.put(UserController());
   Get.put(PaymentController());
-  Get.put(FileController('qFm8nd1BODSFfJLEsGNFLzjbOiN2'));
+  //Get.put(FileController('qFm8nd1BODSFfJLEsGNFLzjbOiN2'));
   Get.put(VehicleBookingController());
   runApp(const MyApp());
 }

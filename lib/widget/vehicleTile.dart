@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/main.dart';
 import 'package:need_moto/widget/request.dart';
-import 'package:need_moto/screens/tenth.dart';
+import 'package:need_moto/screens/userkyc.dart';
 
 import '../controllers/main_controller.dart';
 
@@ -74,6 +76,8 @@ class _VehicleTileState extends State<VehicleTile> {
   bool kycdone = false;
   double rentalPrice = 0.0;
   String distance = "150";
+  bool hasCompletedKYC = false; // Track whether the action is completed
+
   // getKycStatus() async {
   //   await CheckKyc.checkKycdone(widget.userId).then((iskycdone) {
   //     setState(() {
@@ -128,6 +132,52 @@ class _VehicleTileState extends State<VehicleTile> {
   //   mainController.totalPriceController.text  = totalCost.toString();
   //   print(mainController.totalPriceController.text);
   // }
+
+
+  Future<void> checkActionCompletion() async {
+    // Get the current user
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Retrieve the user document from Firestore
+      final DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection('customers').doc(user.uid).get();
+      final bool fieldStatus = snapshot.data()?['kyc_status'] ?? false;
+
+      if (fieldStatus == false) {
+        // If the field is false, navigate to the action completion page
+        showCupertinoAlertDialog(context);
+      } else {
+        // If the field is true, set the flag and continue to the main app
+        setState(() {
+          hasCompletedKYC = true;
+        });
+        // Handle booking logic here
+        Get.to(Request(
+          vehicleLocation: widget.vehicleLocation,
+          source: widget.source,
+          destination: widget.destination,
+          delivery: widget.delivery,
+          pickupDateTime: widget.pickupDateTime,
+          returnDateTime: widget.returnDateTime,
+          purpose: widget.purpose,
+          imgUrl: widget.imgUrl,
+          vehicleName: widget.vehicleName,
+          seats: widget.seats,
+          average: widget.average,
+          kpml: widget.kpml,
+          type: widget.type,
+          ownerName: widget.ownerName,
+          ownerPhoneNumber: widget.ownerPhoneNumber,
+          vehiclePlateNumber: widget.vehicleNumber,
+          base_12: widget.base_12,
+          base_24: widget.base_24,
+          pricePerKmCust: widget.pricePerKmCust,
+          pricerPerHourCust: widget.pricerPerHourCust,
+          rentalPrice: rentalPrice,
+        ));
+
+      }
+    }
+  }
 
   double calculateRentalPrice() {
     // Retrieve the necessary values from the mainController or any other relevant source
@@ -269,30 +319,7 @@ class _VehicleTileState extends State<VehicleTile> {
                   // Book Now Button
                   ElevatedButton(
                     onPressed: () {
-                      // Handle booking logic here
-                      Get.to(Request(
-                          vehicleLocation: widget.vehicleLocation,
-                          source: widget.source,
-                          destination: widget.destination,
-                          delivery: widget.delivery,
-                          pickupDateTime: widget.pickupDateTime,
-                          returnDateTime: widget.returnDateTime,
-                          purpose: widget.purpose,
-                          imgUrl: widget.imgUrl,
-                          vehicleName: widget.vehicleName,
-                          seats: widget.seats,
-                          average: widget.average,
-                          kpml: widget.kpml,
-                          type: widget.type,
-                          ownerName: widget.ownerName,
-                          ownerPhoneNumber: widget.ownerPhoneNumber,
-                          vehiclePlateNumber: widget.vehicleNumber,
-                          base_12: widget.base_12,
-                          base_24: widget.base_24,
-                          pricePerKmCust: widget.pricePerKmCust,
-                          pricerPerHourCust: widget.pricerPerHourCust,
-                          rentalPrice: rentalPrice,
-                      ));
+                      checkActionCompletion();
                     },
                     child: Text('Book Now'),
                     style: ElevatedButton.styleFrom(
@@ -341,7 +368,7 @@ class _VehicleTileState extends State<VehicleTile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Tenth(
+                            builder: (context) => userKYC(
                                   seats: widget.userseats,
                                   vehicleLocation: widget.vehicleLocation,
                                   source: widget.source,

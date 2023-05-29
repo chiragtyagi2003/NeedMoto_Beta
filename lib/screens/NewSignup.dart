@@ -53,7 +53,7 @@ class _SignupPageState extends State<SignupPage> {
           'email': userController.userEmailController.text,
           'phone': userController.userPhoneNumberController.text,
           'dob': _selectedDate.toString(),
-          'kyc_status': userController.userKycStatusController.text,
+          'kyc_status': false,
         });
 
         print('User added to Firestore successfully');

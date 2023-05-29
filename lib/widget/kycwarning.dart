@@ -10,7 +10,7 @@ class KycWarning extends StatelessWidget {
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.all(8.0),
       child: Text('* Your documents should be in pdf/jpg/png '
-          'and size should be more than 2mb.'),
+          'and size should not be more than 2mb.'),
       decoration: BoxDecoration(
         color: Colors.red[100],
         borderRadius: BorderRadius.circular(10.0),

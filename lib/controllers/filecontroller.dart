@@ -10,8 +10,9 @@ class FileController {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String _userId;
-  FileController(this._userId);
+  late final String _userId;
+
+  final user = FirebaseAuth.instance.currentUser;
 
   List<File> _files = [];
 
@@ -27,10 +28,10 @@ class FileController {
   Future<void> uploadFiles() async {
     //User user = await auth.getUserByUid('qFm8nd1BODSFfJLEsGNFLzjbOiN2');
 
+
     if (_files.length < 7) {
       print('Please upload all files.');
       Fluttertoast.showToast(msg: 'Please Upload all Files');
-
       return;
     }
     Map<String, String> downloadUrls =
@@ -41,7 +42,7 @@ class FileController {
       Reference reference = _firebaseStorage
           .ref()
           .child('user-docs')
-          .child(_userId)
+          .child(user!.uid)
           .child(fileName);
       UploadTask uploadTask = reference.putFile(file);
 
@@ -58,7 +59,7 @@ class FileController {
 
     await _firestore
         .collection('customers')
-        .doc(_userId)
+        .doc(user!.uid)
         .collection('kyc-docs')
         .doc('user-kyc-docs')
         .set({'fileLinks': downloadUrls});
