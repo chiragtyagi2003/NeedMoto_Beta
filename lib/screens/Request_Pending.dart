@@ -1,5 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -8,10 +16,46 @@ import '../controllers/Request_Controller.dart';
 class RequestPending extends StatelessWidget {
   final requestController = Get.put(RequestController());
 
-  RequestPending({Key? key}) : super(key: key);
+  // String vehicleLocation;
+  // String source;
+  // String destination;
+  // String pickupDateTime;
+  // String returnDateTime;
+  // String delivery;
+  // String purpose;
+  // String ownerName;
+  // String ownerPhoneNumber;
+  // String type;
+  // String vehicleNumber;
+  // String vehicleName;
+  // String seats;
+  // double rentalPrice;
+
+  // RequestPending({
+  //   required this.vehicleLocation,
+  //   required this.source,
+  //   required this.destination,
+  //   required this.pickupDateTime,
+  //   required this.returnDateTime,
+  //   required this.delivery,
+  //   required this.purpose,
+  //   required this.ownerName,
+  //   required this.ownerPhoneNumber,
+  //   required this.type,
+  //   required this.vehicleNumber,
+  //   required this.vehicleName,
+  //   required this.seats,
+  //   required this.rentalPrice,
+  // });
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.blue.shade600,
       body: SafeArea(

@@ -1,4 +1,5 @@
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:need_moto/controllers/PaymentController.dart';
 import 'package:need_moto/controllers/VehicleBookingController.dart';
@@ -28,6 +29,7 @@ void main() async {
   //Get.put(MenuController())
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   Get.put(BookingColntroller());
   Get.put(KycController());
   Get.put(MyHomePageController());

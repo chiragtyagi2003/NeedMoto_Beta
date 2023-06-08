@@ -1,4 +1,5 @@
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -156,6 +157,170 @@ class Request extends StatelessWidget {
     print(totalCost);
     mainController.totalPriceController.text  = totalCost.toString();
     print(mainController.totalPriceController.text);
+  }
+
+  // Future<List<String>> getOwnerIds(String vehicleName) async {
+  //   try {
+  //     print(vehicleName);
+  //     final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
+  //         .collection('vehicles')
+  //         .where(vehicleName, isEqualTo: vehicleName)
+  //         .get();
+  //
+  //
+  //     final List<String> ownerIds =
+  //     vehicleSnapshot.docs.map((doc) => doc['ownerId'].toString()).toList();
+  //
+  //     print(ownerIds);
+  //
+  //     return ownerIds;
+  //   } catch (e) {
+  //     print('Error retrieving owner IDs: $e');
+  //     return [];
+  //   }
+  // }
+  Future<List<String>> getOwnerIds(String vehicleName) async {
+    try {
+      final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
+          .collection('vehicles')
+          .get();
+
+      final List<String> ownerIds = vehicleSnapshot.docs
+          .where((doc) => doc['vehicleName'] == vehicleName)
+          .map((doc) => doc['ownerID'].toString())
+          .toList();
+
+      return ownerIds;
+    } catch (e) {
+      print('Error retrieving owner IDs: $e');
+      return [];
+    }
+  }
+
+  Future<List<String>> getPhoneNumbers(List<String> ownerIds) async {
+    try {
+      final QuerySnapshot ownersSnapshot = await FirebaseFirestore.instance
+          .collection('owners')
+          .where(FieldPath.documentId, whereIn: ownerIds)
+          .get();
+
+      final List<String> phoneNumbers = ownersSnapshot.docs
+          .map((doc) => doc['phone_number'].toString())
+          .toList();
+
+      return phoneNumbers;
+    } catch (e) {
+      print('Error retrieving phone numbers: $e');
+      return [];
+    }
+  }
+
+
+  Future<void> sendNotifications(String vehicleName) async {
+    print('sendNotifications called');
+    // Get the owner IDs of the vehicles with the specified name.
+    final ownerIds = await getOwnerIds(vehicleName);
+    print('fetching owner Ids');
+    print(ownerIds);
+
+    // Get the phone numbers of the owners.
+    final phonenumbers = await getPhoneNumbers(ownerIds);
+    print('fetching phone numbers');
+    print(phonenumbers);
+
+    // Send notifications to the owners.
+    for (var phonenumber in phonenumbers) {
+      await _sendNotification(phonenumber, vehicleName);
+      print('notification sent');
+    }
+  }
+
+
+
+  Future<void> _sendNotification(String phoneNumber, String vehicleName) async {
+    try {
+      await AwesomeNotifications().initialize(
+        null,
+        [
+          NotificationChannel(
+            channelKey: 'basic_channel',
+            channelName: 'Basic Channel',
+            channelDescription: 'This is the basic channel for app notifications.',
+            defaultColor: Color(0xFF9D50DD),
+            ledColor: Colors.white,
+          ),
+        ],
+      );
+
+      final notificationId = DateTime.now().millisecondsSinceEpoch;
+
+      // await AwesomeNotifications().createNotification(
+      //   content: NotificationContent(
+      //     id: notificationId,
+      //     channelKey: 'basic_channel',
+      //     title: 'Your vehicle has been found!',
+      //     body: 'The vehicle with the name $vehicleName has been found.',
+      //     payload: {'phoneNumber': phoneNumber},
+      //   ),
+      //   schedule: NotificationCalendar.fromDate(date: DateTime.now()),
+      //   actionButtons: [
+      //     NotificationActionButton(
+      //       key: 'REJECT_BUTTON',
+      //       label: 'Reject',
+      //       autoCancel: true,
+      //       buttonType: ActionButtonType.Default,
+      //       enabled: true,
+      //     ),
+      //     NotificationActionButton(
+      //       key: 'ACCEPT_BUTTON',
+      //       label: 'Accept',
+      //       autoCancel: true,
+      //       buttonType: ActionButtonType.Default,
+      //       enabled: true,
+      //     ),
+      //   ],
+      //   onActionButtonPressed: (String? key, dynamic payload) {
+      //     if (key == 'ACCEPT_BUTTON') {
+      //       // Accept button pressed
+      //       // Handle the accept action
+      //     } else if (key == 'REJECT_BUTTON') {
+      //       // Reject button pressed
+      //       // Handle the reject action
+      //     }
+      //   },
+      // );
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: 98989, // -1 is replaced by a random number
+          channelKey: 'basic_channel',
+          title: 'Vehicle Request',
+          body: "Request has been made!",
+          // bigPicture: 'https://storage.googleapis.com/cms-storage-bucket/d406c736e7c4c57f5f61.png',
+          // largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
+          //'asset://assets/images/balloons-in-sky.jpg',
+          // notificationLayout: NotificationLayout.BigPicture,
+          payload: {'phoneNumber': phoneNumber},
+        ),
+        actionButtons: [
+          // NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
+          NotificationActionButton(
+              key: 'REJECT_BUTTON',
+              label: 'Reject',
+              actionType: ActionType.SilentAction,
+              isDangerousOption: true
+          ),
+          NotificationActionButton(
+            key: 'ACCEPT_BUTTON',
+            label: 'Accept',
+            actionType: ActionType.DismissAction,
+          )
+        ],
+
+      );
+    } catch (e) {
+      print('Error sending notification: $e');
+      // Handle the error accordingly
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -395,6 +560,10 @@ class Request extends StatelessWidget {
 
                   print('called');
 
+                  sendNotifications(vehicleName);
+                  print('notified');
+
+
                   // BookingColntroller.instance.booking(
                   //   source,
                   //   destination,
@@ -407,22 +576,23 @@ class Request extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ReqAccept(
-                            vehicleLocation: vehicleLocation,
-                            source: source,
-                            destination: destination,
-                            pickupDateTime: pickupDateTime,
-                            returnDateTime: returnDateTime,
-                            delivery: delivery,
-                            purpose: purpose,
-                            ownerName: ownerName,
-                            ownerPhoneNumber: ownerPhoneNumber,
-                            type: type,
-                            vehicleNumber: vehiclePlateNumber,
-                            vehicleName: vehicleName,
-                            seats: seats,
-                            rentalPrice: rentalPrice,
-                          )));
+                          builder: (context) => RequestPending()));
+                      // ReqAccept(
+                          //   vehicleLocation: vehicleLocation,
+                          //   source: source,
+                          //   destination: destination,
+                          //   pickupDateTime: pickupDateTime,
+                          //   returnDateTime: returnDateTime,
+                          //   delivery: delivery,
+                          //   purpose: purpose,
+                          //   ownerName: ownerName,
+                          //   ownerPhoneNumber: ownerPhoneNumber,
+                          //   type: type,
+                          //   vehicleNumber: vehiclePlateNumber,
+                          //   vehicleName: vehicleName,
+                          //   seats: seats,
+                          //   rentalPrice: rentalPrice,
+                          // )));
                 },
                 child: Text(
                   'Book Now',
