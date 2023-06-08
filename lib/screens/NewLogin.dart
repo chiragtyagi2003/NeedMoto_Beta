@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:need_moto/screens/Home.dart';
 import 'package:need_moto/screens/NewSignup.dart';
 import 'package:need_moto/screens/admin_dashboard.dart';
+import 'package:need_moto/screens/Home.dart';
+
 
 class LoginPage extends StatelessWidget {
 
@@ -100,6 +102,7 @@ class LoginPage extends StatelessWidget {
                       height: 60,
                       onPressed: () {
                         loginUser();
+                        Get.to(Home());
                       },
                       color: Color(0xFF20A4F3),
                       shape: RoundedRectangleBorder(
