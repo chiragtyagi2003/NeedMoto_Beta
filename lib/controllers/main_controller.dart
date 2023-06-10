@@ -19,7 +19,7 @@ class MainController extends GetxController {
   TextEditingController descController = TextEditingController();
   TextEditingController distanceRangeController = TextEditingController();
   TextEditingController rentalPricePerDayController = TextEditingController();
-  TextEditingController requestStatusController = TextEditingController(text: 'accepted');
+  TextEditingController requestStatusController = TextEditingController(text: 'pending');
   TextEditingController payPriceController = TextEditingController();
   TextEditingController base12PriceController = TextEditingController();
   TextEditingController base24PriceController = TextEditingController();

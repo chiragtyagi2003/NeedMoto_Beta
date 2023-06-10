@@ -27,25 +27,25 @@ class RequestController extends GetxController {
   //   debugPrint(productData[0].toString());
   // }
 
-  void change() {
-    Widget getWidget(var status) {
-      if (status == 'accepted') {
-        return RequestAccepted();
-      } else if (status == 'rejected') {
-        return RequestRejected();
-      } else {
-        return RequestPending();
-      }
-    }
-  }
+  // void change() {
+  //   Widget getWidget(var status) {
+  //     if (status == 'accepted') {
+  //       return RequestAccepted();
+  //     } else if (status == 'rejected') {
+  //       return RequestRejected();
+  //     } else {
+  //       return RequestPending();
+  //     }
+  //   }
+  // }
 
-  Widget getWidget(String status) {
-    if (status == 'accepted') {
-      return RequestAccepted();
-    } else if (status == 'rejected') {
-      return RequestRejected();
-    } else {
-      return RequestPending();
-    }
-  }
+//   Widget getWidget(String status) {
+//     if (status == 'accepted') {
+//       return RequestAccepted();
+//     } else if (status == 'rejected') {
+//       return RequestRejected();
+//     } else {
+//       return RequestPending();
+//     }
+//   }
 }

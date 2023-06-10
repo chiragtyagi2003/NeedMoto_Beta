@@ -8,13 +8,15 @@ import 'package:get/get.dart';
 import 'package:need_moto/controllers/main_controller.dart';
 import 'package:need_moto/functions.dart';
 import 'package:need_moto/functions.dart';
+import 'package:need_moto/screens/RequestAccepted.dart';
 import 'package:need_moto/screens/Request_Pending.dart';
 import 'package:need_moto/widget/car.dart';
 
 import '../controllers/booking_controller.dart';
 import '../screens/ReqAccept.dart';
+import '../screens/Request_Rejected.dart';
 
-class Request extends StatelessWidget {
+class Request extends StatefulWidget {
   final String imgUrl;
   final String vehicleName;
   final String seats;
@@ -40,6 +42,8 @@ class Request extends StatelessWidget {
   String delivery;
   String purpose;
 
+  static Request? _instance;
+
   Request(
       {
       required this.imgUrl,
@@ -63,14 +67,166 @@ class Request extends StatelessWidget {
       required this.base_12,
       required this.base_24,
       required this.rentalPrice,
+      }){
+        _instance = this;
+      }
+
+  String storeRequestID = "";
+  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+
+  static Request get instance => _instance!;
+
+  Future<void> updateStatusField(String status) async {
+    try {
+      // Get a reference to the document in the "requests" collection
+      DocumentReference requestDocRef =
+      FirebaseFirestore.instance.collection('requests').doc(storeRequestID);
+
+      // Update the value of the "status" field
+      await requestDocRef.update({'status': status});
+
+      print('Status field updated successfully!');
+
+
+      // Transfer the request to the "bookings" collection
+      await transferRequestToBookings(requestDocRef);
+
+      // Delete the document from the "requests" collection
+      await requestDocRef.delete();
+
+      print('Document deleted from the "requests" collection successfully!');
+    } catch (error) {
+      print('Error updating status field: $error');
+    }
+  }
+
+  Future<void> transferRequestToBookings(DocumentReference requestDocRef) async {
+    try {
+      // Retrieve the document snapshot from the "requests" collection
+      DocumentSnapshot requestDocSnapshot = await requestDocRef.get();
+
+      // Transfer the document to the "bookings" collection with additional fields
+      await FirebaseFirestore.instance.collection('bookings').add({
+        'status': requestDocSnapshot['status'],
+        'vehicleName': vehicleName,
+        'source': source,
+        'destination': destination,
+        'pickupDateTime': pickupDateTime,
+        'returnDateTime': returnDateTime,
+        'purpose': purpose,
+        'delivery': delivery,
+        'userId': currentUserId,
+        'vehicleNeedFromLocation': vehicleLocation,
+
+        // Include other fields from the request document as needed
       });
 
+      print('Document transferred to the "bookings" collection successfully!');
+    } catch (error) {
+      print('Error transferring document to "bookings" collection: $error');
+    }
+  }
 
+  @override
+  State<Request> createState() => _RequestState();
+}
+
+class _RequestState extends State<Request> {
   MainController mainController = Get.find();
 
   double totalPrice = 0.0;
+  ///  *********************************************
+  ///     NOTIFICATION EVENTS LISTENER
+  ///  *********************************************
+  ///  Notifications events are only delivered after call this method
+  static Future<void> startListeningNotificationEvents() async {
+    AwesomeNotifications()
+        .setListeners(onActionReceivedMethod: onActionReceivedMethod);
+    }
+
+
+
+  static Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
+    if (receivedAction.buttonKeyPressed == 'REJECT_BUTTON') {
+      // Handle Reject button action here
+      // This code will be executed when the Reject button is clicked
+      // You can perform any desired action or logic
+      try {
+        Request.instance.updateStatusField('rejected');
+        print('update field called');
+        Get.to(RequestRejected(
+          vehicleLocation: Request.instance.vehicleLocation,
+          source: Request.instance.source,
+          destination: Request.instance.destination,
+          pickupDateTime: Request.instance.pickupDateTime,
+          returnDateTime: Request.instance.returnDateTime,
+          delivery: Request.instance.delivery,
+          purpose: Request.instance.purpose,
+          ownerName: Request.instance.ownerName,
+          ownerPhoneNumber: Request.instance.ownerPhoneNumber,
+          type: Request.instance.type,
+          vehicleNumber: Request.instance.vehiclePlateNumber,
+          vehicleName: Request.instance.vehicleName,
+          seats: Request.instance.seats,
+          rentalPrice: Request.instance.rentalPrice,
+
+        ));
+      } on Exception catch (e) {
+        print(e.toString());
+        // TODO
+      }
+    } else if (receivedAction.buttonKeyPressed == 'ACCEPT_BUTTON') {
+      // Handle Accept button action here
+      // This code will be executed when the Accept button is clicked
+      // You can perform any desired action or logic
+      try{
+        String? phoneNumber = receivedAction.buttonKeyPressed;
+        if (phoneNumber != null && phoneNumber.isNotEmpty) {
+          // Handle the retrieved phone number here
+          print('Phone number: $phoneNumber');
+        }
+        Request.instance.updateStatusField('accepted');
+        print('update field called');
+        Get.to(RequestAccepted(
+          vehicleLocation: Request.instance.vehicleLocation,
+          source: Request.instance.source,
+          destination: Request.instance.destination,
+          pickupDateTime: Request.instance.pickupDateTime,
+          returnDateTime: Request.instance.returnDateTime,
+          delivery: Request.instance.delivery,
+          purpose: Request.instance.purpose,
+          ownerName: Request.instance.ownerName,
+          ownerPhoneNumber: Request.instance.ownerPhoneNumber,
+          type: Request.instance.type,
+          vehicleNumber: Request.instance.vehiclePlateNumber,
+          vehicleName: Request.instance.vehicleName,
+          seats: Request.instance.seats,
+          rentalPrice: Request.instance.rentalPrice,
+        ));
+      } on Exception catch (e) {
+        print(e.toString());
+        // TODO
+      }
+    }
+
+    // For background actions, you can add additional logic or tasks to execute
+    if (receivedAction.actionType == ActionType.SilentAction ||
+        receivedAction.actionType == ActionType.SilentBackgroundAction) {
+      print('Message sent via notification input: "${receivedAction.buttonKeyInput}"');
+      //await executeLongTaskInBackground();
+    } else {
+      // MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      //   '/notification-page',
+      //       (route) =>
+      //   (route.settings.name != '/notification-page') || route.isFirst,
+      //   arguments: receivedAction,
+      // );
+    }
+  }
 
   void storeUserRequestData() {
+
     // Get the current user ID
     String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -83,22 +239,22 @@ class Request extends StatelessWidget {
 
     // Create a reference to the document in the "users" collection
     DocumentReference userRef =
-    FirebaseFirestore.instance.collection('bookings').doc(documentId);
+    FirebaseFirestore.instance.collection('requests').doc(documentId);
 
     // Define the data to be stored in the document
     Map<String, dynamic> userData = {
       // Add your desired fields and values here
-      'vehicleNumber': vehiclePlateNumber,
-      'vehicleName': vehicleName,
-      'source': source,
-      'destination': destination,
-      'pickupDateTime': pickupDateTime,
-      'returnDateTime': returnDateTime,
-      'purpose': purpose,
-      'delivery': delivery,
+      //'vehicleNumber': widget.vehiclePlateNumber,
+      'vehicleName': widget.vehicleName,
+      'source': widget.source,
+      'destination': widget.destination,
+      'pickupDateTime': widget.pickupDateTime,
+      'returnDateTime': widget.returnDateTime,
+      'purpose': widget.purpose,
+      'delivery': widget.delivery,
       'status': mainController.requestStatusController.text,
       'userId': currentUserId,
-      'vehicleNeedFromLocation': vehicleLocation,
+      'vehicleNeedFromLocation': widget.vehicleLocation,
     };
 
     // Store the data in the Firestore document
@@ -114,7 +270,12 @@ class Request extends StatelessWidget {
       // Handle the error appropriately
       print("couldn't make request");
     });
+
+   setState(() {
+     Request.instance.storeRequestID = userRef.id;
+   });
   }
+
   void calculateRentalPrice(double base_12, double base_24, double pricePerHourCust, double pricePerKmCust) {
 
     double basePrice;
@@ -159,26 +320,6 @@ class Request extends StatelessWidget {
     print(mainController.totalPriceController.text);
   }
 
-  // Future<List<String>> getOwnerIds(String vehicleName) async {
-  //   try {
-  //     print(vehicleName);
-  //     final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
-  //         .collection('vehicles')
-  //         .where(vehicleName, isEqualTo: vehicleName)
-  //         .get();
-  //
-  //
-  //     final List<String> ownerIds =
-  //     vehicleSnapshot.docs.map((doc) => doc['ownerId'].toString()).toList();
-  //
-  //     print(ownerIds);
-  //
-  //     return ownerIds;
-  //   } catch (e) {
-  //     print('Error retrieving owner IDs: $e');
-  //     return [];
-  //   }
-  // }
   Future<List<String>> getOwnerIds(String vehicleName) async {
     try {
       final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
@@ -215,7 +356,6 @@ class Request extends StatelessWidget {
     }
   }
 
-
   Future<void> sendNotifications(String vehicleName) async {
     print('sendNotifications called');
     // Get the owner IDs of the vehicles with the specified name.
@@ -235,8 +375,6 @@ class Request extends StatelessWidget {
     }
   }
 
-
-
   Future<void> _sendNotification(String phoneNumber, String vehicleName) async {
     try {
       await AwesomeNotifications().initialize(
@@ -254,41 +392,6 @@ class Request extends StatelessWidget {
 
       final notificationId = DateTime.now().millisecondsSinceEpoch;
 
-      // await AwesomeNotifications().createNotification(
-      //   content: NotificationContent(
-      //     id: notificationId,
-      //     channelKey: 'basic_channel',
-      //     title: 'Your vehicle has been found!',
-      //     body: 'The vehicle with the name $vehicleName has been found.',
-      //     payload: {'phoneNumber': phoneNumber},
-      //   ),
-      //   schedule: NotificationCalendar.fromDate(date: DateTime.now()),
-      //   actionButtons: [
-      //     NotificationActionButton(
-      //       key: 'REJECT_BUTTON',
-      //       label: 'Reject',
-      //       autoCancel: true,
-      //       buttonType: ActionButtonType.Default,
-      //       enabled: true,
-      //     ),
-      //     NotificationActionButton(
-      //       key: 'ACCEPT_BUTTON',
-      //       label: 'Accept',
-      //       autoCancel: true,
-      //       buttonType: ActionButtonType.Default,
-      //       enabled: true,
-      //     ),
-      //   ],
-      //   onActionButtonPressed: (String? key, dynamic payload) {
-      //     if (key == 'ACCEPT_BUTTON') {
-      //       // Accept button pressed
-      //       // Handle the accept action
-      //     } else if (key == 'REJECT_BUTTON') {
-      //       // Reject button pressed
-      //       // Handle the reject action
-      //     }
-      //   },
-      // );
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: 98989, // -1 is replaced by a random number
@@ -307,21 +410,34 @@ class Request extends StatelessWidget {
               key: 'REJECT_BUTTON',
               label: 'Reject',
               actionType: ActionType.SilentAction,
-              isDangerousOption: true
+              isDangerousOption: true,
+              color: Colors.red,
+
           ),
           NotificationActionButton(
             key: 'ACCEPT_BUTTON',
             label: 'Accept',
-            actionType: ActionType.DismissAction,
+            actionType: ActionType.SilentAction,
+            color: Colors.green,
           )
         ],
 
       );
-    } catch (e) {
+
+  } catch (e) {
       print('Error sending notification: $e');
       // Handle the error accordingly
     }
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    startListeningNotificationEvents();
+    print('now listening to notification events');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -329,7 +445,7 @@ class Request extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Car(imgUrl: imgUrl, vehicleName: vehicleName),
+              Car(imgUrl: widget.imgUrl, vehicleName: widget.vehicleName),
               SizedBox(
                 height: 30,
               ),
@@ -370,7 +486,7 @@ class Request extends StatelessWidget {
                                 height: 5,
                               ),
                               Text(
-                                seats,
+                                widget.seats,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 25,
@@ -401,7 +517,7 @@ class Request extends StatelessWidget {
                                 height: 5,
                               ),
                               Text(
-                                average,
+                                widget.average,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 25,
@@ -432,7 +548,7 @@ class Request extends StatelessWidget {
                                 height: 5,
                               ),
                               Text(
-                                kpml,
+                                widget.kpml,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 25,
@@ -457,19 +573,21 @@ class Request extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.black,
                           ),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                type,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                          child: Expanded(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  widget.type,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
                           )),
                       SizedBox(
                         width: 15,
@@ -511,7 +629,7 @@ class Request extends StatelessWidget {
                           width: 150,
                           height: 20,
                           child: Text(
-                            ownerName,
+                            widget.ownerName,
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           )),
@@ -519,7 +637,7 @@ class Request extends StatelessWidget {
                           width: 150,
                           height: 15,
                           child: Text(
-                            ownerPhoneNumber,
+                            widget.ownerPhoneNumber,
                             style: TextStyle(fontSize: 14, color: Colors.grey),
                           ))
                     ],
@@ -548,10 +666,10 @@ class Request extends StatelessWidget {
                   //     double.parse(pricerPerHourCust),
                   //     double.parse(pricePerKmCust));
                   try {
-                    double parsedBase12 = double.parse(base_12);
-                    double parsedBase24 = double.parse(base_24);
-                    double parsedPricePerHourCust = double.parse(pricerPerHourCust);
-                    double parsedPricePerKmCust = double.parse(pricePerKmCust);
+                    double parsedBase12 = double.parse(widget.base_12);
+                    double parsedBase24 = double.parse(widget.base_24);
+                    double parsedPricePerHourCust = double.parse(widget.pricerPerHourCust);
+                    double parsedPricePerKmCust = double.parse(widget.pricePerKmCust);
 
                     calculateRentalPrice(parsedBase12, parsedBase24, parsedPricePerHourCust, parsedPricePerKmCust);
                   } catch (e) {
@@ -560,7 +678,7 @@ class Request extends StatelessWidget {
 
                   print('called');
 
-                  sendNotifications(vehicleName);
+                  sendNotifications(widget.vehicleName);
                   print('notified');
 
 
@@ -576,23 +694,38 @@ class Request extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => RequestPending()));
+                          builder: (context) => RequestPending(
+                            vehicleLocation: widget.vehicleLocation,
+                            source: widget.source,
+                            destination: widget.destination,
+                            pickupDateTime: widget.pickupDateTime,
+                            returnDateTime: widget.returnDateTime,
+                            delivery: widget.delivery,
+                            purpose: widget.purpose,
+                            ownerName: widget.ownerName,
+                            ownerPhoneNumber: widget.ownerPhoneNumber,
+                            type: widget.type,
+                            vehicleNumber: widget.vehiclePlateNumber,
+                            vehicleName: widget.vehicleName,
+                            seats: widget.seats,
+                            rentalPrice: widget.rentalPrice,
+                          )));
                       // ReqAccept(
-                          //   vehicleLocation: vehicleLocation,
-                          //   source: source,
-                          //   destination: destination,
-                          //   pickupDateTime: pickupDateTime,
-                          //   returnDateTime: returnDateTime,
-                          //   delivery: delivery,
-                          //   purpose: purpose,
-                          //   ownerName: ownerName,
-                          //   ownerPhoneNumber: ownerPhoneNumber,
-                          //   type: type,
-                          //   vehicleNumber: vehiclePlateNumber,
-                          //   vehicleName: vehicleName,
-                          //   seats: seats,
-                          //   rentalPrice: rentalPrice,
-                          // )));
+                      //       vehicleLocation: vehicleLocation,
+                      //       source: source,
+                      //       destination: destination,
+                      //       pickupDateTime: pickupDateTime,
+                      //       returnDateTime: returnDateTime,
+                      //       delivery: delivery,
+                      //       purpose: purpose,
+                      //       ownerName: ownerName,
+                      //       ownerPhoneNumber: ownerPhoneNumber,
+                      //       type: type,
+                      //       vehicleNumber: vehiclePlateNumber,
+                      //       vehicleName: vehicleName,
+                      //       seats: seats,
+                      //       rentalPrice: rentalPrice,
+                      //     )));
                 },
                 child: Text(
                   'Book Now',

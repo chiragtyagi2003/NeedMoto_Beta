@@ -342,8 +342,8 @@ class Home extends StatelessWidget {
         child: Icon(Icons.hourglass_bottom),
         backgroundColor: Colors.orange,
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LogScreen()));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => LogScreen()));
         },
       ),
     );
