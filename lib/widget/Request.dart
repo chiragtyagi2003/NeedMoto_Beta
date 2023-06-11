@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -74,10 +76,13 @@ class Request extends StatefulWidget {
   String storeRequestID = "";
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
+  // data structure to store the notification id and phone number
+  Map<String, String> notificationIdToPhoneNumber = {};
+
 
   static Request get instance => _instance!;
 
-  Future<void> updateStatusField(String status) async {
+  Future<void> updateStatusField(String status, String? phoneNumberFromAccept) async {
     try {
       // Get a reference to the document in the "requests" collection
       DocumentReference requestDocRef =
@@ -90,7 +95,7 @@ class Request extends StatefulWidget {
 
 
       // Transfer the request to the "bookings" collection
-      await transferRequestToBookings(requestDocRef);
+      await transferRequestToBookings(requestDocRef, phoneNumberFromAccept);
 
       // Delete the document from the "requests" collection
       await requestDocRef.delete();
@@ -101,7 +106,7 @@ class Request extends StatefulWidget {
     }
   }
 
-  Future<void> transferRequestToBookings(DocumentReference requestDocRef) async {
+  Future<void> transferRequestToBookings(DocumentReference requestDocRef, String? phoneNumberFromAccept) async {
     try {
       // Retrieve the document snapshot from the "requests" collection
       DocumentSnapshot requestDocSnapshot = await requestDocRef.get();
@@ -118,6 +123,7 @@ class Request extends StatefulWidget {
         'delivery': delivery,
         'userId': currentUserId,
         'vehicleNeedFromLocation': vehicleLocation,
+        'ownerPhoneNumber': phoneNumberFromAccept,
 
         // Include other fields from the request document as needed
       });
@@ -148,12 +154,20 @@ class _RequestState extends State<Request> {
 
 
   static Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
+
+    // Retrieve the notification ID from the action
+    final notificationId = receivedAction.payload?['notificationId'];
+
+    // Retrieve the corresponding phone number from the mapping
+    final phoneNumber = Request.instance.notificationIdToPhoneNumber[notificationId];
+
+
     if (receivedAction.buttonKeyPressed == 'REJECT_BUTTON') {
       // Handle Reject button action here
       // This code will be executed when the Reject button is clicked
       // You can perform any desired action or logic
       try {
-        Request.instance.updateStatusField('rejected');
+        Request.instance.updateStatusField('rejected', phoneNumber);
         print('update field called');
         Get.to(RequestRejected(
           vehicleLocation: Request.instance.vehicleLocation,
@@ -181,12 +195,11 @@ class _RequestState extends State<Request> {
       // This code will be executed when the Accept button is clicked
       // You can perform any desired action or logic
       try{
-        String? phoneNumber = receivedAction.buttonKeyPressed;
-        if (phoneNumber != null && phoneNumber.isNotEmpty) {
-          // Handle the retrieved phone number here
-          print('Phone number: $phoneNumber');
-        }
-        Request.instance.updateStatusField('accepted');
+
+        // convert notificationID to string to apply split function
+        final phoneNumberFromAccept =  phoneNumber;
+        print('Request accepted from $phoneNumberFromAccept');
+        Request.instance.updateStatusField('accepted', phoneNumberFromAccept);
         print('update field called');
         Get.to(RequestAccepted(
           vehicleLocation: Request.instance.vehicleLocation,
@@ -390,11 +403,18 @@ class _RequestState extends State<Request> {
         ],
       );
 
-      final notificationId = DateTime.now().millisecondsSinceEpoch;
+      // final notificationId = '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(pow(2, 31) - 1)}';
+      // final notificationId = '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(pow(2, 31).toInt() - 1)}';
+      final notificationId = '${Random().nextInt(pow(2, 31).toInt() - 1)}';
+
+      // Store the mapping between notification ID and phone number
+      Request.instance.notificationIdToPhoneNumber[notificationId] = phoneNumber;
+
 
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: 98989, // -1 is replaced by a random number
+          // convert notification id to int as id accepts only int param
+          id: int.parse(notificationId), // -1 is replaced by a random number
           channelKey: 'basic_channel',
           title: 'Vehicle Request',
           body: "Request has been made!",
@@ -402,7 +422,9 @@ class _RequestState extends State<Request> {
           // largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
           //'asset://assets/images/balloons-in-sky.jpg',
           // notificationLayout: NotificationLayout.BigPicture,
-          payload: {'phoneNumber': phoneNumber},
+         // payload: {'phoneNumber': phoneNumber},
+          payload: {'notificationId': notificationId},
+
         ),
         actionButtons: [
           // NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
@@ -735,282 +757,4 @@ class _RequestState extends State<Request> {
             )));
   }
 }
-// =======
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:need_moto/screens/Request_Pending.dart';
-// import 'package:need_moto/widget/car.dart';
-//
-// class Request extends StatelessWidget {
-//   final String imgUrl;
-//   final String vehicleName;
-//   final String seats;
-//   final String average;
-//   final String kpml;
-//   final String type;
-//   final String ownerName;
-//   final String ownerPhoneNumber;
-//
-//   String vehicleLocation;
-//   String source;
-//   String destination;
-//   String pickupDateTime;
-//   String returnDateTime;
-//   String delivery;
-//   String purpose;
-//
-//   Request(
-//       {required this.imgUrl,
-//       required this.vehicleName,
-//       required this.seats,
-//       required this.average,
-//       required this.kpml,
-//       required this.type,
-//       required this.ownerName,
-//       required this.ownerPhoneNumber,
-//       required this.delivery,
-//       required this.purpose,
-//       required this.returnDateTime,
-//       required this.pickupDateTime,
-//       required this.source,
-//       required this.destination,
-//       required this.vehicleLocation});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Car(imgUrl: imgUrl, vehicleName: vehicleName),
-//               SizedBox(
-//                 height: 30,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 20,
-//                   ),
-//                   Text(
-//                     'Specifications',
-//                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-//                   )
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 20,
-//               ),
-//               SingleChildScrollView(
-//                   scrollDirection: Axis.horizontal,
-//                   child: Row(
-//                     children: [
-//                       SizedBox(
-//                         width: 15,
-//                       ),
-//                       Container(
-//                           alignment: Alignment.center,
-//                           width: 100,
-//                           height: 100,
-//                           margin: EdgeInsets.all(5),
-//                           padding: EdgeInsets.all(15),
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(20),
-//                             color: Colors.black,
-//                           ),
-//                           child: Column(
-//                             children: [
-//                               SizedBox(
-//                                 height: 5,
-//                               ),
-//                               Text(
-//                                 seats,
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontSize: 25,
-//                                     fontWeight: FontWeight.w600),
-//                               ),
-//                               Text(
-//                                 'Seats',
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontSize: 17,
-//                                     fontWeight: FontWeight.w600),
-//                               )
-//                             ],
-//                           )),
-//                       Container(
-//                           alignment: Alignment.center,
-//                           width: 100,
-//                           height: 100,
-//                           margin: EdgeInsets.all(5),
-//                           padding: EdgeInsets.all(15),
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(20),
-//                             color: Colors.black,
-//                           ),
-//                           child: Column(
-//                             children: [
-//                               SizedBox(
-//                                 height: 5,
-//                               ),
-//                               Text(
-//                                 average,
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontSize: 25,
-//                                     fontWeight: FontWeight.w600),
-//                               ),
-//                               Text(
-//                                 'Km/h',
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontSize: 17,
-//                                     fontWeight: FontWeight.w600),
-//                               )
-//                             ],
-//                           )),
-//                       Container(
-//                           alignment: Alignment.center,
-//                           width: 100,
-//                           height: 100,
-//                           margin: EdgeInsets.all(5),
-//                           padding: EdgeInsets.all(15),
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(20),
-//                             color: Colors.black,
-//                           ),
-//                           child: Column(
-//                             children: [
-//                               SizedBox(
-//                                 height: 5,
-//                               ),
-//                               Text(
-//                                 kpml,
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontSize: 25,
-//                                     fontWeight: FontWeight.w600),
-//                               ),
-//                               Text(
-//                                 'KMPL',
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontSize: 17,
-//                                     fontWeight: FontWeight.w600),
-//                               )
-//                             ],
-//                           )),
-//                       Container(
-//                           alignment: Alignment.center,
-//                           width: 100,
-//                           height: 100,
-//                           margin: EdgeInsets.all(5),
-//                           padding: EdgeInsets.all(15),
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(20),
-//                             color: Colors.black,
-//                           ),
-//                           child: Column(
-//                             children: [
-//                               SizedBox(
-//                                 height: 20,
-//                               ),
-//                               Text(
-//                                 type,
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontSize: 25,
-//                                     fontWeight: FontWeight.w600),
-//                               ),
-//                             ],
-//                           )),
-//                       SizedBox(
-//                         width: 15,
-//                       ),
-//                     ],
-//                   )),
-//               SizedBox(
-//                 height: 15,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 20,
-//                   ),
-//                   Text(
-//                     'Owner Details',
-//                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-//                   )
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 15,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 20,
-//                   ),
-//                   CircleAvatar(
-//                     radius: 25,
-//                     child: Icon(Icons.person),
-//                   ),
-//                   SizedBox(
-//                     width: 25,
-//                   ),
-//                   Column(
-//                     children: [
-//                       Container(
-//                           width: 150,
-//                           height: 20,
-//                           child: Text(
-//                             ownerName,
-//                             style: TextStyle(
-//                                 fontSize: 18, fontWeight: FontWeight.w600),
-//                           )),
-//                       Container(
-//                           width: 150,
-//                           height: 15,
-//                           child: Text(
-//                             ownerPhoneNumber,
-//                             style: TextStyle(fontSize: 14, color: Colors.grey),
-//                           ))
-//                     ],
-//                   )
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//         bottomNavigationBar: Padding(
-//             padding: EdgeInsets.all(1),
-//             child: SizedBox(
-//               width: 250,
-//               height: 50,
-//               child: ElevatedButton(
-//                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-//                 onPressed: () {
-//                   // BookingColntroller.instance.booking(
-//                   //   source,
-//                   //   destination,
-//                   //   pickupDateTime,
-//                   //   returnDateTime,
-//                   //   delivery,
-//                   //   purpose,
-//                   // );
-//
-//                   Navigator.pushReplacement(
-//                       context,
-//                       MaterialPageRoute(
-//                           builder: (context) => RequestPending()));
-//                 },
-//                 child: Text(
-//                   'Book Now',
-//                   style: TextStyle(color: Colors.white, fontSize: 30),
-//                 ),
-//               ),
-//             )));
-//   }
-// }
-// >>>>>>> origin/main
+
