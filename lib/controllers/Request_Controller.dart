@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,35 @@ import '../screens/Request_Rejected.dart';
 class RequestController extends GetxController {
   RxList productData = [].obs;
   var status = ''.obs;
+
+  TextEditingController requestVehicleNameController = TextEditingController();
+  TextEditingController requestSourceController = TextEditingController();
+  TextEditingController requestDestinationNameController = TextEditingController();
+  TextEditingController requestPickUpController = TextEditingController();
+  TextEditingController requestDropController = TextEditingController();
+  TextEditingController requestTimeController = TextEditingController();
+  TextEditingController requestDateController = TextEditingController();
+
+  void extractDateTime(String dateTimeString) {
+    List<String> dateTimeParts = dateTimeString.split(' ');
+
+    // Extracting the date
+    List<String> dateParts = dateTimeParts[0].split('-');
+    String date =
+        '${dateParts[2]}-${dateParts[1].padLeft(2, '0')}-${dateParts[0].padLeft(2, '0')}';
+    requestDateController.text = date;
+    print('Request Date: $date');
+
+    // Extracting the time
+    List<String> timeParts = dateTimeParts[1].split(':');
+    String time =
+        '${timeParts[0].padLeft(2, '0')}:${timeParts[1].padLeft(2, '0')}';
+    requestTimeController.text = time;
+    print('request time: $time');
+  }
+
+
+
   @override
   void onInit() {
     super.onInit();
@@ -48,4 +78,41 @@ class RequestController extends GetxController {
 //       return RequestPending();
 //     }
 //   }
+
+  Future<void> getOwnerIds(String vehicleName) async {
+    try {
+      final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
+          .collection('vehicles')
+          .get();
+
+      final List<String> ownerIds = vehicleSnapshot.docs
+          .where((doc) => doc['vehicleName'] == vehicleName)
+          .map((doc) {
+        final String ownerId = doc['ownerID'].toString();
+        final CollectionReference ownersCollection =
+        FirebaseFirestore.instance.collection('owners');
+        final DocumentReference ownerDocRef = ownersCollection.doc(ownerId);
+        final CollectionReference requestCollection = ownerDocRef.collection('request');
+
+        extractDateTime(requestPickUpController.text);
+
+        // Provide the fields to be saved in the subcollection
+        requestCollection.add({
+          'vehicleName': requestVehicleNameController.text,
+          'requestTime': requestTimeController.text,
+          'requestDate': requestDateController.text,
+          'requestFrom': requestSourceController.text,
+          'requestTo': requestDestinationNameController.text,
+          // Add more fields as needed
+        });
+
+        return ownerId;
+      })
+          .toList();
+
+    } catch (e) {
+      print('Error retrieving owner IDs: $e');
+    }
+  }
+
 }

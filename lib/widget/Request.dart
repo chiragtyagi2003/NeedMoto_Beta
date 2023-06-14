@@ -3,20 +3,26 @@ import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admin/firebase_admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/controllers/Request_Controller.dart';
 import 'package:need_moto/controllers/main_controller.dart';
 import 'package:need_moto/functions.dart';
 import 'package:need_moto/functions.dart';
 import 'package:need_moto/screens/RequestAccepted.dart';
 import 'package:need_moto/screens/Request_Pending.dart';
 import 'package:need_moto/widget/car.dart';
-
 import '../controllers/booking_controller.dart';
 import '../screens/ReqAccept.dart';
 import '../screens/Request_Rejected.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 
 class Request extends StatefulWidget {
   final String imgUrl;
@@ -33,8 +39,6 @@ class Request extends StatefulWidget {
   final String pricePerKmCust;
   final String pricerPerHourCust;
   final double rentalPrice;
-
-
 
   String vehicleLocation;
   String source;
@@ -142,102 +146,17 @@ class _RequestState extends State<Request> {
   MainController mainController = Get.find();
 
   double totalPrice = 0.0;
-  ///  *********************************************
-  ///     NOTIFICATION EVENTS LISTENER
-  ///  *********************************************
-  ///  Notifications events are only delivered after call this method
-  static Future<void> startListeningNotificationEvents() async {
-    AwesomeNotifications()
-        .setListeners(onActionReceivedMethod: onActionReceivedMethod);
-    }
 
+  RequestController requestController = Get.find();
 
-
-  static Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
-
-    // Retrieve the notification ID from the action
-    final notificationId = receivedAction.payload?['notificationId'];
-
-    // Retrieve the corresponding phone number from the mapping
-    final phoneNumber = Request.instance.notificationIdToPhoneNumber[notificationId];
-
-
-    if (receivedAction.buttonKeyPressed == 'REJECT_BUTTON') {
-      // Handle Reject button action here
-      // This code will be executed when the Reject button is clicked
-      // You can perform any desired action or logic
-      try {
-        Request.instance.updateStatusField('rejected', phoneNumber);
-        print('update field called');
-        Get.to(RequestRejected(
-          vehicleLocation: Request.instance.vehicleLocation,
-          source: Request.instance.source,
-          destination: Request.instance.destination,
-          pickupDateTime: Request.instance.pickupDateTime,
-          returnDateTime: Request.instance.returnDateTime,
-          delivery: Request.instance.delivery,
-          purpose: Request.instance.purpose,
-          ownerName: Request.instance.ownerName,
-          ownerPhoneNumber: Request.instance.ownerPhoneNumber,
-          type: Request.instance.type,
-          vehicleNumber: Request.instance.vehiclePlateNumber,
-          vehicleName: Request.instance.vehicleName,
-          seats: Request.instance.seats,
-          rentalPrice: Request.instance.rentalPrice,
-
-        ));
-      } on Exception catch (e) {
-        print(e.toString());
-        // TODO
-      }
-    } else if (receivedAction.buttonKeyPressed == 'ACCEPT_BUTTON') {
-      // Handle Accept button action here
-      // This code will be executed when the Accept button is clicked
-      // You can perform any desired action or logic
-      try{
-
-        // convert notificationID to string to apply split function
-        final phoneNumberFromAccept =  phoneNumber;
-        print('Request accepted from $phoneNumberFromAccept');
-        Request.instance.updateStatusField('accepted', phoneNumberFromAccept);
-        print('update field called');
-        Get.to(RequestAccepted(
-          vehicleLocation: Request.instance.vehicleLocation,
-          source: Request.instance.source,
-          destination: Request.instance.destination,
-          pickupDateTime: Request.instance.pickupDateTime,
-          returnDateTime: Request.instance.returnDateTime,
-          delivery: Request.instance.delivery,
-          purpose: Request.instance.purpose,
-          ownerName: Request.instance.ownerName,
-          ownerPhoneNumber: Request.instance.ownerPhoneNumber,
-          type: Request.instance.type,
-          vehicleNumber: Request.instance.vehiclePlateNumber,
-          vehicleName: Request.instance.vehicleName,
-          seats: Request.instance.seats,
-          rentalPrice: Request.instance.rentalPrice,
-        ));
-      } on Exception catch (e) {
-        print(e.toString());
-        // TODO
-      }
-    }
-
-    // For background actions, you can add additional logic or tasks to execute
-    if (receivedAction.actionType == ActionType.SilentAction ||
-        receivedAction.actionType == ActionType.SilentBackgroundAction) {
-      print('Message sent via notification input: "${receivedAction.buttonKeyInput}"');
-      //await executeLongTaskInBackground();
-    } else {
-      // MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-      //   '/notification-page',
-      //       (route) =>
-      //   (route.settings.name != '/notification-page') || route.isFirst,
-      //   arguments: receivedAction,
-      // );
-    }
+  void setControllerValues()
+  {
+    requestController.requestVehicleNameController.text = widget.vehicleName;
+    requestController.requestSourceController.text = widget.source;
+    requestController.requestDropController.text = widget.returnDateTime;
+    requestController.requestPickUpController.text = widget.pickupDateTime;
+    requestController.requestDestinationNameController.text = widget.destination;
   }
-
   void storeUserRequestData() {
 
     // Get the current user ID
@@ -267,7 +186,7 @@ class _RequestState extends State<Request> {
       'delivery': widget.delivery,
       'status': mainController.requestStatusController.text,
       'userId': currentUserId,
-      'vehicleNeedFromLocation': widget.vehicleLocation,
+      //'vehicleNeedFromLocation': widget.vehicleLocation,
     };
 
     // Store the data in the Firestore document
@@ -333,130 +252,15 @@ class _RequestState extends State<Request> {
     print(mainController.totalPriceController.text);
   }
 
-  Future<List<String>> getOwnerIds(String vehicleName) async {
-    try {
-      final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
-          .collection('vehicles')
-          .get();
-
-      final List<String> ownerIds = vehicleSnapshot.docs
-          .where((doc) => doc['vehicleName'] == vehicleName)
-          .map((doc) => doc['ownerID'].toString())
-          .toList();
-
-      return ownerIds;
-    } catch (e) {
-      print('Error retrieving owner IDs: $e');
-      return [];
-    }
-  }
-
-  Future<List<String>> getPhoneNumbers(List<String> ownerIds) async {
-    try {
-      final QuerySnapshot ownersSnapshot = await FirebaseFirestore.instance
-          .collection('owners')
-          .where(FieldPath.documentId, whereIn: ownerIds)
-          .get();
-
-      final List<String> phoneNumbers = ownersSnapshot.docs
-          .map((doc) => doc['phone_number'].toString())
-          .toList();
-
-      return phoneNumbers;
-    } catch (e) {
-      print('Error retrieving phone numbers: $e');
-      return [];
-    }
-  }
-
-  Future<void> sendNotifications(String vehicleName) async {
-    print('sendNotifications called');
-    // Get the owner IDs of the vehicles with the specified name.
-    final ownerIds = await getOwnerIds(vehicleName);
-    print('fetching owner Ids');
-    print(ownerIds);
-
-    // Get the phone numbers of the owners.
-    final phonenumbers = await getPhoneNumbers(ownerIds);
-    print('fetching phone numbers');
-    print(phonenumbers);
-
-    // Send notifications to the owners.
-    for (var phonenumber in phonenumbers) {
-      await _sendNotification(phonenumber, vehicleName);
-      print('notification sent');
-    }
-  }
-
-  Future<void> _sendNotification(String phoneNumber, String vehicleName) async {
-    try {
-      await AwesomeNotifications().initialize(
-        null,
-        [
-          NotificationChannel(
-            channelKey: 'basic_channel',
-            channelName: 'Basic Channel',
-            channelDescription: 'This is the basic channel for app notifications.',
-            defaultColor: Color(0xFF9D50DD),
-            ledColor: Colors.white,
-          ),
-        ],
-      );
-
-      // final notificationId = '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(pow(2, 31) - 1)}';
-      // final notificationId = '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(pow(2, 31).toInt() - 1)}';
-      final notificationId = '${Random().nextInt(pow(2, 31).toInt() - 1)}';
-
-      // Store the mapping between notification ID and phone number
-      Request.instance.notificationIdToPhoneNumber[notificationId] = phoneNumber;
 
 
-      await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-          // convert notification id to int as id accepts only int param
-          id: int.parse(notificationId), // -1 is replaced by a random number
-          channelKey: 'basic_channel',
-          title: 'Vehicle Request',
-          body: "Request has been made!",
-          // bigPicture: 'https://storage.googleapis.com/cms-storage-bucket/d406c736e7c4c57f5f61.png',
-          // largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
-          //'asset://assets/images/balloons-in-sky.jpg',
-          // notificationLayout: NotificationLayout.BigPicture,
-         // payload: {'phoneNumber': phoneNumber},
-          payload: {'notificationId': notificationId},
-
-        ),
-        actionButtons: [
-          // NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
-          NotificationActionButton(
-              key: 'REJECT_BUTTON',
-              label: 'Reject',
-              actionType: ActionType.SilentAction,
-              isDangerousOption: true,
-              color: Colors.red,
-
-          ),
-          NotificationActionButton(
-            key: 'ACCEPT_BUTTON',
-            label: 'Accept',
-            actionType: ActionType.SilentAction,
-            color: Colors.green,
-          )
-        ],
-
-      );
-
-  } catch (e) {
-      print('Error sending notification: $e');
-      // Handle the error accordingly
-    }
-  }
 
   @override
   void initState() {
     // TODO: implement initState
-    startListeningNotificationEvents();
-    print('now listening to notification events');
+    // startListeningNotificationEvents();
+    // print('now listening to notification events');
+    setControllerValues();
     super.initState();
   }
 
@@ -700,18 +504,7 @@ class _RequestState extends State<Request> {
 
                   print('called');
 
-                  sendNotifications(widget.vehicleName);
-                  print('notified');
-
-
-                  // BookingColntroller.instance.booking(
-                  //   source,
-                  //   destination,
-                  //   pickupDateTime,
-                  //   returnDateTime,
-                  //   delivery,
-                  //   purpose,
-                  // );
+                  requestController.getOwnerIds(widget.vehicleName);
 
                   Navigator.pushReplacement(
                       context,
@@ -732,22 +525,7 @@ class _RequestState extends State<Request> {
                             seats: widget.seats,
                             rentalPrice: widget.rentalPrice,
                           )));
-                      // ReqAccept(
-                      //       vehicleLocation: vehicleLocation,
-                      //       source: source,
-                      //       destination: destination,
-                      //       pickupDateTime: pickupDateTime,
-                      //       returnDateTime: returnDateTime,
-                      //       delivery: delivery,
-                      //       purpose: purpose,
-                      //       ownerName: ownerName,
-                      //       ownerPhoneNumber: ownerPhoneNumber,
-                      //       type: type,
-                      //       vehicleNumber: vehiclePlateNumber,
-                      //       vehicleName: vehicleName,
-                      //       seats: seats,
-                      //       rentalPrice: rentalPrice,
-                      //     )));
+
                 },
                 child: Text(
                   'Book Now',
