@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/model/Request_model.dart';
 
-import '../model/Request_model.dart';
 
 class BookingColntroller extends GetxController {
   static BookingColntroller instance = Get.find();

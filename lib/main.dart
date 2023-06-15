@@ -20,7 +20,6 @@ void main() async {
   await Firebase.initializeApp();
 
   // put get controllers for state management
-  Get.put(BookingColntroller());
   Get.put(KycController());
   Get.put(MyHomePageController());
   Get.put(MainController());
