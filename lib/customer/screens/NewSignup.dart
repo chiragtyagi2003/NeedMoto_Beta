@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/NewLogin.dart';
+import 'package:need_moto/owner/screens/signup.dart';
 import '../controllers/user_controllers.dart';
 
 class SignupPage extends StatefulWidget {
@@ -260,7 +261,7 @@ class _SignupPageState extends State<SignupPage> {
                         Text("Rent your own vehicle"),
                         TextButton(
                           onPressed: () {
-
+                            Get.to(() => SignUpScreen());
                           },
                           child: Text(
                             "Register as Owner",

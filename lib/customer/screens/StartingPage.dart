@@ -58,6 +58,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
   @override
   void dispose() {
     controller.removeListener(onListenerController);
+    super.dispose(); // Call super.dispose()
   }
 
   @override

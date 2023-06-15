@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/NewSignup.dart';
+import 'package:need_moto/owner/screens/login.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -122,6 +123,24 @@ class LoginPage extends StatelessWidget {
                       },
                       child: Text(
                         "Sign Up",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Login as Owner"),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(() => LoginScreen());
+                      },
+                      child: Text(
+                        "Owner Login",
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,

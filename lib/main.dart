@@ -11,6 +11,11 @@ import 'package:need_moto/customer/controllers/user_controllers.dart';
 import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/StartingPage.dart';
 import 'package:need_moto/customer/screens/screenshot.dart';
+import 'package:need_moto/owner/controller/owner_auth_controller.dart';
+import 'package:need_moto/owner/controller/owner_image_controller.dart';
+import 'package:need_moto/owner/controller/owner_main_controller.dart';
+import 'package:need_moto/owner/controller/owner_request_handler.dart';
+import 'package:need_moto/owner/controller/vehicle_details_controller.dart';
 
 
 void main() async {
@@ -27,6 +32,11 @@ void main() async {
   Get.put(PaymentController());
   Get.put(RequestController());
   Get.put(VehicleBookingController());
+  Get.put(OwnerMainController());
+  Get.put(OwnerAuthController());
+  Get.put(VehicleDetailsController());
+  Get.put(OwnerImageController());
+  Get.put(OwnerRequestHandler());
   runApp(const MyApp());
 }
 
