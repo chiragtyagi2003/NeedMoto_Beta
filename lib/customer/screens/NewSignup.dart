@@ -2,9 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/screens/Home.dart';
-import 'package:need_moto/screens/NewLogin.dart';
-
+import 'package:need_moto/customer/screens/Home.dart';
+import 'package:need_moto/customer/screens/NewLogin.dart';
 import '../controllers/user_controllers.dart';
 
 class SignupPage extends StatefulWidget {
@@ -250,7 +249,29 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Rent your own vehicle"),
+                        TextButton(
+                          onPressed: () {
+
+                          },
+                          child: Text(
+                            "Register as Owner",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],

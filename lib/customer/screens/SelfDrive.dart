@@ -1,31 +1,13 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
-import 'package:need_moto/main.dart';
-
+import 'package:need_moto/customer/controllers/DateController.dart';
+import 'package:need_moto/customer/screens/chooseVehicle.dart';
 import '../controllers/Dropdown.dart';
-import '../model/Log_model.dart';
-import 'sixth.dart';
-import 'Home.dart';
-import 'ReqCancle.dart';
-import 'ReqSent.dart';
-
-
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:need_moto/controllers/DateController.dart';
-import 'package:need_moto/controllers/Dropdown.dart';
-import 'package:need_moto/screens/sixth.dart';
-import 'package:need_moto/widget/myappbar.dart';
-// import 'package:need_moto/views/Home.dart';
-// import 'package:need_moto/views/Car_Screen.dart';
+import 'package:need_moto/customer/widget/myappbar.dart';
+
 
 class SelfDrive extends StatefulWidget {
   @override
@@ -35,29 +17,16 @@ class SelfDrive extends StatefulWidget {
 class _SelfDriveState extends State<SelfDrive> {
   final DateTimeController pickUpdateTimeController = DateTimeController();
   final DateTimeController returndateTimeController = DateTimeController();
-
   TextEditingController _vehicleNeedLocations = TextEditingController();
-
   TextEditingController _vehicleSource = TextEditingController();
-
   TextEditingController _vehicleDestination = TextEditingController();
-
   TextEditingController _pickupDateTime = TextEditingController();
-
   TextEditingController _returnDateTime = TextEditingController();
-
   TextEditingController _delivery = TextEditingController();
-
   TextEditingController _purpose = TextEditingController();
-
   TextEditingController _filterSeats = TextEditingController();
-
   DropdownController deliveryDropDownController = DropdownController();
-
-  // //Dropdown Controller
   DropdownController seatsDropDownController = DropdownController();
-
-  DateTimeController _dateTimeController = DateTimeController();
 
   //Options display
   @override
@@ -240,7 +209,7 @@ class _SelfDriveState extends State<SelfDrive> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => sixth(
+                                    builder: (context) => ChooseVehicle(
                                           seats: seatsDropDownController.selectedItem,
                                           delivery: _delivery.text,
                                           vehicleLocation: _vehicleNeedLocations.text,

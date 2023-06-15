@@ -1,21 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/controllers/VehicleBookingController.dart';
-import 'package:need_moto/controllers/main_controller.dart';
-import 'package:need_moto/main.dart';
-import 'package:need_moto/model/Car_model.dart';
-
+import 'package:need_moto/customer/controllers/VehicleBookingController.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 import '../widget/distanceslider.dart';
-import '../widget/fromtotile.dart';
 import '../widget/myappbar.dart';
 import '../widget/timeslider.dart';
-import '../widget/pickupdeliverypurpose.dart';
 import '../widget/userchoiceseats.dart';
 import '../widget/vehicleTile.dart';
 
-class sixth extends StatefulWidget {
-  sixth({
+class ChooseVehicle extends StatefulWidget {
+  ChooseVehicle({
     required this.seats,
     required this.vehicleLocation,
     required this.source,
@@ -35,10 +29,10 @@ class sixth extends StatefulWidget {
   String purpose;
 
   @override
-  State<sixth> createState() => _sixthState();
+  State<ChooseVehicle> createState() => _ChooseVehicleState();
 }
 
-class _sixthState extends State<sixth> {
+class _ChooseVehicleState extends State<ChooseVehicle> {
   MainController mainController = Get.find();
   VehicleBookingController vehicleBookingController = Get.find();
   @override
@@ -104,7 +98,6 @@ class _sixthState extends State<sixth> {
                       mainController.pricePerHourCust.text = car['pricePerHourCust'];
                       mainController.pricePerKmCust.text = car['pricePerKmCust'];
                       return VehicleTile(
-//key: ValueKey(index),
                         imgUrl: mainController.imgUrlController.text,
                         vehicleName: mainController.vehicleNameController.text,
                         seats: mainController.seatsController.text,

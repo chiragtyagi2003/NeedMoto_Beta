@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/widget/kycpopup.dart';
+import 'package:need_moto/customer/widget/kycpopup.dart';
 import '../controllers/controllerkyc.dart';
 import '../controllers/filecontroller.dart';
-import '../screens/sixth.dart';
+
 
 class SubmitButton extends StatefulWidget {
   SubmitButton({

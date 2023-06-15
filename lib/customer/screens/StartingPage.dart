@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/screens/NewLogin.dart';
-import 'package:need_moto/screens/NewSignup.dart';
-// import 'package:intropage/Login.dart';
-
-// import 'package:intropage/SignUp.dart';
-// import 'package:intropage/constants.dart';
+import 'package:need_moto/customer/screens/NewLogin.dart';
+import 'package:need_moto/customer/screens/NewSignup.dart';
 
 class AnimatedCardsListView extends StatefulWidget {
   @override
@@ -20,7 +16,7 @@ const data = [
     "buttonText": "Let's Drive",
   },
   {
-    "Title": "Need Heavy Vehicles..? We got you",
+    "Title": "Need Heavy Vehicles..?\nWe got you!",
     "content":
         "Need to move heavy equipment or materials? Rent one of our heavy vehicles, designed to handle even the toughest jobs with ease.",
     "buttonText": 'Create Account Now!',
@@ -74,6 +70,8 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
             children: [
               ElevatedButton(
                 onPressed: () {
+
+                  // go to login page
                   Get.to(LoginPage());
                 },
                 child: Text(
@@ -88,6 +86,9 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
               ),
               ElevatedButton(
                 onPressed: () {
+
+
+                  // go to sign up page
                   Get.to(SignupPage());
                 },
                 child: Text(
@@ -141,6 +142,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
               ),
             ),
             Expanded(
+              // show all types of services of app
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: data.length,
@@ -180,16 +182,10 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                     offset: Offset(0.0, 0.0),
                                   )
                                 ],
-                                // color: Color(int.parse(
-                                //         data[index]['color']
-                                //             .toString()
-                                //             .substring(1, 7),
-                                //         radix: 16) +
-                                //     0xFF000000),
                                 borderRadius: BorderRadius.circular(20)),
                             margin: EdgeInsets.all(10),
-                            width: MediaQuery.of(context).size.width,
-                            height: itemSize,
+                            width: MediaQuery.of(context).size.width*0.2,
+                            height: MediaQuery.of(context).size.height*0.3,
                             // alignment: Alignment.center,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

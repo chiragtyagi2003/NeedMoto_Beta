@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 
-import '../controllers/main_controller.dart';
+
 
 class DistanceSlider extends StatefulWidget {
   final double minValue;

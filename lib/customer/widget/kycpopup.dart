@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/controllers/controllerkyc.dart';
-
-import '../screens/Home.dart';
-import '../screens/sixth.dart';
+import 'package:need_moto/customer/controllers/controllerkyc.dart';
+import 'package:need_moto/customer/screens/chooseVehicle.dart';
 
 class KycPopUp extends StatefulWidget {
   KycPopUp({
@@ -77,7 +75,7 @@ class _KycPopUpState extends State<KycPopUp> {
           ),
           GestureDetector(
             onTap: () {
-              Get.offAll(sixth(
+              Get.offAll(ChooseVehicle(
                 seats: widget.seats,
                 vehicleLocation: widget.vehicleLocation,
                 source: widget.source,

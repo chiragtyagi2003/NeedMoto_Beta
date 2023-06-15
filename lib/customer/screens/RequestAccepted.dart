@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/screens/Home.dart';
+import 'package:need_moto/customer/screens/Home.dart';
+
 
 class RequestAccepted extends StatelessWidget {
   String source;

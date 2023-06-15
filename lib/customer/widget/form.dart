@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/controllers/main_controller.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
+
 
 class FormTile extends StatefulWidget {
   FormTile(

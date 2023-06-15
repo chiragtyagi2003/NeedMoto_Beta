@@ -1,28 +1,16 @@
-
 import 'dart:async';
-import 'dart:math';
-
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_admin/firebase_admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/controllers/Request_Controller.dart';
-import 'package:need_moto/controllers/main_controller.dart';
-import 'package:need_moto/functions.dart';
-import 'package:need_moto/functions.dart';
-import 'package:need_moto/screens/RequestAccepted.dart';
-import 'package:need_moto/screens/Request_Pending.dart';
-import 'package:need_moto/widget/car.dart';
-import '../controllers/booking_controller.dart';
-import '../screens/ReqAccept.dart';
-import '../screens/Request_Rejected.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:need_moto/customer/controllers/Request_Controller.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
+import 'package:need_moto/customer/screens/RequestAccepted.dart';
+import 'package:need_moto/customer/screens/Request_Pending.dart';
+import 'package:need_moto/customer/screens/Request_Rejected.dart';
+import 'package:need_moto/customer/widget/Car.dart';
+
 
 
 class Request extends StatefulWidget {

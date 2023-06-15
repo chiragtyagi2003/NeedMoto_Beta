@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/screens/Home.dart';
-import 'package:need_moto/screens/NewSignup.dart';
-import 'package:need_moto/screens/admin_dashboard.dart';
-import 'package:need_moto/screens/Home.dart';
+import 'package:need_moto/customer/screens/Home.dart';
+import 'package:need_moto/customer/screens/NewSignup.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -22,14 +20,8 @@ class LoginPage extends StatelessWidget {
 
       if (userCredential.user != null) {
         // User logged in successfully
-        if (emailController.text == 'tyagichirag2025@gmail.com') {
-          // Redirect to admin page
-          // Replace 'AdminPage()' with the desired admin page widget
-          Get.to(() => AdminDashboard());
-        } else {
           // Redirect to home page
           Get.to(() => Home());
-        }
       }
     } catch (e) {
       print('Error logging in user: $e');
