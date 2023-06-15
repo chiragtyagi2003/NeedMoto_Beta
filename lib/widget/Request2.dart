@@ -102,7 +102,7 @@ class DetailsPage extends StatelessWidget {
                         children: [
                           isRotated
                               ? Hero(
-                                  tag: carName,
+                                  tag: carPrice,
                                   child: Image.asset(
                                     carImage,
                                     height: size.width * 0.5,

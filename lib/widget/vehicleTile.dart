@@ -68,222 +68,390 @@ class _VehicleTileState extends State<VehicleTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          Card(
-            elevation: 0,
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Vehicle Details
-                Expanded(
-                  flex: 2,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(children: [
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                elevation: 1,
+                child: Container(
+                  height: 210,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Vehicle Name
+                        // Vehicle Details
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0, right: 8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Vehicle Name
 
-                        Text(
-                          widget.vehicleName,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
-                        ),
-
-                        SizedBox(height: 8.0),
-
-                        // Seats
-
-                        Row(
-                          children: [
-                            Text(
-                              '${widget.seats}',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                              ),
-                            ),
-                            Icon(Icons.event_seat_sharp),
-                          ],
-                        ),
-
-                        SizedBox(height: 8.0),
-
-                        // Rental Price Per Km and Per Km
-                        Text(
-                          'Rs ${widget.rentalPricePerKm}/- Per day ${widget.perKm} km',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-
-                        SizedBox(height: 8.0),
-
-                        // Distance From You
-                        Text(
-                          '${widget.distanceFromYou} km away from you',
-                          style: TextStyle(fontSize: 12.0, color: Colors.grey),
-                        ),
-
-                        SizedBox(height: 16.0),
-                        Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 4),
-                                  blurRadius: 5.0)
-                            ],
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              stops: [0.0, 1.0],
-                              colors: [Color(0xFF20A4F3), Color(0xFF182B3A)],
-                            ),
-                            color: Colors.deepPurple.shade300,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.vehicleName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 23.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '(${widget.distanceFromYou} km away from you)',
+                                      style: TextStyle(
+                                          fontSize: 12.0, color: Colors.grey),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(10, 10)),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                              // elevation: MaterialStateProperty.all(3),
-                              shadowColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            onPressed: () {
-                              // Handle booking logic here
-                              // showCupertinoAlertDialog(context);
-                              Get.to(
-                                DetailsPage(
-                                    milage: widget.kpml,
-                                    type: widget.type,
-                                    speed: widget.average,
-                                    bags: '5',
-                                    carImage: 'assets/i30n.png',
-                                    carName: widget.vehicleName,
-                                    carPrice: widget.rentalPricePerKm,
-                                    carRating: '4.5',
-                                    isRotated: true,
-                                    people: widget.seats,
-                                    ownername: widget.ownerName,
-                                    phonenumber: widget.ownerPhoneNumber),
-                              );
-                              // Get.to(Request(
-                              //     vehicleLocation: widget.vehicleLocation,
-                              //     source: widget.source,
-                              //     destination: widget.destination,
-                              //     delivery: widget.delivery,
-                              //     pickupDateTime: widget.pickupDateTime,
-                              //     returnDateTime: widget.returnDateTime,
-                              //     purpose: widget.purpose,
-                              //     imgUrl: widget.imgUrl,
-                              //     vehicleName: widget.vehicleName,
-                              //     seats: widget.seats,
-                              //     average: widget.average,
-                              //     kpml: widget.kpml,
-                              //     type: widget.type,
-                              //     ownerName: widget.ownerName,
-                              //     ownerPhoneNumber: widget.ownerPhoneNumber));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 5, right: 5),
-                              child: Text(
-                                'Book Now',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  // fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+
+                                // Seats
+
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Seats :',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.seats}',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    // Icon(Icons.event_seat_sharp),
+                                  ],
                                 ),
-                              ),
+
+                                // Rental Price Per Km and Per Km
+
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Rent Amount : ',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '₹${widget.rentalPricePerKm}/-',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Daily Limit :',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '  ${widget.perKm} km',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                // Book Now Button
+                              ],
                             ),
                           ),
                         ),
 
-                        // // Book Now Button
-                        // ElevatedButton(
-                        //   onPressed: () {
-                        //     // Handle booking logic here
-                        //     // showCupertinoAlertDialog(context);
-                        //     Get.to(
-                        //       DetailsPage(
-                        //           milage: widget.kpml,
-                        //           type: widget.type,
-                        //           speed: widget.average,
-                        //           bags: '5',
-                        //           carImage: 'assets/i30n.png',
-                        //           carName: widget.vehicleName,
-                        //           carPrice: widget.rentalPricePerKm,
-                        //           carRating: '4.5',
-                        //           isRotated: true,
-                        //           people: widget.seats,
-                        //           ownername: widget.ownerName,
-                        //           phonenumber: widget.ownerPhoneNumber),
-                        //     );
-                        //     // Get.to(Request(
-                        //     //     vehicleLocation: widget.vehicleLocation,
-                        //     //     source: widget.source,
-                        //     //     destination: widget.destination,
-                        //     //     delivery: widget.delivery,
-                        //     //     pickupDateTime: widget.pickupDateTime,
-                        //     //     returnDateTime: widget.returnDateTime,
-                        //     //     purpose: widget.purpose,
-                        //     //     imgUrl: widget.imgUrl,
-                        //     //     vehicleName: widget.vehicleName,
-                        //     //     seats: widget.seats,
-                        //     //     average: widget.average,
-                        //     //     kpml: widget.kpml,
-                        //     //     type: widget.type,
-                        //     //     ownerName: widget.ownerName,
-                        //     //     ownerPhoneNumber: widget.ownerPhoneNumber));
-                        //   },
-                        //   child: Text('Book Now'),
-                        //   style: ElevatedButton.styleFrom(
-                        //     backgroundColor: Colors.lightBlueAccent,
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(20.0),
-                        //     ),
-                        //   ),
-                        // ),
+                        // Vehicle Image
+                        Expanded(
+                          child: Hero(
+                              tag: widget.rentalPricePerKm,
+                              child: Image.asset(
+                                'assets/i30n.png',
+                              )),
+                        ),
                       ],
                     ),
                   ),
                 ),
+              ),
+              // Card(
+              //   elevation: 0,
+              //   child: Row(
+              //     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       // Vehicle Details
+              //       Expanded(
+              //         flex: 2,
+              //         child: Padding(
+              //           padding: const EdgeInsets.only(left: 8.0, right: 8),
+              //           child: Column(
+              //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               // Vehicle Name
 
-                // Vehicle Image
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Hero(
-                        tag: widget.vehicleName,
-                        child: Image.asset('assets/i30n.png')),
-                  ),
-                ),
-              ],
+              //               Text(
+              //                 widget.vehicleName,
+              //                 style: TextStyle(
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 18.0,
+              //                 ),
+              //               ),
+
+              //               SizedBox(height: 8.0),
+
+              //               // Seats
+
+              //               Row(
+              //                 children: [
+              //                   Text(
+              //                     '${widget.seats}',
+              //                     style: TextStyle(
+              //                       fontSize: 16.0,
+              //                     ),
+              //                   ),
+              //                   Icon(Icons.event_seat_sharp),
+              //                 ],
+              //               ),
+
+              //               SizedBox(height: 8.0),
+
+              //               // Rental Price Per Km and Per Km
+              //               Text(
+              //                 'Rs ${widget.rentalPricePerKm}/- Per day ${widget.perKm} km',
+              //                 style: TextStyle(
+              //                   fontSize: 16.0,
+              //                 ),
+              //               ),
+
+              //               SizedBox(height: 8.0),
+
+              //               // Distance From You
+              //               Text(
+              //                 '${widget.distanceFromYou} km away from you',
+              //                 style: TextStyle(fontSize: 12.0, color: Colors.grey),
+              //               ),
+
+              //               SizedBox(height: 16.0),
+              //               Container(
+              //                 decoration: BoxDecoration(
+              //                   boxShadow: [
+              //                     BoxShadow(
+              //                         color: Colors.black26,
+              //                         offset: Offset(0, 4),
+              //                         blurRadius: 5.0)
+              //                   ],
+              //                   gradient: LinearGradient(
+              //                     begin: Alignment.topLeft,
+              //                     end: Alignment.bottomRight,
+              //                     stops: [0.0, 1.0],
+              //                     colors: [Color(0xFF20A4F3), Color(0xFF182B3A)],
+              //                   ),
+              //                   color: Colors.deepPurple.shade300,
+              //                   borderRadius: BorderRadius.circular(20),
+              //                 ),
+              //                 child: ElevatedButton(
+              //                   style: ButtonStyle(
+              //                     shape: MaterialStateProperty.all<
+              //                         RoundedRectangleBorder>(
+              //                       RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(20.0),
+              //                       ),
+              //                     ),
+              //                     minimumSize:
+              //                         MaterialStateProperty.all(Size(10, 10)),
+              //                     backgroundColor:
+              //                         MaterialStateProperty.all(Colors.transparent),
+              //                     // elevation: MaterialStateProperty.all(3),
+              //                     shadowColor:
+              //                         MaterialStateProperty.all(Colors.transparent),
+              //                   ),
+              //                   onPressed: () {
+              //                     // Handle booking logic here
+              //                     // showCupertinoAlertDialog(context);
+              //                     Get.to(
+              //                       DetailsPage(
+              //                           milage: widget.kpml,
+              //                           type: widget.type,
+              //                           speed: widget.average,
+              //                           bags: '5',
+              //                           carImage: 'assets/i30n.png',
+              //                           carName: widget.vehicleName,
+              //                           carPrice: widget.rentalPricePerKm,
+              //                           carRating: '4.5',
+              //                           isRotated: true,
+              //                           people: widget.seats,
+              //                           ownername: widget.ownerName,
+              //                           phonenumber: widget.ownerPhoneNumber),
+              //                     );
+              //                     // Get.to(Request(
+              //                     //     vehicleLocation: widget.vehicleLocation,
+              //                     //     source: widget.source,
+              //                     //     destination: widget.destination,
+              //                     //     delivery: widget.delivery,
+              //                     //     pickupDateTime: widget.pickupDateTime,
+              //                     //     returnDateTime: widget.returnDateTime,
+              //                     //     purpose: widget.purpose,
+              //                     //     imgUrl: widget.imgUrl,
+              //                     //     vehicleName: widget.vehicleName,
+              //                     //     seats: widget.seats,
+              //                     //     average: widget.average,
+              //                     //     kpml: widget.kpml,
+              //                     //     type: widget.type,
+              //                     //     ownerName: widget.ownerName,
+              //                     //     ownerPhoneNumber: widget.ownerPhoneNumber));
+              //                   },
+              //                   child: Padding(
+              //                     padding: const EdgeInsets.only(left: 5, right: 5),
+              //                     child: Text(
+              //                       'Book Now',
+              //                       style: TextStyle(
+              //                         fontSize: 15,
+              //                         // fontWeight: FontWeight.w700,
+              //                         color: Colors.white,
+              //                       ),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+
+              //               // // Book Now Button
+              //               // ElevatedButton(
+              //               //   onPressed: () {
+              //               //     // Handle booking logic here
+              //               //     // showCupertinoAlertDialog(context);
+              //               //     Get.to(
+              //               //       DetailsPage(
+              //               //           milage: widget.kpml,
+              //               //           type: widget.type,
+              //               //           speed: widget.average,
+              //               //           bags: '5',
+              //               //           carImage: 'assets/i30n.png',
+              //               //           carName: widget.vehicleName,
+              //               //           carPrice: widget.rentalPricePerKm,
+              //               //           carRating: '4.5',
+              //               //           isRotated: true,
+              //               //           people: widget.seats,
+              //               //           ownername: widget.ownerName,
+              //               //           phonenumber: widget.ownerPhoneNumber),
+              //               //     );
+              //               //     // Get.to(Request(
+              //               //     //     vehicleLocation: widget.vehicleLocation,
+              //               //     //     source: widget.source,
+              //               //     //     destination: widget.destination,
+              //               //     //     delivery: widget.delivery,
+              //               //     //     pickupDateTime: widget.pickupDateTime,
+              //               //     //     returnDateTime: widget.returnDateTime,
+              //               //     //     purpose: widget.purpose,
+              //               //     //     imgUrl: widget.imgUrl,
+              //               //     //     vehicleName: widget.vehicleName,
+              //               //     //     seats: widget.seats,
+              //               //     //     average: widget.average,
+              //               //     //     kpml: widget.kpml,
+              //               //     //     type: widget.type,
+              //               //     //     ownerName: widget.ownerName,
+              //               //     //     ownerPhoneNumber: widget.ownerPhoneNumber));
+              //               //   },
+              //               //   child: Text('Book Now'),
+              //               //   style: ElevatedButton.styleFrom(
+              //               //     backgroundColor: Colors.lightBlueAccent,
+              //               //     shape: RoundedRectangleBorder(
+              //               //       borderRadius: BorderRadius.circular(20.0),
+              //               //     ),
+              //               //   ),
+              //               // ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+
+              //       // Vehicle Image
+              //       Expanded(
+              //         child: Padding(
+              //           padding: const EdgeInsets.all(8.0),
+              //           child: Hero(
+              //               tag: widget.vehicleName,
+              //               child: Image.asset('assets/i30n.png')),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 20.0,
+          right: 15.0,
+          child: ElevatedButton(
+            onPressed: () {
+              // Handle booking logic here
+              // showCupertinoAlertDialog(context);
+              Get.to(
+                DetailsPage(
+                    milage: widget.kpml,
+                    type: widget.type,
+                    speed: widget.average,
+                    bags: '5',
+                    carImage: 'assets/i30n.png',
+                    carName: widget.vehicleName,
+                    carPrice: widget.rentalPricePerKm,
+                    carRating: '4.5',
+                    isRotated: true,
+                    people: widget.seats,
+                    ownername: widget.ownerName,
+                    phonenumber: widget.ownerPhoneNumber),
+              );
+              // Get.to(Request(
+              //     vehicleLocation: widget.vehicleLocation,
+              //     source: widget.source,
+              //     destination: widget.destination,
+              //     delivery: widget.delivery,
+              //     pickupDateTime: widget.pickupDateTime,
+              //     returnDateTime: widget.returnDateTime,
+              //     purpose: widget.purpose,
+              //     imgUrl: widget.imgUrl,
+              //     vehicleName: widget.vehicleName,
+              //     seats: widget.seats,
+              //     average: widget.average,
+              //     kpml: widget.kpml,
+              //     type: widget.type,
+              //     ownerName: widget.ownerName,
+              //     ownerPhoneNumber: widget.ownerPhoneNumber));
+            },
+            child: Text('Book Now'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
             ),
           ),
-          Divider(
-            color: Colors.black,
-            thickness: 0.2,
-          )
-        ],
-      ),
+        ),
+      ]),
     );
   }
 

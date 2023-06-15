@@ -60,117 +60,107 @@ class _UserChoiceSeatsState extends State<UserChoiceSeats> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 50,
-            child: Obx(() => Row(
-                  children: [
-                    // SizedBox(width: 16), // Add some padding to the left
-                    Expanded(
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          UserChoiceButton(
-                            icon: Icons.event_seat_sharp,
-                            label: '4',
-                            isSelected:
-                                userChoiceController.selectedButton.value ==
-                                    '4',
-                            onTap: handleButtonTap,
-                          ),
-                          UserChoiceButton(
-                            icon: Icons.event_seat_sharp,
-                            label: '5',
-                            isSelected:
-                                userChoiceController.selectedButton.value ==
-                                    '5',
-                            onTap: handleButtonTap,
-                          ),
-                          UserChoiceButton(
-                            icon: Icons.event_seat_sharp,
-                            label: '6+',
-                            isSelected:
-                                userChoiceController.selectedButton.value ==
-                                    '6+',
-                            onTap: handleButtonTap,
-                          ),
-                          UserChoiceButton(
-                            icon: Icons.directions_car,
-                            label: 'Jeeps',
-                            isSelected:
-                                userChoiceController.selectedButton.value ==
-                                    'Jeeps',
-                            onTap: handleButtonTap,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Column(
+    return Column(
+      children: [
+        SizedBox(
+          height: 50,
+          child: Obx(() => Row(
+                children: [
+                  // SizedBox(width: 16), // Add some padding to the left
+                  Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (isEditable == false)
-                                isEditable = true;
-                              else
-                                isEditable = true;
-                            });
-                          },
-                          child: Container(
-                            child: Icon(
-                              Icons.edit,
-                              size: 20,
-                            ),
-                            color: Colors.green[100],
-                            width: 50.0,
-                            height: 23.0,
-                          ),
+                        UserChoiceButton(
+                          icon: Icons.event_seat_sharp,
+                          label: '4',
+                          isSelected:
+                              userChoiceController.selectedButton.value == '4',
+                          onTap: handleButtonTap,
                         ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (isAnimated == false)
-                                isAnimated = true;
-                              else
-                                isAnimated = false;
-                            });
-                          },
-                          child: Container(
-                            child: isAnimated
-                                ? Icon(Icons.arrow_drop_up)
-                                : Icon(Icons.arrow_drop_down),
-                            color: Colors.green[100],
-                            width: 50.0,
-                            height: 20.0,
-                          ),
+                        UserChoiceButton(
+                          icon: Icons.event_seat_sharp,
+                          label: '5',
+                          isSelected:
+                              userChoiceController.selectedButton.value == '5',
+                          onTap: handleButtonTap,
+                        ),
+                        UserChoiceButton(
+                          icon: Icons.event_seat_sharp,
+                          label: '6+',
+                          isSelected:
+                              userChoiceController.selectedButton.value == '6+',
+                          onTap: handleButtonTap,
+                        ),
+                        UserChoiceButton(
+                          icon: Icons.directions_car,
+                          label: 'Jeeps',
+                          isSelected:
+                              userChoiceController.selectedButton.value ==
+                                  'Jeeps',
+                          onTap: handleButtonTap,
                         ),
                       ],
                     ),
-                    //SizedBox(width: 16), // Add some padding to the right
-                  ],
-                )),
-          ),
-          SizedBox(height: 10),
-          Divider(
-            height: 1,
-            color: Colors.black54,
-          ),
-          isAnimated
-              ? FormTile(
-                  isEditable: isEditable,
-                  source: widget.source,
-                  delivery: widget.delivery,
-                  destination: widget.destination,
-                  pickupDateTime: widget.pickupDateTime,
-                  returnDateTime: widget.returnDateTime,
-                  purpose: widget.purpose,
-                )
-              : Container(),
-        ],
-      ),
+                  ),
+
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (isEditable == false)
+                              isEditable = true;
+                            else
+                              isEditable = true;
+                          });
+                        },
+                        child: Container(
+                          child: Icon(
+                            Icons.edit,
+                            size: 20,
+                          ),
+                          color: Colors.green[100],
+                          width: 50.0,
+                          height: 23.0,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (isAnimated == false)
+                              isAnimated = true;
+                            else
+                              isAnimated = false;
+                          });
+                        },
+                        child: Container(
+                          child: isAnimated
+                              ? Icon(Icons.arrow_drop_up)
+                              : Icon(Icons.arrow_drop_down),
+                          color: Colors.green[100],
+                          width: 50.0,
+                          height: 20.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  //SizedBox(width: 16), // Add some padding to the right
+                ],
+              )),
+        ),
+        isAnimated
+            ? FormTile(
+                isEditable: isEditable,
+                source: widget.source,
+                delivery: widget.delivery,
+                destination: widget.destination,
+                pickupDateTime: widget.pickupDateTime,
+                returnDateTime: widget.returnDateTime,
+                purpose: widget.purpose,
+              )
+            : Container(),
+      ],
     );
   }
 }
@@ -207,8 +197,8 @@ class UserChoiceButton extends StatelessWidget {
           }
         },
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 6),
-          height: 5,
+          margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+          height: 3,
           width: 75,
           decoration: BoxDecoration(
             color: isSelected ? Colors.blue : Colors.grey.shade300,
@@ -218,23 +208,26 @@ class UserChoiceButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 7),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      label,
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                        fontWeight: FontWeight.bold,
+                padding: const EdgeInsets.symmetric(horizontal: 0),
+                child: Padding(
+                  padding: const EdgeInsets.all(.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        label,
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      icon,
-                      color: isSelected ? Colors.white : Colors.black,
-                      size: 20,
-                    ),
-                  ],
+                      Icon(
+                        icon,
+                        color: isSelected ? Colors.white : Colors.black,
+                        size: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/screens/Home.dart';
 import 'package:need_moto/screens/NewLogin.dart';
 
 class SignupPage extends StatefulWidget {
@@ -145,7 +146,9 @@ class _SignupPageState extends State<SignupPage> {
                         child: MaterialButton(
                           minWidth: double.infinity,
                           height: 60,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(() => Home());
+                          },
                           color: Color(0xFF182B3A),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40)),

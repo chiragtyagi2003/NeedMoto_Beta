@@ -48,6 +48,7 @@ class _sixthState extends State<sixth> {
       appBar: MyAppBar(),
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.white,
           child: Column(
             children: [
               TimeSlider(),
@@ -76,8 +77,10 @@ class _sixthState extends State<sixth> {
               ),
               Obx(
                 () => SizedBox(
-                  height: 400,
+                  height: 500,
                   child: ListView.builder(
+                    // shrinkWrap: true,
+                    // physics: NeverScrollableScrollPhysics(),
                     itemCount: vehicleBookingController.filteredCars.length,
                     itemBuilder: (BuildContext context, int index) {
                       var car = vehicleBookingController.filteredCars[index];
@@ -101,7 +104,7 @@ class _sixthState extends State<sixth> {
                           "9999223222";
 
                       return VehicleTile(
-//key: ValueKey(index),
+                        //key: ValueKey(index),
                         imgUrl: mainController.imgUrlController.text,
                         vehicleName: mainController.vehicleNameController.text,
                         seats: mainController.seatsController.text,
