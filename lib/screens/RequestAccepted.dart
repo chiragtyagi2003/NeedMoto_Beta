@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:need_moto/screens/Home.dart';
 
 class RequestAccepted extends StatelessWidget {
-  String vehicleLocation;
   String source;
   String destination;
   String pickupDateTime;
@@ -20,7 +19,6 @@ class RequestAccepted extends StatelessWidget {
   double rentalPrice;
 
   RequestAccepted({
-    required this.vehicleLocation,
     required this.source,
     required this.destination,
     required this.pickupDateTime,

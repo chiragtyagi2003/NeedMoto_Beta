@@ -18,6 +18,7 @@ class RequestController extends GetxController {
   TextEditingController requestDropController = TextEditingController();
   TextEditingController requestTimeController = TextEditingController();
   TextEditingController requestDateController = TextEditingController();
+  TextEditingController requestIDController = TextEditingController();
 
   void extractDateTime(String dateTimeString) {
     List<String> dateTimeParts = dateTimeString.split(' ');
@@ -79,7 +80,7 @@ class RequestController extends GetxController {
 //     }
 //   }
 
-  Future<void> getOwnerIds(String vehicleName) async {
+  Future<void> sendRequestsToOwners(String vehicleName) async {
     try {
       final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
           .collection('vehicles')
@@ -92,17 +93,18 @@ class RequestController extends GetxController {
         final CollectionReference ownersCollection =
         FirebaseFirestore.instance.collection('owners');
         final DocumentReference ownerDocRef = ownersCollection.doc(ownerId);
-        final CollectionReference requestCollection = ownerDocRef.collection('request');
+        final CollectionReference requestCollection = ownerDocRef.collection('requests');
 
         extractDateTime(requestPickUpController.text);
 
         // Provide the fields to be saved in the subcollection
-        requestCollection.add({
+        requestCollection.doc(requestIDController.text).set({
           'vehicleName': requestVehicleNameController.text,
           'requestTime': requestTimeController.text,
           'requestDate': requestDateController.text,
           'requestFrom': requestSourceController.text,
           'requestTo': requestDestinationNameController.text,
+          'requestID': requestIDController.text,
           // Add more fields as needed
         });
 
