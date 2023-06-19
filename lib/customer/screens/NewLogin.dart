@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/admin/screens/admin_page.dart';
 import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/NewSignup.dart';
 import 'package:need_moto/owner/screens/login.dart';
@@ -141,6 +142,25 @@ class LoginPage extends StatelessWidget {
                       },
                       child: Text(
                         "Owner Login",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      ),
+                    )
+                  ],
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Login as Admin"),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(() => AdminHome());
+                      },
+                      child: Text(
+                        "Admin Login",
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,

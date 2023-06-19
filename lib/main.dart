@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:need_moto/admin/controllers/admin_booking_controller.dart';
+import 'package:need_moto/admin/controllers/admin_request_controller.dart';
+import 'package:need_moto/admin/controllers/payment_controller.dart';
 import 'package:need_moto/customer/controllers/PaymentController.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
 import 'package:need_moto/customer/controllers/VehicleBookingController.dart';
-import 'package:need_moto/customer/controllers/booking_controller.dart';
 import 'package:need_moto/customer/controllers/controllerkyc.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/controllers/user_controllers.dart';
 import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/StartingPage.dart';
-import 'package:need_moto/customer/screens/screenshot.dart';
 import 'package:need_moto/owner/controller/owner_auth_controller.dart';
 import 'package:need_moto/owner/controller/owner_image_controller.dart';
 import 'package:need_moto/owner/controller/owner_main_controller.dart';
@@ -26,7 +27,6 @@ void main() async {
 
   // put get controllers for state management
   Get.put(KycController());
-  Get.put(MyHomePageController());
   Get.put(MainController());
   Get.put(UserController());
   Get.put(PaymentController());
@@ -37,6 +37,9 @@ void main() async {
   Get.put(VehicleDetailsController());
   Get.put(OwnerImageController());
   Get.put(OwnerRequestHandler());
+  Get.put(AdminPaymentsController());
+  Get.put(AdminBookingController());
+  Get.put(AdminRequestController());
   runApp(const MyApp());
 }
 
