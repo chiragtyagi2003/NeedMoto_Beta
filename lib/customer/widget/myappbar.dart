@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:need_moto/customer/screens/customer_side_drawer.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({Key? key}) : super(key: key);
@@ -7,16 +9,20 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(
+        color: Colors.black, // Set the color here
+      ),
       backgroundColor: Colors.white,
-      leading: IconButton(
+     /* leading: IconButton(
         icon: Icon(
             Icons.menu,
             color: Colors.black,
         ),
         onPressed: () {
+          // Get.to(CustomerSideDrawer());
           // Handle menu button press
         },
-      ),
+      ),*/
       title: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),

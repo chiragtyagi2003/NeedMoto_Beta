@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:need_moto/customer/screens/customer_side_drawer.dart';
 import 'package:need_moto/customer/widget/myappbar.dart';
 
 import 'SelfDrive.dart';
@@ -10,9 +11,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: Drawer(
-        child: Text('drawer'),
-      ),
+      drawer: CustomerSideDrawer(),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
