@@ -277,7 +277,9 @@ class AddVehicle extends StatelessWidget {
                       ),
                       //car details display button
                       GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            adminAddVehicleController.addVehicleToCollection();
+                          },
                           child: Container(
                             width: 250,
                             height: 50,

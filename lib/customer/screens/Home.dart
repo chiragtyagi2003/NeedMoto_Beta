@@ -26,7 +26,7 @@ class Home extends StatelessWidget {
                 alignment: Alignment.center,
               ),
               Text(
-                'Welcome to Rush Wheels',
+                'Welcome to Need Moto',
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.06,
                     fontWeight: FontWeight.bold),

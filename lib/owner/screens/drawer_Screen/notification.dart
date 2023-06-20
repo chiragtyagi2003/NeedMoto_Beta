@@ -72,6 +72,7 @@ class NotificationPage extends StatelessWidget {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.height * 0.2,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
               color: Color.fromARGB(20, 0, 0, 0),
@@ -140,7 +141,7 @@ class NotificationPage extends StatelessWidget {
                                 "Decline",
                                 style: TextStyle(color: Colors.red),
                               )),
-                          SizedBox(width: 20),
+                          SizedBox(width: 8),
                           TextButton(
                               style: TextButton.styleFrom(
                                   backgroundColor:
@@ -153,7 +154,7 @@ class NotificationPage extends StatelessWidget {
                               },
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 child: Text(
                                   "Accept",
                                   style: TextStyle(color: Colors.white),

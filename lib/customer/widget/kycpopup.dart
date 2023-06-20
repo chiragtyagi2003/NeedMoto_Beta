@@ -39,7 +39,7 @@ class _KycPopUpState extends State<KycPopUp> {
       child: Column(
         children: [
           SizedBox(
-            height: 20.0,
+            height: 10.0,
           ),
           Icon(
             Icons.check_circle,
@@ -47,7 +47,7 @@ class _KycPopUpState extends State<KycPopUp> {
             color: Colors.green[400],
           ),
           SizedBox(
-            height: 40.0,
+            height: 20.0,
           ),
           Center(
             child: Container(
@@ -59,9 +59,11 @@ class _KycPopUpState extends State<KycPopUp> {
           ),
           Center(
             child: Container(
-              margin: EdgeInsets.all(8.0),
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.2,
+              margin: EdgeInsets.all(4.0),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Text(
                   'You have uploaded all documents successfully.\n'
                   'Verification will be done by Rush wheels within short time.',
@@ -71,7 +73,7 @@ class _KycPopUpState extends State<KycPopUp> {
             ),
           ),
           SizedBox(
-            height: 10.0,
+            height: 5.0,
           ),
           GestureDetector(
             onTap: () {
@@ -88,8 +90,8 @@ class _KycPopUpState extends State<KycPopUp> {
               // Get.offAll(Home());
             },
             child: Container(
-              width: 95.0,
-              height: 40.0,
+              width: MediaQuery.of(context).size.width * 0.3,
+              height: MediaQuery.of(context).size.height * 0.04,
               decoration: BoxDecoration(
                 color: Colors.green[400],
                 borderRadius: BorderRadius.circular(20.0),

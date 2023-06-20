@@ -10,6 +10,8 @@ import 'package:need_moto/customer/screens/RequestAccepted.dart';
 import 'package:need_moto/customer/screens/Request_Pending.dart';
 import 'package:need_moto/customer/screens/Request_Rejected.dart';
 import 'package:need_moto/customer/widget/Car.dart';
+import 'package:intl/intl.dart';
+import 'dart:math';
 
 
 
@@ -28,6 +30,10 @@ class Request extends StatefulWidget {
   final String pricePerKmCust;
   final String pricerPerHourCust;
   final double rentalPrice;
+  final bool isRotated;
+  final String vehicleRating;
+  final String bags;
+
 
   String vehicleLocation;
   String source;
@@ -51,6 +57,7 @@ class Request extends StatefulWidget {
       required this.ownerPhoneNumber,
       required this.delivery,
       required this.purpose,
+      required this.isRotated,
       required this.returnDateTime,
       required this.pickupDateTime,
       required this.source,
@@ -62,6 +69,8 @@ class Request extends StatefulWidget {
       required this.base_12,
       required this.base_24,
       required this.rentalPrice,
+      required this.vehicleRating,
+      required this.bags,
       }){
         _instance = this;
       }
@@ -200,6 +209,19 @@ class _RequestState extends State<Request> {
       });
     }
 
+  int calculateHoursDifference(String pickupDatetime, String returnDatetime) {
+    // Parse the date strings into DateTime objects
+    DateTime pickupDate = DateFormat('dd-MM-yyyy HH:mm').parse(pickupDatetime);
+    DateTime returnDate = DateFormat('dd-MM-yyyy HH:mm').parse(returnDatetime);
+
+    // Calculate the difference in hours
+    Duration difference = returnDate.difference(pickupDate);
+    int differenceInHours = difference.inHours;
+
+    return differenceInHours;
+  }
+
+
     void calculateRentalPrice(double base_12, double base_24,
         double pricePerHourCust, double pricePerKmCust) {
       double basePrice;
@@ -211,15 +233,15 @@ class _RequestState extends State<Request> {
         return;
       }
 
-      double? distance = double.tryParse(
-          mainController.distanceController.text);
+      double? distance = double.tryParse(mainController.distanceController.text);
+      print('DISTANCE: $distance');
       if (distance == null) {
         print('Invalid value for distance');
         return;
       }
 
-      double? userChoiceHours = double.tryParse(
-          mainController.userChoiceHoursController.text);
+      double? userChoiceHours = double.tryParse(mainController.userChoiceHoursController.text);
+      print('USER CHOICE HOURS: $userChoiceHours');
       if (userChoiceHours == null) {
         print('Invalid value for userChoiceHours');
         return;
@@ -259,281 +281,531 @@ class _RequestState extends State<Request> {
 
     @override
     Widget build(BuildContext context) {
+      Size size = MediaQuery.of(context).size; //check the size of device
       return Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Car(imgUrl: widget.imgUrl, vehicleName: widget.vehicleName),
-                SizedBox(
-                  height: 30,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(40.0), //appbar size
+            child: AppBar(
+              bottomOpacity: 0.0,
+              elevation: 0.0,
+              shadowColor: Colors.transparent,
+              backgroundColor: Colors.white,
+              leading: Padding(
+                padding: EdgeInsets.only(
+                  left: size.width * 0.05,
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 20,
+                child: SizedBox(
+                  height: size.width * 0.01,
+                  width: size.width * 0.1,
+                  child: InkWell(
+                    onTap: () {
+                      Get.back(); //go back to home page
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                      size: size.height * 0.025,
                     ),
-                    Text(
-                      'Specifications',
-                      style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w600),
-                    )
-                  ],
+                  ),
                 ),
-                SizedBox(
-                  height: 20,
+              ),
+              automaticallyImplyLeading: false,
+              titleSpacing: 0,
+              leadingWidth: size.width * 0.15,
+              title: Text(
+                widget.vehicleName,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: Color(0xff3b22a1),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
-                SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            alignment: Alignment.center,
-                            width: 100,
-                            height: 100,
-                            margin: EdgeInsets.all(5),
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.black,
+              ),
+              centerTitle: true,
+            ),
+          ),
+          extendBody: true,
+          extendBodyBehindAppBar: true,
+        body: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Center(
+            child: Container(
+              height: size.height,
+              width: size.height,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 254, 252, 252),
+              ),
+              child: SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                  ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 28.0),
+                        child: ListView(
+                          children: [
+                            widget.isRotated
+                                ? Hero(
+                              tag: widget.rentalPrice,
+                              child: Image.asset(
+                                widget.imgUrl,
+                                height: size.width * 0.5,
+                                width: size.width * 0.8,
+                                fit: BoxFit.contain,
+                              ),
+                            )
+                                : Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(pi),
+                              child: Image.asset(
+                                widget.imgUrl,
+                                height: size.width * 0.5,
+                                width: size.width * 0.8,
+                                fit: BoxFit.contain,
+                              ),
                             ),
-                            child: Column(
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
-                                  height: 5,
-                                ),
                                 Text(
-                                  widget.seats,
+                                  widget.type,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  'Seats',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            )),
-                        Container(
-                            alignment: Alignment.center,
-                            width: 100,
-                            height: 100,
-                            margin: EdgeInsets.all(5),
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.black,
-                            ),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  widget.average,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  'Km/h',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            )),
-                        Container(
-                            alignment: Alignment.center,
-                            width: 100,
-                            height: 100,
-                            margin: EdgeInsets.all(5),
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.black,
-                            ),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  widget.kpml,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  'KMPL',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            )),
-                        Container(
-                            alignment: Alignment.center,
-                            width: 100,
-                            height: 100,
-                            margin: EdgeInsets.all(5),
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.black,
-                            ),
-                            child: Expanded(
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 20,
+                                    color: Colors.black,
+                                    fontSize: size.width * 0.04,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  Text(
-                                    widget.type,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w600),
+                                ),
+                                const Spacer(),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow[800],
+                                  size: size.width * 0.06,
+                                ),
+                                Text(
+                                  widget.vehicleRating,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.yellow[800],
+                                    fontSize: size.width * 0.04,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  widget.vehicleName,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: size.width * 0.05,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  '₹${widget.rentalPrice}',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: size.width * 0.04,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '/day',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.8),
+                                    fontSize: size.width * 0.025,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: size.height * 0.03,
+                              ),
+                              child: Text(
+                                'Specifications',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: size.width * 0.055,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 120,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+
+                                // mainAxisAlignment: MainAxisAlignment.center,
+
+                                children: [
+                                  buildStat(
+                                    Icons.speed,
+                                    // UniconsLine.dashboard,
+                                    '${widget.kpml} Kmph',
+                                    'Speed',
+                                    size,
+                                  ),
+                                  buildStat(
+                                    Icons.car_rental,
+                                    '${widget.average} km/l',
+                                    'Mileage',
+                                    size,
+                                  ),
+                                  buildStat(
+                                    Icons.people,
+                                    // UniconsLine.users_alt,
+                                    'People',
+                                    '( ${widget.seats} )',
+                                    size,
+                                  ),
+                                  buildStat(
+                                    Icons.shopping_bag,
+                                    // UniconsLine.briefcase,
+                                    'Bags',
+                                    '( ${widget.bags} )',
+                                    size,
                                   ),
                                 ],
                               ),
-                            )),
-                        SizedBox(
-                          width: 15,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: size.height * 0.03,
+                              ),
+                              child: Text(
+                                'Owner Details',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: size.width * 0.055,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: SizedBox(
+                                height: size.height * 0.15,
+                                width: size.width * 0.9,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * 0.07,
+                                        width: size.width * 0.15,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                          ),
+                                          child: Align(
+                                              child: Icon(
+                                                Icons.person,
+                                                color: Colors.white,
+                                              )),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: size.width * 0.05,
+                                          vertical: size.height * 0.015,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              widget.ownerName,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: size.width * 0.05,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              widget.ownerPhoneNumber,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color:
+                                                Colors.black.withOpacity(0.6),
+                                                fontSize: size.width * 0.032,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    )),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 20,
+                      ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: size.height * 0.01,
                     ),
-                    Text(
-                      'Owner Details',
-                      style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w600),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    CircleAvatar(
-                      radius: 25,
-                      child: Icon(Icons.person),
-                    ),
-                    SizedBox(
-                      width: 25,
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                            width: 150,
-                            height: 20,
+                    child: SizedBox(
+                      height: size.height * 0.07,
+                      width: size.width,
+                      child: InkWell(
+                        onTap: () {
+
+                          storeUserRequestData();
+                          try {
+                            double parsedBase12 = double.parse(widget.base_12);
+                            double parsedBase24 = double.parse(widget.base_24);
+                            double parsedPricePerHourCust = double.parse(
+                                widget.pricerPerHourCust);
+                            double parsedPricePerKmCust = double.parse(
+                                widget.pricePerKmCust);
+
+                            calculateRentalPrice(
+                                parsedBase12, parsedBase24, parsedPricePerHourCust,
+                                parsedPricePerKmCust);
+                          } catch (e) {
+                            print('Error parsing double: $e');
+                          }
+
+                          print('called');
+
+                          requestController.sendRequestsToOwners(widget.vehicleName);
+
+
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RequestPending(
+                                        vehicleLocation: widget.vehicleLocation,
+                                        source: widget.source,
+                                        destination: widget.destination,
+                                        pickupDateTime: widget.pickupDateTime,
+                                        returnDateTime: widget.returnDateTime,
+                                        delivery: widget.delivery,
+                                        purpose: widget.purpose,
+                                        ownerName: widget.ownerName,
+                                        ownerPhoneNumber: widget.ownerPhoneNumber,
+                                        type: widget.type,
+                                        vehicleNumber: widget.vehiclePlateNumber,
+                                        vehicleName: widget.vehicleName,
+                                        seats: widget.seats,
+                                        rentalPrice: widget.rentalPrice,
+                                      )));
+
+                          // Start the timer for the delay
+                          const delayDuration = Duration(hours: 12);// Adjust the delay duration as needed
+                          Timer(delayDuration, () {
+                            // After the delay, check the status of the booking document
+                            final documentId =  requestController.requestIDController.text; // Replace with the actual document ID
+                            checkBookingDocument(documentId);
+                          });
+
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xff3b22a1),
+                          ),
+                          child: Align(
                             child: Text(
-                              widget.ownerName,
+                              'Book Now',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            )),
-                        Container(
-                            width: 150,
-                            height: 15,
-                            child: Text(
-                              widget.ownerPhoneNumber,
-                              style: TextStyle(fontSize: 14, color: Colors
-                                  .grey),
-                            ))
-                      ],
-                    )
-                  ],
+                                fontSize: size.height * 0.025,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+    }
+
+  Padding buildStat(
+      IconData icon,
+      String title,
+      String desc,
+      Size size,
+      ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: size.width * 0.015,
+      ),
+      child: SizedBox(
+        height: size.width * 0.32,
+        width: size.width * 0.28,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 0.1),
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: size.width * 0.03,
+              left: size.width * 0.03,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  icon,
+                  color: Color(0xff3b22a1),
+                  size: size.width * 0.08,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: size.width * 0.02,
+                  ),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: size.width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  desc,
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.7),
+                    fontSize: size.width * 0.035,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
           ),
-          bottomNavigationBar: Padding(
-              padding: EdgeInsets.all(1),
-              child: SizedBox(
-                width: 250,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black),
-                  onPressed: () {
-                    storeUserRequestData();
-                    try {
-                      double parsedBase12 = double.parse(widget.base_12);
-                      double parsedBase24 = double.parse(widget.base_24);
-                      double parsedPricePerHourCust = double.parse(
-                          widget.pricerPerHourCust);
-                      double parsedPricePerKmCust = double.parse(
-                          widget.pricePerKmCust);
-
-                      calculateRentalPrice(
-                          parsedBase12, parsedBase24, parsedPricePerHourCust,
-                          parsedPricePerKmCust);
-                    } catch (e) {
-                      print('Error parsing double: $e');
-                    }
-
-                    print('called');
-
-                    requestController.sendRequestsToOwners(widget.vehicleName);
-
-
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                RequestPending(
-                                  vehicleLocation: widget.vehicleLocation,
-                                  source: widget.source,
-                                  destination: widget.destination,
-                                  pickupDateTime: widget.pickupDateTime,
-                                  returnDateTime: widget.returnDateTime,
-                                  delivery: widget.delivery,
-                                  purpose: widget.purpose,
-                                  ownerName: widget.ownerName,
-                                  ownerPhoneNumber: widget.ownerPhoneNumber,
-                                  type: widget.type,
-                                  vehicleNumber: widget.vehiclePlateNumber,
-                                  vehicleName: widget.vehicleName,
-                                  seats: widget.seats,
-                                  rentalPrice: widget.rentalPrice,
-                                )));
-
-                            // Start the timer for the delay
-                            const delayDuration = Duration(seconds: 10); // Adjust the delay duration as needed
-                            Timer(delayDuration, () {
-                              // After the delay, check the status of the booking document
-                              final documentId =  requestController.requestIDController.text; // Replace with the actual document ID
-                              checkBookingDocument(documentId);
-                            });
-
-                  },
-                  child: Text(
-                    'Book Now',
-                    style: TextStyle(color: Colors.white, fontSize: 30),
-                  ),
-                ),
-              )));
-    }
+        ),
+      ),
+    );
   }
+}
+
+// Align bookbutton(Size size) {
+//   return Align(
+//     alignment: Alignment.bottomCenter,
+//     child: Padding(
+//       padding: EdgeInsets.only(
+//         bottom: size.height * 0.01,
+//       ),
+//       child: SizedBox(
+//         height: size.height * 0.07,
+//         width: size.width,
+//         child: InkWell(
+//           onTap: () {
+//
+//             storeUserRequestData();
+//             try {
+//               double parsedBase12 = double.parse(widget.base_12);
+//               double parsedBase24 = double.parse(widget.base_24);
+//               double parsedPricePerHourCust = double.parse(
+//                   widget.pricerPerHourCust);
+//               double parsedPricePerKmCust = double.parse(
+//                   widget.pricePerKmCust);
+//
+//               calculateRentalPrice(
+//                   parsedBase12, parsedBase24, parsedPricePerHourCust,
+//                   parsedPricePerKmCust);
+//             } catch (e) {
+//               print('Error parsing double: $e');
+//             }
+//
+//             print('called');
+//
+//             requestController.sendRequestsToOwners(widget.vehicleName);
+//
+//
+//             Navigator.pushReplacement(
+//                 context,
+//                 MaterialPageRoute(
+//                     builder: (context) =>
+//                         RequestPending(
+//                           vehicleLocation: widget.vehicleLocation,
+//                           source: widget.source,
+//                           destination: widget.destination,
+//                           pickupDateTime: widget.pickupDateTime,
+//                           returnDateTime: widget.returnDateTime,
+//                           delivery: widget.delivery,
+//                           purpose: widget.purpose,
+//                           ownerName: widget.ownerName,
+//                           ownerPhoneNumber: widget.ownerPhoneNumber,
+//                           type: widget.type,
+//                           vehicleNumber: widget.vehiclePlateNumber,
+//                           vehicleName: widget.vehicleName,
+//                           seats: widget.seats,
+//                           rentalPrice: widget.rentalPrice,
+//                         )));
+//
+//             // Start the timer for the delay
+//             const delayDuration = Duration(hours: 12);// Adjust the delay duration as needed
+//             Timer(delayDuration, () {
+//               // After the delay, check the status of the booking document
+//               final documentId =  requestController.requestIDController.text; // Replace with the actual document ID
+//               checkBookingDocument(documentId);
+//             });
+//
+//           },
+//           child: Container(
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(15),
+//               color: Color(0xff3b22a1),
+//             ),
+//             child: Align(
+//               child: Text(
+//                 'Book Now',
+//                 textAlign: TextAlign.center,
+//                 style: TextStyle(
+//                   fontSize: size.height * 0.025,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }

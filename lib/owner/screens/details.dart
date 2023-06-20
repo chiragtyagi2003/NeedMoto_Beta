@@ -117,7 +117,7 @@ class _DetailsPageState extends State<DetailsPage> {
           children: [
             Text(
               "Pending Challans",
-              style: TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.black54, fontSize: 13),
             ),
             Row(
               children: [
@@ -160,7 +160,7 @@ class _DetailsPageState extends State<DetailsPage> {
           children: [
             Text(
               "Have Insurence for Vehicle",
-              style: TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.black54, fontSize: 13),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -179,7 +179,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     Text("Yes"),
                   ],
                 ),
-                SizedBox(width: 30),
+                SizedBox(width: 2),
                 Row(
                   children: [
                     Radio(

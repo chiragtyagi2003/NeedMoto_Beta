@@ -193,7 +193,7 @@ class _AddVehicleState extends State<AddVehicle> {
                     margin: EdgeInsets.only(left: 30),
                     padding: EdgeInsets.symmetric(vertical: 10),
                     width: MediaQuery.of(context).size.width * 0.2,
-                    height: 40,
+                    height: 50,
                     child: Text(
                       "Prev",
                       style: TextStyle(

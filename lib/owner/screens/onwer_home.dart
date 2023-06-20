@@ -167,6 +167,7 @@ class _OwnerHomeState extends State<OwnerHome> {
                 }),
               ],
             ),
+            SizedBox(height: 10,),
             _addButton(context)
           ],
         ),
@@ -198,7 +199,7 @@ class _OwnerHomeState extends State<OwnerHome> {
   Widget _addButton(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
-      height: 50,
+      height: MediaQuery.of(context).size.width * 0.1,
       child: ElevatedButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -213,7 +214,7 @@ class _OwnerHomeState extends State<OwnerHome> {
         child: Center(
           child: Text(
             "Add Vehicle",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
         ),

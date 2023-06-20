@@ -105,7 +105,7 @@ class _VehicleTileState extends State<VehicleTile> {
           pickupDateTime: widget.pickupDateTime,
           returnDateTime: widget.returnDateTime,
           purpose: widget.purpose,
-          imgUrl: widget.imgUrl,
+          imgUrl: 'assets/i30n.png',
           vehicleName: widget.vehicleName,
           seats: widget.seats,
           average: widget.average,
@@ -119,10 +119,35 @@ class _VehicleTileState extends State<VehicleTile> {
           pricePerKmCust: widget.pricePerKmCust,
           pricerPerHourCust: widget.pricerPerHourCust,
           rentalPrice: rentalPrice,
+          isRotated: true,
+          vehicleRating: '4.5',
+          bags: '5',
         ));
       }
     }
   }
+
+  // double calculateRentalPrice() {
+  //   // Retrieve the necessary values from the mainController or any other relevant source
+  //   double pricePerKmCust = double.parse(widget.pricePerKmCust);
+  //   double numberOfExtraHours = double.parse(mainController.extraHoursController.text);
+  //   double distance = double.parse(mainController.distanceController.text);
+  //   double userChoiceHours = double.parse(mainController.userChoiceHoursController.text);
+  //   double basePrice = userChoiceHours == 12 ? double.parse(widget.base_12) : double.parse(widget.base_24);
+  //   double distanceLimit = userChoiceHours == 12 ? 150.0 : 350.0;
+  //
+  //   // Perform the calculations
+  //   double extraHoursCost = numberOfExtraHours * double.parse(widget.pricerPerHourCust);
+  //   print(extraHoursCost);
+  //   double distanceCost = (distance - distanceLimit) * pricePerKmCust;
+  //   double totalCost = basePrice + extraHoursCost + distanceCost;
+  //
+  //   setState(() {
+  //     rentalPrice = totalCost;
+  //   });
+  //
+  //   return rentalPrice;
+  // }
 
   double calculateRentalPrice() {
     // Retrieve the necessary values from the mainController or any other relevant source
@@ -135,8 +160,7 @@ class _VehicleTileState extends State<VehicleTile> {
 
     // Perform the calculations
     double extraHoursCost = numberOfExtraHours * double.parse(widget.pricerPerHourCust);
-    print(extraHoursCost);
-    double distanceCost = (distance - distanceLimit) * pricePerKmCust;
+    double distanceCost = distance > distanceLimit ? (distance - distanceLimit) * pricePerKmCust : 0.0;
     double totalCost = basePrice + extraHoursCost + distanceCost;
 
     setState(() {
@@ -145,6 +169,7 @@ class _VehicleTileState extends State<VehicleTile> {
 
     return rentalPrice;
   }
+
 
   //
   // @o
@@ -175,92 +200,158 @@ class _VehicleTileState extends State<VehicleTile> {
     calculateRentalPrice();
 
   }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Vehicle Details
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Vehicle Name
-                  Text(
-                    widget.vehicleName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    ),
+    return  Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(children: [
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                elevation: 1,
+                child: Container(
+                  height: 210,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Vehicle Details
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0, right: 8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Vehicle Name
 
-                  SizedBox(height: 8.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.vehicleName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 23.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '(${widget.distanceFromYou} km away from you)',
+                                      style: TextStyle(
+                                          fontSize: 12.0, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
 
-                  // Seats
+                                // Seats
 
-                  Row(
-                    children: [
-                      Text(
-                        '${widget.seats}',
-                        style: TextStyle(
-                          fontSize: 16.0,
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Seats :',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.seats}',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    // Icon(Icons.event_seat_sharp),
+                                  ],
+                                ),
+
+                                // Rental Price Per Km and Per Km
+
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Rent Amount : ',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '₹${rentalPrice}/-',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Daily Limit :',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '  ${widget.perKm} km',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                // Book Now Button
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      Icon(Icons.event_seat_sharp),
-                    ],
-                  ),
 
-                  SizedBox(height: 8.0),
-
-                  // Rental Price Per Km and Per Km
-                  Text(
-                    'Rs ${rentalPrice.toStringAsFixed(2)}/- Per day ${distance} km',
-                    style: TextStyle(
-                      fontSize: 16.0,
+                        // Vehicle Image
+                        Expanded(
+                          child: Hero(
+                              tag: widget.rentalPricePerKm,
+                              child: Image.asset(
+                                'assets/i30n.png',
+                              )),
+                        ),
+                      ],
                     ),
                   ),
-
-                  SizedBox(height: 8.0),
-
-                  // Distance From You
-                  Text(
-                    '${widget.distanceFromYou} km away from you',
-                    style: TextStyle(fontSize: 12.0, color: Colors.grey),
-                  ),
-
-                  SizedBox(height: 16.0),
-
-                  // Book Now Button
-                  ElevatedButton(
-                    onPressed: () {
-                      checkActionCompletion();
-                    },
-                    child: Text('Book Now'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlueAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 20.0,
+          right: 15.0,
+          child: ElevatedButton(
+            onPressed: () {
+              checkActionCompletion();
+            },
+            child: Text('Book Now'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
               ),
             ),
           ),
-
-          // Vehicle Image
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.network(widget.imgUrl),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ]),
     );
   }
 
