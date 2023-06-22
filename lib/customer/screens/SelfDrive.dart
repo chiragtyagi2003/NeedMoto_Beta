@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/DateController.dart';
 import 'package:need_moto/customer/screens/chooseVehicle.dart';
+import 'package:need_moto/customer/screens/customer_side_drawer.dart';
 import '../controllers/Dropdown.dart';
 import 'package:intl/intl.dart';
 import 'package:need_moto/customer/widget/myappbar.dart';
@@ -33,9 +34,7 @@ class _SelfDriveState extends State<SelfDrive> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: Drawer(
-        child: Text('drawer'),
-      ),
+      drawer: CustomerSideDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(

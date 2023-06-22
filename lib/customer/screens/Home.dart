@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:need_moto/customer/screens/customer_side_drawer.dart';
+import 'package:need_moto/customer/screens/side_drawer/my_requests.dart';
 import 'package:need_moto/customer/widget/myappbar.dart';
 
 import 'SelfDrive.dart';
@@ -162,8 +164,7 @@ class Home extends StatelessWidget {
         child: Icon(Icons.hourglass_bottom),
         backgroundColor: Colors.orange,
         onPressed: () {
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => LogScreen()));
+          Get.to(MyRequests());
         },
       ),
     );

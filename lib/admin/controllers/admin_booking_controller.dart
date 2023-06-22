@@ -29,6 +29,8 @@ class AdminBookingController extends GetxController {
   TextEditingController requestTo = TextEditingController();
 
   final RxList<DocumentSnapshot> bookingData = RxList<DocumentSnapshot>();
+  // Fetch customer names beforehand
+  List<String?> customerNames = [];
 
   Future<void> fetchBookingData() async {
     try {
@@ -85,6 +87,54 @@ class AdminBookingController extends GetxController {
       return null;
     }
   }
+
+  Future<String?> fetchOwnerName(String ownerId) async {
+    // Get the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      // Fetch the document from the customers collection where docId == userId
+      DocumentSnapshot snapshot = await firestore.collection('owners').doc(ownerId).get();
+
+      // Check if the document exists
+      if (snapshot.exists) {
+        // Retrieve the field value and return it
+        return snapshot.get('name'); // Replace 'fieldName' with the actual field name you want to retrieve
+      } else {
+        // Document does not exist
+        return null;
+      }
+    } catch (e) {
+      // Error occurred while fetching the document
+      print('Error fetching field value: $e');
+      return null;
+    }
+  }
+
+
+  Future<String?> fetchOwnerPhoneNumber(String ownerId) async {
+    // Get the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      // Fetch the document from the customers collection where docId == userId
+      DocumentSnapshot snapshot = await firestore.collection('owners').doc(ownerId).get();
+
+      // Check if the document exists
+      if (snapshot.exists) {
+        // Retrieve the field value and return it
+        return snapshot.get('phone_number'); // Replace 'fieldName' with the actual field name you want to retrieve
+      } else {
+        // Document does not exist
+        return null;
+      }
+    } catch (e) {
+      // Error occurred while fetching the document
+      print('Error fetching field value: $e');
+      return null;
+    }
+  }
+
 
 
 }

@@ -51,6 +51,7 @@ class OwnerRequestHandler extends GetxController {
         'userId': requestDocSnapshot['userId'],
         'requestId': requestId,
         'ownerId': user?.uid,
+        'pay_status': false,
         // Include other fields from the request document as needed
       });
 

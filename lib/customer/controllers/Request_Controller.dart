@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-import '../model/Request_model.dart';
-import '../screens/RequestAccepted.dart';
-import '../screens/Request_Pending.dart';
-import '../screens/Request_Rejected.dart';
 
 class RequestController extends GetxController {
   RxList productData = [].obs;
   var status = ''.obs;
+
+  final RxList<DocumentSnapshot> myRequests = RxList<DocumentSnapshot>();
 
   TextEditingController requestVehicleNameController = TextEditingController();
   TextEditingController requestSourceController = TextEditingController();
@@ -43,42 +42,7 @@ class RequestController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // fatchData();
   }
-
-  // void fatchData() {
-  //   productData.assign(data(
-
-  //       from: 'Kott bayam',
-  //       to: 'Chittoor',
-  //       pickupDate: '22-04-23',
-  //       dropDate: '23-04-23',
-  //       delivery: 'Pickup',
-  //       purpose: 'Home'));
-  //   debugPrint(productData[0].toString());
-  // }
-
-  // void change() {
-  //   Widget getWidget(var status) {
-  //     if (status == 'accepted') {
-  //       return RequestAccepted();
-  //     } else if (status == 'rejected') {
-  //       return RequestRejected();
-  //     } else {
-  //       return RequestPending();
-  //     }
-  //   }
-  // }
-
-//   Widget getWidget(String status) {
-//     if (status == 'accepted') {
-//       return RequestAccepted();
-//     } else if (status == 'rejected') {
-//       return RequestRejected();
-//     } else {
-//       return RequestPending();
-//     }
-//   }
 
   Future<void> sendRequestsToOwners(String vehicleName) async {
     try {
@@ -115,6 +79,41 @@ class RequestController extends GetxController {
     } catch (e) {
       print('Error retrieving owner IDs: $e');
     }
+  }
+
+
+  Future<void> fetchMyRequests(String currentUserId) async {
+    try {
+      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('bookings')
+          .where('userId', isEqualTo: currentUserId)
+          .get();
+
+
+      // Store the documents in the bookingData list
+      myRequests.assignAll(querySnapshot.docs);
+
+      print(myRequests);
+
+      print('My Booking data fetched successfully!');
+    } catch (e) {
+      print('Error fetching bookings: $e');
+
+    }
+  }
+
+  String calculateHoursDifference(String pickupDatetime, String returnDatetime) {
+    // Parse the date strings into DateTime objects
+    DateTime pickupDate = DateFormat('dd-MM-yyyy HH:mm').parse(pickupDatetime);
+    DateTime returnDate = DateFormat('dd-MM-yyyy HH:mm').parse(returnDatetime);
+
+    // Calculate the difference in hours
+    Duration difference = returnDate.difference(pickupDate);
+    int differenceInHours = difference.inHours;
+
+    String finalRequestTime = differenceInHours.toString();
+
+    return finalRequestTime;
   }
 
 }

@@ -7,6 +7,7 @@ import 'package:need_moto/admin/controllers/payment_controller.dart';
 import 'package:need_moto/customer/controllers/PaymentController.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
 import 'package:need_moto/customer/controllers/VehicleBookingController.dart';
+import 'package:need_moto/customer/controllers/booking_controller.dart';
 import 'package:need_moto/customer/controllers/controllerkyc.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/controllers/user_controllers.dart';
@@ -26,17 +27,25 @@ void main() async {
   await Firebase.initializeApp();
 
   // put get controllers for state management
+
+  // customer controllers
   Get.put(KycController());
   Get.put(MainController());
   Get.put(UserController());
   Get.put(PaymentController());
   Get.put(RequestController());
   Get.put(VehicleBookingController());
+  Get.put(BookingController());
+
+  // owner controllers
   Get.put(OwnerMainController());
   Get.put(OwnerAuthController());
   Get.put(VehicleDetailsController());
   Get.put(OwnerImageController());
   Get.put(OwnerRequestHandler());
+
+
+  // admin controllers
   Get.put(AdminPaymentsController());
   Get.put(AdminBookingController());
   Get.put(AdminRequestController());

@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/owner/controller/owner_auth_controller.dart';
+import 'package:need_moto/customer/screens/side_drawer/my_bookings.dart';
+import 'package:need_moto/customer/screens/side_drawer/my_requests.dart';
+
 
 
 class CustomerSideDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Retrieve the height of the task bar
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Drawer(
-      backgroundColor: Color.fromARGB(217, 0, 0, 0),
+      backgroundColor: Color.fromARGB(200,0, 0, 0),
       child: Container(
-        margin: EdgeInsets.only(left: 30),
+        padding: EdgeInsets.only(top: statusBarHeight),
+        margin: EdgeInsets.only(left: 30), // Add 'top' margin
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             SizedBox(height: 25),
             InkWell(
               onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => ProfilePage()));
+               Get.to(MyBookings());
               },
               child: Text(
                 "My Bookings",
@@ -28,11 +35,7 @@ class CustomerSideDrawer extends StatelessWidget {
             SizedBox(height: 25),
             InkWell(
               onTap: () {
-                // Navigator.push(
-                //     context,
-                    // MaterialPageRoute(
-                    //   builder: (context) => VehicleHistroty(),
-                    // ));
+                Get.to(MyRequests());
               },
               child: Text(
                 "My Requests",
