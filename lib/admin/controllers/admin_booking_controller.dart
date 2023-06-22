@@ -30,7 +30,6 @@ class AdminBookingController extends GetxController {
 
   final RxList<DocumentSnapshot> bookingData = RxList<DocumentSnapshot>();
   // Fetch customer names beforehand
-  List<String?> customerNames = [];
 
   Future<void> fetchBookingData() async {
     try {

@@ -6,7 +6,7 @@ import 'package:need_moto/admin/screens/add_vehicle.dart';
 import 'package:need_moto/admin/screens/admin_bookings.dart';
 import 'package:need_moto/admin/screens/all_vehicles.dart';
 import 'package:need_moto/admin/screens/payments.dart';
-import 'package:need_moto/admin/screens/requests.dart';
+import 'package:need_moto/admin/screens/admin_requests.dart';
 import 'package:need_moto/admin/widget/my_appbar.dart';
 
 
@@ -92,7 +92,7 @@ class AdminHome extends StatelessWidget {
                         child: GestureDetector(
                             child: returnCard("assets/Requests.jpg"),
                             onTap: () {
-                              Get.to(Requests());
+                              Get.to(AdminRequests());
                             }),
                       ),
                       Expanded(
