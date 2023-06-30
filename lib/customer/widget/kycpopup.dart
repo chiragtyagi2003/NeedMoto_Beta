@@ -78,14 +78,14 @@ class _KycPopUpState extends State<KycPopUp> {
           GestureDetector(
             onTap: () {
               Get.offAll(ChooseVehicle(
-                seats: widget.seats,
-                vehicleLocation: widget.vehicleLocation,
-                source: widget.source,
-                destination: widget.destination,
-                pickupDateTime: widget.pickupDateTime,
-                returnDateTime: widget.returnDateTime,
-                delivery: widget.delivery,
-                purpose: widget.purpose,
+                // seats: widget.seats,
+                // vehicleLocation: widget.vehicleLocation,
+                // source: widget.source,
+                // destination: widget.destination,
+                // pickupDateTime: widget.pickupDateTime,
+                // returnDateTime: widget.returnDateTime,
+                // delivery: widget.delivery,
+                // purpose: widget.purpose,
               ));
               // Get.offAll(Home());
             },

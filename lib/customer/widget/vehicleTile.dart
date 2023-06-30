@@ -98,13 +98,13 @@ class _VehicleTileState extends State<VehicleTile> {
         });
         // Handle booking logic here
         Get.to(Request(
-          vehicleLocation: widget.vehicleLocation,
-          source: widget.source,
-          destination: widget.destination,
-          delivery: widget.delivery,
-          pickupDateTime: widget.pickupDateTime,
-          returnDateTime: widget.returnDateTime,
-          purpose: widget.purpose,
+          vehicleLocation: mainController.vehicleNeedLocations.text,//widget.vehicleLocation,
+          source: mainController.vehicleSource.text,//widget.source,
+          destination: mainController.vehicleDestination.text,//widget.destination,
+          delivery: mainController.delivery.text, //widget.delivery,
+          pickupDateTime: mainController.pickupDateTime.text, //widget.pickupDateTime,
+          returnDateTime: mainController.returnDateTime.text, //widget.returnDateTime,
+          purpose: mainController.purpose.text, //widget.purpose,
           imgUrl: 'assets/i30n.png',
           vehicleName: widget.vehicleName,
           seats: widget.seats,

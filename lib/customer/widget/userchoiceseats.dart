@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/widget/form.dart';
 import '../controllers/VehicleBookingController.dart';
 
 
 class UserChoiceSeats extends StatefulWidget {
-  UserChoiceSeats({
-    Key? key,
-    required this.seats,
-    required this.vehicleLocation,
-    required this.source,
-    required this.destination,
-    required this.pickupDateTime,
-    required this.returnDateTime,
-    required this.delivery,
-    required this.purpose,
-  }) : super(key: key);
-  RxString seats;
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
+  // UserChoiceSeats({
+  //   Key? key,
+  //   required this.seats,
+  //   required this.vehicleLocation,
+  //   required this.source,
+  //   required this.destination,
+  //   required this.pickupDateTime,
+  //   required this.returnDateTime,
+  //   required this.delivery,
+  //   required this.purpose,
+  // }) : super(key: key);
+  // RxString seats;
+  // String vehicleLocation;
+  // String source;
+  // String destination;
+  // String pickupDateTime;
+  // String returnDateTime;
+  // String delivery;
+  // String purpose;
 
   @override
   State<UserChoiceSeats> createState() => _UserChoiceSeatsState();
@@ -38,6 +39,7 @@ class _UserChoiceSeatsState extends State<UserChoiceSeats> {
   bool isAnimatedback = true;
   bool isEditable = false;
 
+  MainController mainController = Get.find();
 
   // Define a callback function to pass to each UserChoiceButton
   void handleButtonTap(String label) {
@@ -107,9 +109,15 @@ class _UserChoiceSeatsState extends State<UserChoiceSeats> {
                           onTap: () {
                             setState(() {
                               if (isEditable == false)
+                              {
                                 isEditable = true;
+                                print(isEditable);
+                              }
                               else
-                                isEditable = true;
+                                 {
+                                   isEditable = false;
+
+                                 }
                             });
                           },
                           child: Container(
@@ -154,12 +162,12 @@ class _UserChoiceSeatsState extends State<UserChoiceSeats> {
           isAnimated
               ? FormTile(
                   isEditable: isEditable,
-                  source: widget.source,
-                  delivery: widget.delivery,
-                  destination: widget.destination,
-                  pickupDateTime: widget.pickupDateTime,
-                  returnDateTime: widget.returnDateTime,
-                  purpose: widget.purpose,
+                  // source: mainController.vehicleSource.text, //widget.source,
+                  // delivery: mainController.delivery.text, //widget.delivery,
+                  // destination: mainController.vehicleDestination.text, //widget.destination,
+                  // pickupDateTime: mainController.pickupDateTime.text, //widget.pickupDateTime,
+                  // returnDateTime: mainController.returnDateTime.text, //widget.returnDateTime,
+                  // purpose: mainController.purpose.text, //widget.purpose,
                 )
               : Container(),
         ],

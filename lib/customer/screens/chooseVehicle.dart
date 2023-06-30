@@ -9,24 +9,24 @@ import '../widget/userchoiceseats.dart';
 import '../widget/vehicleTile.dart';
 
 class ChooseVehicle extends StatefulWidget {
-  ChooseVehicle({
-    required this.seats,
-    required this.vehicleLocation,
-    required this.source,
-    required this.destination,
-    required this.pickupDateTime,
-    required this.returnDateTime,
-    required this.delivery,
-    required this.purpose,
-  });
-  RxString seats;
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
+  // ChooseVehicle({
+  //   required this.seats,
+  //   required this.vehicleLocation,
+  //   required this.source,
+  //   required this.destination,
+  //   required this.pickupDateTime,
+  //   required this.returnDateTime,
+  //   required this.delivery,
+  //   required this.purpose,
+  // });
+  // RxString seats;
+  // String vehicleLocation;
+  // String source;
+  // String destination;
+  // String pickupDateTime;
+  // String returnDateTime;
+  // String delivery;
+  // String purpose;
 
   @override
   State<ChooseVehicle> createState() => _ChooseVehicleState();
@@ -43,7 +43,7 @@ class _ChooseVehicleState extends State<ChooseVehicle> {
         child: Container(
           child: Column(
             children: [
-              TimeSlider(),
+              // TimeSlider(),
               SizedBox(
                 height: 10.0,
               ),
@@ -55,14 +55,14 @@ class _ChooseVehicleState extends State<ChooseVehicle> {
                 thickness: 1,
               ),
               UserChoiceSeats(
-                seats: widget.seats,
-                delivery: widget.delivery,
-                vehicleLocation: widget.vehicleLocation,
-                source: widget.source,
-                destination: widget.destination,
-                pickupDateTime: widget.pickupDateTime,
-                returnDateTime: widget.returnDateTime,
-                purpose: widget.purpose,
+                // seats:  mainController.seatsDropDownController.selectedItem, //widget.seats,
+                // delivery:  mainController.delivery.text, //widget.delivery,
+                // vehicleLocation: mainController.vehicleNeedLocations.text, //widget.vehicleLocation,
+                // source:  mainController.vehicleSource.text, //widget.source,
+                // destination: mainController.vehicleDestination.text, //widget.destination,
+                // pickupDateTime: mainController.pickupDateTime.text, //widget.pickupDateTime,
+                // returnDateTime: mainController.returnDateTime.text, //widget.returnDateTime,
+                // purpose: mainController.purpose.text, //widget.purpose,
               ),
               Divider(
                 thickness: 1,
@@ -114,14 +114,14 @@ class _ChooseVehicleState extends State<ChooseVehicle> {
                         average: mainController.averageController.text,
                         vehicleNumber: mainController.vehicleNumberController.text,
                         ////
-                        delivery: widget.delivery,
-                        source: widget.source,
-                        destination: widget.destination,
-                        pickupDateTime: widget.pickupDateTime,
-                        returnDateTime: widget.returnDateTime,
-                        purpose: widget.purpose,
-                        vehicleLocation: widget.vehicleLocation,
-                        userseats: widget.seats,
+                        delivery: mainController.delivery.text, //widget.delivery,
+                        source:  mainController.vehicleSource.text,  //widget.source,
+                        destination: mainController.vehicleDestination.text, //widget.destination,
+                        pickupDateTime: mainController.pickupDateTime.text, //widget.pickupDateTime,
+                        returnDateTime:  mainController.returnDateTime.text, //widget.returnDateTime,
+                        purpose: mainController.purpose.text, //widget.purpose,
+                        vehicleLocation: mainController.vehicleNeedLocations.text, //widget.vehicleLocation,
+                        userseats: mainController.seatsDropDownController.selectedItem, //widget.seats,
                         pricePerKmCust : mainController.pricePerKmCust.text,
                         pricerPerHourCust : mainController.pricePerHourCust.text,
                         base_12: mainController.base12PriceController.text,

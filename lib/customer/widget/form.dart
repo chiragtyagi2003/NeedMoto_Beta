@@ -1,25 +1,27 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
+import 'package:intl/intl.dart';
 
 
 class FormTile extends StatefulWidget {
   FormTile(
       {Key? key,
-      required this.source,
-      required this.destination,
-      required this.pickupDateTime,
-      required this.returnDateTime,
-      required this.delivery,
-      required this.purpose,
+      // required this.source,
+      // required this.destination,
+      // required this.pickupDateTime,
+      // required this.returnDateTime,
+      // required this.delivery,
+      // required this.purpose,
       required this.isEditable})
       : super(key: key);
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
+  // String source;
+  // String destination;
+  // String pickupDateTime;
+  // String returnDateTime;
+  // String delivery;
+  // String purpose;
   bool isEditable;
 
   @override
@@ -43,10 +45,38 @@ class _FormTileState extends State<FormTile> {
   TextEditingController pickupController = TextEditingController();
   TextEditingController purposeController = TextEditingController();
 
+  late ValueNotifier<String> returnDateTimeNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Set initial values to the controllers
+    fromController.text = mainController.vehicleSource.text;//widget.source;
+    toController.text = mainController.vehicleDestination.text; //widget.destination;
+    fromTimeController.text = mainController.pickupDateTime.text; //widget.pickupDateTime;
+    toTimeController.text =  mainController.returnDateTime.text; //widget.returnDateTime;
+    pickupController.text = mainController.delivery.text; //widget.delivery;
+    purposeController.text = mainController.purpose.text; //widget.purpose;
+  }
+
+  @override
+  void dispose() {
+    // Dispose the controllers when the state is disposed
+    fromController.dispose();
+    toController.dispose();
+    fromTimeController.dispose();
+    toTimeController.dispose();
+    pickupController.dispose();
+    purposeController.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.all(5.0),
+      margin: EdgeInsets.all(10.0),
       // padding: EdgeInsets.all(16),
       // decoration: BoxDecoration(
       //   border: Border.all(
@@ -66,8 +96,12 @@ class _FormTileState extends State<FormTile> {
                     ? TextField(
                         autofocus: false,
                         controller: fromController,
-                        onChanged: (value) =>
-                            isFromValid.value = value.isNotEmpty,
+                        onChanged: (value) {
+                          isFromValid.value = value.isNotEmpty;
+                          setState(() {
+                            mainController.vehicleSource.text = value.toString();
+                          });
+                        },
                         decoration: InputDecoration(
                           labelText: 'From',
                           border: OutlineInputBorder(
@@ -76,7 +110,7 @@ class _FormTileState extends State<FormTile> {
                           ),
                         ),
                       )
-                    : _edit(widget.source, 'Form'),
+                    : _edit(mainController.vehicleSource.text, 'Form'),
               ),
               SizedBox(width: 8),
               Icon(Icons.compare_arrows_sharp, color: Colors.orange[600]),
@@ -85,8 +119,12 @@ class _FormTileState extends State<FormTile> {
                 child: widget.isEditable
                     ? TextField(
                         controller: toController,
-                        onChanged: (value) =>
-                            isToValid.value = value.isNotEmpty,
+                        onChanged: (value) {
+                              isToValid.value = value.isNotEmpty;
+                              setState(() {
+                                mainController.vehicleDestination.text = value.toString();
+                              });
+                        },
                         decoration: InputDecoration(
                           labelText: 'To',
                           border: OutlineInputBorder(
@@ -95,7 +133,7 @@ class _FormTileState extends State<FormTile> {
                           ),
                         ),
                       )
-                    : _edit(widget.destination, 'To'),
+                    : _edit(mainController.vehicleDestination.text, 'To'),
               ),
             ],
           ),
@@ -114,37 +152,45 @@ class _FormTileState extends State<FormTile> {
               Expanded(
                 child: widget.isEditable
                     ? TextField(
-                        controller: fromTimeController,
-                        onChanged: (value) =>
-                            isFromTimeValid.value = value.isNotEmpty,
-                        decoration: InputDecoration(
-                          labelText: 'Pickup Date and Time',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      )
-                    : _edit(widget.pickupDateTime, 'Pickup Date and Time'),
+                  controller: mainController.pickupDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
+                      .format(mainController.pickUpdateTimeController.selectedDateTime.value)
+                      .toString(),
+                  readOnly: true,
+                  onTap: () async {
+                    final selectedDateTime = await mainController.pickUpdateTimeController.selectDateTime(context);
+                    if (selectedDateTime != null) {
+                      setState(() {
+                        mainController.pickupDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
+                      });
+                    }},
+                  decoration: InputDecoration(
+                      // border: OutlineInputBorder(
+                      //     borderRadius: BorderRadius.circular(30)),
+                      labelText: 'Pickup date & Time'),
+                )
+                    : _edit(mainController.pickupDateTime.text, 'Pickup Date and Time'),
               ),
               SizedBox(width: 8),
               Icon(Icons.calendar_today_outlined, color: Colors.orange),
               SizedBox(width: 8),
               Expanded(
                 child: widget.isEditable
-                    ? TextField(
-                        controller: toTimeController,
-                        onChanged: (value) =>
-                            isToTimeValid.value = value.isNotEmpty,
-                        decoration: InputDecoration(
-                          labelText: 'Return Date and Time',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      )
-                    : _edit(widget.returnDateTime, 'Return Date and Time'),
+                    ?  TextField(
+                  controller: mainController.returnDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
+                      .format(mainController.returndateTimeController.selectedDateTime.value)
+                      .toString(),
+                  readOnly: true,
+                  onTap: () async {
+                    final selectedDateTime = await mainController.returndateTimeController.selectDateTime(context);
+                    if (selectedDateTime != null) {
+                     setState(() {
+                       mainController.returnDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
+                     });
+                    }},
+                  decoration: InputDecoration(
+                      labelText: 'Return date & Time'),
+                )
+                    : _edit(mainController.returnDateTime.text, 'Return Date and Time'),
               ),
             ],
           ),
@@ -160,19 +206,27 @@ class _FormTileState extends State<FormTile> {
             children: [
               Expanded(
                 child: widget.isEditable
-                    ? TextField(
-                        controller: pickupController,
-                        onChanged: (value) =>
-                            isPickupValid.value = value.isNotEmpty,
-                        decoration: InputDecoration(
-                          labelText: 'Pickup/Delivery',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
+                    ?  DropdownSearch(
+                        popupProps: PopupProps.menu(
+                          constraints: BoxConstraints(maxHeight: 200),
+                          searchDelay: Duration(milliseconds: 500)),
+                          items: mainController.deliveryDropDownController.option,
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                // border: OutlineInputBorder(
+                                // borderRadius: BorderRadius.circular(30)),
+                                labelText: 'Delivery',
+                            )),
+                          onChanged: (value) {
+                             setState(() {
+                               mainController.deliveryDropDownController.setvalue(value!);
+                               mainController.delivery.text = value!;
+                               print('delivery: ${mainController.delivery.text}');
+                             });
+                          },
+                        selectedItem: mainController.deliveryDropDownController.selectType,
                       )
-                    : _edit(widget.delivery, 'Pickup/Delivery'),
+                    : _edit(mainController.delivery.text, 'Pickup/Delivery'),
               ),
               SizedBox(width: 8),
               //Icon(Icons.compare_arrows_sharp, color: Colors.orange),
@@ -181,8 +235,12 @@ class _FormTileState extends State<FormTile> {
                 child: widget.isEditable
                     ? TextField(
                         controller: purposeController,
-                        onChanged: (value) =>
-                            isPurposeValid.value = value.isNotEmpty,
+                        onChanged: (value) {
+                          isPurposeValid.value = value.isNotEmpty;
+                          setState(() {
+                            mainController.purpose.text = value.toString();
+                          });
+                        },
                         decoration: InputDecoration(
                           labelText: 'Purpose',
                           border: OutlineInputBorder(
@@ -191,21 +249,10 @@ class _FormTileState extends State<FormTile> {
                           ),
                         ),
                       )
-                    : _edit(widget.purpose, 'Purpose'),
+                    : _edit(mainController.purpose.text, 'Purpose'),
               ),
             ],
           ),
-
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: ElevatedButton(
-          //         onPressed: () {},
-          //         child: Text('Search'),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );

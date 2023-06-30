@@ -2,10 +2,11 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/customer/controllers/DateController.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
+
 import 'package:need_moto/customer/screens/chooseVehicle.dart';
 import 'package:need_moto/customer/screens/customer_side_drawer.dart';
-import '../controllers/Dropdown.dart';
+
 import 'package:intl/intl.dart';
 import 'package:need_moto/customer/widget/myappbar.dart';
 
@@ -16,18 +17,8 @@ class SelfDrive extends StatefulWidget {
 }
 
 class _SelfDriveState extends State<SelfDrive> {
-  final DateTimeController pickUpdateTimeController = DateTimeController();
-  final DateTimeController returndateTimeController = DateTimeController();
-  TextEditingController _vehicleNeedLocations = TextEditingController();
-  TextEditingController _vehicleSource = TextEditingController();
-  TextEditingController _vehicleDestination = TextEditingController();
-  TextEditingController _pickupDateTime = TextEditingController();
-  TextEditingController _returnDateTime = TextEditingController();
-  TextEditingController _delivery = TextEditingController();
-  TextEditingController _purpose = TextEditingController();
-  TextEditingController _filterSeats = TextEditingController();
-  DropdownController deliveryDropDownController = DropdownController();
-  DropdownController seatsDropDownController = DropdownController();
+
+  MainController mainController = Get.find();
 
   //Options display
   @override
@@ -65,7 +56,7 @@ class _SelfDriveState extends State<SelfDrive> {
                           popupProps: PopupProps.menu(
                             constraints: BoxConstraints(maxHeight: 200),
                           ),
-                          items: seatsDropDownController.options,
+                          items: mainController.seatsDropDownController.options,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -73,10 +64,10 @@ class _SelfDriveState extends State<SelfDrive> {
                             labelText: 'Seats',
                           )),
                           onChanged: (value) {
-                            seatsDropDownController.setValue(value!);
-                            _filterSeats = value!;
+                            mainController.seatsDropDownController.setValue(value!);
+                            mainController.filterSeats = value!;
                           },
-                          selectedItem: seatsDropDownController.selectedItem,
+                          selectedItem: mainController.seatsDropDownController.selectedItem,
                         ),
                       ),
                       SizedBox(
@@ -86,7 +77,7 @@ class _SelfDriveState extends State<SelfDrive> {
                         width: 350,
                         height: 60,
                         child: TextField(
-                          controller: _vehicleSource,
+                          controller: mainController.vehicleSource,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30)),
@@ -100,7 +91,7 @@ class _SelfDriveState extends State<SelfDrive> {
                         width: 350,
                         height: 60,
                         child: TextField(
-                          controller: _vehicleDestination,
+                          controller: mainController.vehicleDestination,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30)),
@@ -114,16 +105,16 @@ class _SelfDriveState extends State<SelfDrive> {
                         width: 350,
                         height: 60,
                         child: Obx(() => TextField(
-                              controller: _pickupDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
-                              .format(pickUpdateTimeController.selectedDateTime.value)
+                              controller: mainController.pickupDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
+                              .format(mainController.pickUpdateTimeController.selectedDateTime.value)
                               .toString(),
                               readOnly: true,
                               onTap: () async {
-                              final selectedDateTime = await pickUpdateTimeController.selectDateTime(context);
+                              final selectedDateTime = await mainController.pickUpdateTimeController.selectDateTime(context);
                                 if (selectedDateTime != null) {
-                                _pickupDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
-                                print('pickup date time: ${_pickupDateTime.text}');
-                                print('pickup date time: $_pickupDateTime.text');
+                                  mainController.pickupDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
+                                print('pickup date time: ${mainController.pickupDateTime.text}');
+                                print('pickup date time: ${mainController.pickupDateTime.text}');
                                 }},
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
@@ -140,15 +131,15 @@ class _SelfDriveState extends State<SelfDrive> {
                         width: 350,
                         height: 60,
                         child: Obx(() => TextField(
-                          controller: _returnDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
-                              .format(returndateTimeController.selectedDateTime.value)
+                          controller: mainController.returnDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
+                              .format(mainController.returndateTimeController.selectedDateTime.value)
                               .toString(),
                           readOnly: true,
                           onTap: () async {
-                            final selectedDateTime = await returndateTimeController.selectDateTime(context);
+                            final selectedDateTime = await mainController.returndateTimeController.selectDateTime(context);
                             if (selectedDateTime != null) {
-                              _returnDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
-                              print('return date time: ${_returnDateTime.text}');
+                              mainController.returnDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
+                              print('return date time: ${mainController.returnDateTime.text}');
                             }},
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -169,7 +160,7 @@ class _SelfDriveState extends State<SelfDrive> {
                           popupProps: PopupProps.menu(
                               constraints: BoxConstraints(maxHeight: 200),
                               searchDelay: Duration(milliseconds: 500)),
-                          items: deliveryDropDownController.option,
+                          items: mainController.deliveryDropDownController.option,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -177,11 +168,11 @@ class _SelfDriveState extends State<SelfDrive> {
                             labelText: 'Delivery',
                           )),
                           onChanged: (value) {
-                            deliveryDropDownController.setvalue(value!);
-                            _delivery.text = value!;
-                            print('delivery: ${_delivery.text}');
+                            mainController.deliveryDropDownController.setvalue(value!);
+                            mainController.delivery.text = value!;
+                            print('delivery: ${mainController.delivery.text}');
                           },
-                          selectedItem: deliveryDropDownController.selectType,
+                          selectedItem: mainController.deliveryDropDownController.selectType,
                         ),
                       ),
                       SizedBox(
@@ -191,7 +182,7 @@ class _SelfDriveState extends State<SelfDrive> {
                         width: 350,
                         height: 60,
                         child: TextField(
-                          controller: _purpose,
+                          controller: mainController.purpose,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
@@ -205,18 +196,23 @@ class _SelfDriveState extends State<SelfDrive> {
                       //car details display button
                       GestureDetector(
                           onTap: () {
+
+                            String pickupTime = mainController.pickupDateTime.text;
+                            String returnTime = mainController.returnDateTime.text;
+                            // call the function to calculate days and hours time
+                            mainController.calculateTimeDifference(pickupTime, returnTime);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ChooseVehicle(
-                                          seats: seatsDropDownController.selectedItem,
-                                          delivery: _delivery.text,
-                                          vehicleLocation: _vehicleNeedLocations.text,
-                                          source: _vehicleSource.text,
-                                          destination: _vehicleDestination.text,
-                                          pickupDateTime: _pickupDateTime.text,
-                                          returnDateTime: _returnDateTime.text,
-                                          purpose: _purpose.text,
+                                          // seats: mainController.seatsDropDownController.selectedItem,
+                                          // delivery: mainController.delivery.text,
+                                          // vehicleLocation: mainController.vehicleNeedLocations.text,
+                                          // source: mainController.vehicleSource.text,
+                                          // destination: mainController.vehicleDestination.text,
+                                          // pickupDateTime: mainController.pickupDateTime.text,
+                                          // returnDateTime: mainController.returnDateTime.text,
+                                          // purpose: mainController.purpose.text,
                                         )));
                           },
                           child: Container(
