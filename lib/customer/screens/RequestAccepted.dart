@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/screens/Home.dart';
+import 'package:need_moto/customer/screens/pickup_vehicle.dart';
+import 'package:need_moto/customer/screens/ready_to_pickup.dart';
 
 
 class RequestAccepted extends StatelessWidget {
@@ -290,7 +292,12 @@ class RequestAccepted extends StatelessWidget {
                     children: [
                       SizedBox(width: 150,
                         height: 50,
-                        child: ElevatedButton(style:ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey.shade500,shape: StadiumBorder()),onPressed: () {}, child: Text('Pay',style: TextStyle(color: Colors.white,fontSize: 20),)),
+                        child: ElevatedButton(
+                            style:ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey.shade500,shape: StadiumBorder()),
+                            onPressed: () {
+                              Get.to(ReadyToPickup());
+                            },
+                            child: Text('Pay',style: TextStyle(color: Colors.white,fontSize: 20),)),
                       ),
                       SizedBox(width: 150,
                         height: 50,
@@ -301,8 +308,9 @@ class RequestAccepted extends StatelessWidget {
                   SizedBox(height: 20,),
                   ElevatedButton(onPressed: () {
                     // Get.to(HomePage());
+                    Get.to(PickupVehicle());
                     },
-                      child: Text('Next')),
+                      child: Text('Pay at Pickup')),
                 ],
               ),
             ),

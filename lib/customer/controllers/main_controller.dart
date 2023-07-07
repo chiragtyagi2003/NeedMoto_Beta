@@ -33,6 +33,8 @@ class MainController extends GetxController {
   TextEditingController extraHoursController = TextEditingController(text: '12');
   TextEditingController totalPriceController = TextEditingController();
 
+  TextEditingController vehicleTypeController = TextEditingController();
+
 
   final DateTimeController pickUpdateTimeController = DateTimeController();
   final DateTimeController returndateTimeController = DateTimeController();

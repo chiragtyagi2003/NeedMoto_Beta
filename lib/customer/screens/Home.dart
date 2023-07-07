@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/screens/Grid.dart';
 import 'package:need_moto/customer/screens/customer_side_drawer.dart';
 import 'package:need_moto/customer/screens/side_drawer/my_requests.dart';
 import 'package:need_moto/customer/widget/myappbar.dart';
@@ -116,10 +117,7 @@ class Home extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SelfDrive()));
+                          Get.to(SelfDrive());
                         },
                         child: Container(
                           width: 250,

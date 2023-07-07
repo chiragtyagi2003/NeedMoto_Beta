@@ -10,14 +10,14 @@ import '../widget/vehicleTile.dart';
 
 class ChooseVehicle extends StatefulWidget {
   // ChooseVehicle({
-  //   required this.seats,
-  //   required this.vehicleLocation,
-  //   required this.source,
-  //   required this.destination,
-  //   required this.pickupDateTime,
-  //   required this.returnDateTime,
-  //   required this.delivery,
-  //   required this.purpose,
+  //   // required this.seats,
+  //   // required this.vehicleLocation,
+  //   // required this.source,
+  //   // required this.destination,
+  //   // required this.pickupDateTime,
+  //   // required this.returnDateTime,
+  //   // required this.delivery,
+  //   // required this.purpose,
   // });
   // RxString seats;
   // String vehicleLocation;
@@ -27,6 +27,7 @@ class ChooseVehicle extends StatefulWidget {
   // String returnDateTime;
   // String delivery;
   // String purpose;
+
 
   @override
   State<ChooseVehicle> createState() => _ChooseVehicleState();

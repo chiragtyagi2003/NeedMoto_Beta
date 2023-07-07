@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
+import 'package:need_moto/customer/screens/Grid.dart';
 
 import 'package:need_moto/customer/screens/chooseVehicle.dart';
 import 'package:need_moto/customer/screens/customer_side_drawer.dart';
@@ -201,19 +202,21 @@ class _SelfDriveState extends State<SelfDrive> {
                             String returnTime = mainController.returnDateTime.text;
                             // call the function to calculate days and hours time
                             mainController.calculateTimeDifference(pickupTime, returnTime);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChooseVehicle(
-                                          // seats: mainController.seatsDropDownController.selectedItem,
-                                          // delivery: mainController.delivery.text,
-                                          // vehicleLocation: mainController.vehicleNeedLocations.text,
-                                          // source: mainController.vehicleSource.text,
-                                          // destination: mainController.vehicleDestination.text,
-                                          // pickupDateTime: mainController.pickupDateTime.text,
-                                          // returnDateTime: mainController.returnDateTime.text,
-                                          // purpose: mainController.purpose.text,
-                                        )));
+
+                            Get.to(Grid());
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ChooseVehicle(
+                            //               // seats: mainController.seatsDropDownController.selectedItem,
+                            //               // delivery: mainController.delivery.text,
+                            //               // vehicleLocation: mainController.vehicleNeedLocations.text,
+                            //               // source: mainController.vehicleSource.text,
+                            //               // destination: mainController.vehicleDestination.text,
+                            //               // pickupDateTime: mainController.pickupDateTime.text,
+                            //               // returnDateTime: mainController.returnDateTime.text,
+                            //               // purpose: mainController.purpose.text,
+                            //             )));
                           },
                           child: Container(
                             width: 250,

@@ -65,12 +65,27 @@ class MyApp extends StatelessWidget {
         fontFamily: 'NotoSans',
         primarySwatch: Colors.blue,
         ),
-        initialRoute: '/Grid ',
+        initialRoute: '/home',
         debugShowCheckedModeBanner: false,
         getPages: [
           GetPage(name: '/home', page: () => Home()),
           GetPage(name: '/StartPage', page: () => AnimatedCardsListView()),
-          GetPage(name: '/Grid', page: () => Grid()),
+          GetPage(name: '/grid', page: () => Grid()),
+
+          // testing routes
+          GetPage(name: '/reqAcc', page: () => RequestAccepted(source: 'delhi',
+              destination: 'lucknow',
+              pickupDateTime: '22-02-22 14:28',
+              returnDateTime: '23-01-23 11:34',
+              delivery: 'Home Delivery',
+              purpose: 'Travel',
+              ownerName: 'Chirag Tyagi',
+              ownerPhoneNumber: 'ccccc',
+              type: 'diesel',
+              vehicleNumber: 'TD22DG3323',
+              vehicleName: 'Merc Benz',
+              seats: '4',
+              rentalPrice: 3234.53)),
         ]);
   }
 }

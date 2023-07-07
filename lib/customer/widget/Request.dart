@@ -187,6 +187,7 @@ class _RequestState extends State<Request> {
         'delivery': widget.delivery,
         'status': mainController.requestStatusController.text,
         'userId': currentUserId,
+        'vehicleType': mainController.vehicleTypeController.text,
         //'vehicleNeedFromLocation': widget.vehicleLocation,
       };
 
@@ -723,89 +724,3 @@ class _RequestState extends State<Request> {
   }
 }
 
-// Align bookbutton(Size size) {
-//   return Align(
-//     alignment: Alignment.bottomCenter,
-//     child: Padding(
-//       padding: EdgeInsets.only(
-//         bottom: size.height * 0.01,
-//       ),
-//       child: SizedBox(
-//         height: size.height * 0.07,
-//         width: size.width,
-//         child: InkWell(
-//           onTap: () {
-//
-//             storeUserRequestData();
-//             try {
-//               double parsedBase12 = double.parse(widget.base_12);
-//               double parsedBase24 = double.parse(widget.base_24);
-//               double parsedPricePerHourCust = double.parse(
-//                   widget.pricerPerHourCust);
-//               double parsedPricePerKmCust = double.parse(
-//                   widget.pricePerKmCust);
-//
-//               calculateRentalPrice(
-//                   parsedBase12, parsedBase24, parsedPricePerHourCust,
-//                   parsedPricePerKmCust);
-//             } catch (e) {
-//               print('Error parsing double: $e');
-//             }
-//
-//             print('called');
-//
-//             requestController.sendRequestsToOwners(widget.vehicleName);
-//
-//
-//             Navigator.pushReplacement(
-//                 context,
-//                 MaterialPageRoute(
-//                     builder: (context) =>
-//                         RequestPending(
-//                           vehicleLocation: widget.vehicleLocation,
-//                           source: widget.source,
-//                           destination: widget.destination,
-//                           pickupDateTime: widget.pickupDateTime,
-//                           returnDateTime: widget.returnDateTime,
-//                           delivery: widget.delivery,
-//                           purpose: widget.purpose,
-//                           ownerName: widget.ownerName,
-//                           ownerPhoneNumber: widget.ownerPhoneNumber,
-//                           type: widget.type,
-//                           vehicleNumber: widget.vehiclePlateNumber,
-//                           vehicleName: widget.vehicleName,
-//                           seats: widget.seats,
-//                           rentalPrice: widget.rentalPrice,
-//                         )));
-//
-//             // Start the timer for the delay
-//             const delayDuration = Duration(hours: 12);// Adjust the delay duration as needed
-//             Timer(delayDuration, () {
-//               // After the delay, check the status of the booking document
-//               final documentId =  requestController.requestIDController.text; // Replace with the actual document ID
-//               checkBookingDocument(documentId);
-//             });
-//
-//           },
-//           child: Container(
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(15),
-//               color: Color(0xff3b22a1),
-//             ),
-//             child: Align(
-//               child: Text(
-//                 'Book Now',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: size.height * 0.025,
-//                   fontWeight: FontWeight.bold,
-//                   color: Colors.white,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
