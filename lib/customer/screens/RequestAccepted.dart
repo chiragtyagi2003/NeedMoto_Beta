@@ -93,7 +93,7 @@ class RequestAccepted extends StatelessWidget {
             SizedBox(height: 15,),
             Container(
               width: double.infinity,
-              height: 800,
+              height: 900,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),color: Colors.white,
               ),
@@ -297,7 +297,12 @@ class RequestAccepted extends StatelessWidget {
                         child: ElevatedButton(style:ElevatedButton.styleFrom(backgroundColor: Colors.orange,shape: StadiumBorder()),onPressed: () {}, child: Text('Cancel Ride',style: TextStyle(color: Colors.white,fontSize: 20),)),
                       ),
                     ],
-                  )
+                  ),
+                  SizedBox(height: 20,),
+                  ElevatedButton(onPressed: () {
+                    // Get.to(HomePage());
+                    },
+                      child: Text('Next')),
                 ],
               ),
             ),

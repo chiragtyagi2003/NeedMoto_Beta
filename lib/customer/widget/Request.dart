@@ -619,7 +619,7 @@ class _RequestState extends State<Request> {
                                       )));
 
                           // Start the timer for the delay
-                          const delayDuration = Duration(hours: 12);// Adjust the delay duration as needed
+                          const delayDuration = Duration(seconds: 30);// Adjust the delay duration as needed
                           Timer(delayDuration, () {
                             // After the delay, check the status of the booking document
                             final documentId =  requestController.requestIDController.text; // Replace with the actual document ID

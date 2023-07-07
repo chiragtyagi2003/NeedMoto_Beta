@@ -11,7 +11,9 @@ import 'package:need_moto/customer/controllers/booking_controller.dart';
 import 'package:need_moto/customer/controllers/controllerkyc.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/controllers/user_controllers.dart';
+import 'package:need_moto/customer/screens/Grid.dart';
 import 'package:need_moto/customer/screens/Home.dart';
+import 'package:need_moto/customer/screens/RequestAccepted.dart';
 import 'package:need_moto/customer/screens/StartingPage.dart';
 import 'package:need_moto/owner/controller/owner_auth_controller.dart';
 import 'package:need_moto/owner/controller/owner_image_controller.dart';
@@ -63,11 +65,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'NotoSans',
         primarySwatch: Colors.blue,
         ),
-        initialRoute: '/home',
+        initialRoute: '/Grid ',
         debugShowCheckedModeBanner: false,
         getPages: [
           GetPage(name: '/home', page: () => Home()),
-          GetPage(name: '/StartPage', page: () => AnimatedCardsListView())
+          GetPage(name: '/StartPage', page: () => AnimatedCardsListView()),
+          GetPage(name: '/Grid', page: () => Grid()),
         ]);
   }
 }
