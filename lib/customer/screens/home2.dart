@@ -11,9 +11,9 @@ import 'package:need_moto/customer/screens/submitVehicle.dart';
 class HomePage extends StatelessWidget {
   final Controller controller1 = Get.put(Controller());
   List<Widget> pages = [
-    RideComplete(),
-    SubmitVehicle(),
-    RateOwner(),
+    // RideComplete(),
+    // SubmitVehicle(),
+    // RateOwner(),
   ];
 
   HomePage({super.key});
@@ -170,7 +170,9 @@ class HomePage extends StatelessWidget {
                       elevation: MaterialStateProperty.all<double>(0),
                     ),
                     onPressed: () {
-                      Get.to(RideComplete());
+                      // Get.to(RideComplete(
+                      //
+                      // ));
                     },
                   ),
                   Padding(

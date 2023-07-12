@@ -6,7 +6,35 @@ import 'package:need_moto/customer/screens/ridedone.dart';
 import 'package:need_moto/customer/screens/vehicle_submission.dart';
 
 class RideStart extends StatefulWidget {
-  const RideStart({super.key});
+  String source;
+  String destination;
+  String pickupDateTime;
+  String returnDateTime;
+  String delivery;
+  String purpose;
+  String ownerName;
+  String ownerPhoneNumber;
+  String type;
+  String vehicleNumber;
+  String vehicleName;
+  String seats;
+  double rentalPrice;
+
+  RideStart({
+    required this.source,
+    required this.destination,
+    required this.pickupDateTime,
+    required this.returnDateTime,
+    required this.delivery,
+    required this.purpose,
+    required this.ownerName,
+    required this.ownerPhoneNumber,
+    required this.type,
+    required this.vehicleNumber,
+    required this.vehicleName,
+    required this.seats,
+    required this.rentalPrice,
+  });
 
   @override
   State<RideStart> createState() => _RideStartState();
@@ -20,7 +48,7 @@ class _RideStartState extends State<RideStart> {
         elevation: 0,
         backgroundColor: Color.fromRGBO(51, 204, 102, 1),
         title: Text(
-          "Payment done ₹4000",
+          "Payment done ₹${widget.rentalPrice}",
           style: TextStyle(fontSize: 15),
         ),
         centerTitle: true,
@@ -114,7 +142,21 @@ class _RideStartState extends State<RideStart> {
                 backgroundColor: MaterialStateProperty.all(Colors.orange[600]),
               ),
               onPressed: () {
-                Get.to(RideComplete());
+                Get.to(RideComplete(
+                  source: widget.source,
+                  destination: widget.destination,
+                  pickupDateTime: widget.pickupDateTime,
+                  returnDateTime: widget.returnDateTime,
+                  delivery: widget.delivery,
+                  purpose: widget.purpose,
+                  ownerName: widget.ownerName,
+                  ownerPhoneNumber: widget.ownerPhoneNumber,
+                  type: widget.type,
+                  vehicleNumber: widget.vehicleNumber,
+                  vehicleName: widget.vehicleName,
+                  seats: widget.seats,
+                  rentalPrice: widget.rentalPrice,
+                ));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -158,12 +200,12 @@ class _RideStartState extends State<RideStart> {
                             ),
                           ),
                           Text(
-                            "Abhinandhan",
+                            "${widget.ownerName}",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "+91 9949494949",
+                            "+91 ${widget.ownerPhoneNumber}",
                             style:
                                 TextStyle(fontSize: 18, color: Colors.black54),
                           ),
@@ -227,7 +269,7 @@ class _RideStartState extends State<RideStart> {
                           style: TextStyle(color: Colors.black54, fontSize: 18),
                         ),
                         Text(
-                          "Petrol",
+                          "${widget.type}",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
@@ -244,7 +286,7 @@ class _RideStartState extends State<RideStart> {
                           style: TextStyle(color: Colors.black54, fontSize: 18),
                         ),
                         Text(
-                          "TS08EC2505",
+                          "${widget.vehicleNumber}",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,

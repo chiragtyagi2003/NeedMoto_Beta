@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
+import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/Grid.dart';
 
 import 'package:need_moto/customer/screens/chooseVehicle.dart';
@@ -20,6 +21,8 @@ class SelfDrive extends StatefulWidget {
 class _SelfDriveState extends State<SelfDrive> {
 
   MainController mainController = Get.find();
+
+  VehicleSubmitController vehicleSubmitController = Get.find();
 
   //Options display
   @override
@@ -202,6 +205,9 @@ class _SelfDriveState extends State<SelfDrive> {
                             String returnTime = mainController.returnDateTime.text;
                             // call the function to calculate days and hours time
                             mainController.calculateTimeDifference(pickupTime, returnTime);
+
+                            // set the received date and time
+                            vehicleSubmitController.extractReceivedDateAndTime(pickupTime);
 
                             Get.to(Grid());
                             // Navigator.push(

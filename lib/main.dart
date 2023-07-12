@@ -11,6 +11,7 @@ import 'package:need_moto/customer/controllers/booking_controller.dart';
 import 'package:need_moto/customer/controllers/controllerkyc.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/controllers/user_controllers.dart';
+import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/Grid.dart';
 import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/RequestAccepted.dart';
@@ -38,6 +39,7 @@ void main() async {
   Get.put(RequestController());
   Get.put(VehicleBookingController());
   Get.put(BookingController());
+  Get.put(VehicleSubmitController());
 
   // owner controllers
   Get.put(OwnerMainController());

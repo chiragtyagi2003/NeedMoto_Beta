@@ -6,7 +6,37 @@ import 'package:need_moto/customer/screens/ready_to_pickup.dart';
 import 'package:need_moto/customer/screens/ride_start.dart';
 
 class PickupVehicle extends StatefulWidget {
-  const PickupVehicle({super.key});
+
+  String source;
+  String destination;
+  String pickupDateTime;
+  String returnDateTime;
+  String delivery;
+  String purpose;
+  String ownerName;
+  String ownerPhoneNumber;
+  String type;
+  String vehicleNumber;
+  String vehicleName;
+  String seats;
+  double rentalPrice;
+
+  PickupVehicle({
+    required this.source,
+    required this.destination,
+    required this.pickupDateTime,
+    required this.returnDateTime,
+    required this.delivery,
+    required this.purpose,
+    required this.ownerName,
+    required this.ownerPhoneNumber,
+    required this.type,
+    required this.vehicleNumber,
+    required this.vehicleName,
+    required this.seats,
+    required this.rentalPrice,
+  });
+
 
   @override
   State<PickupVehicle> createState() => _PickupVehicleState();
@@ -22,7 +52,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
         elevation: 0,
         backgroundColor: Color.fromRGBO(51, 204, 102, 1),
         title: Text(
-          "Payment done ₹4000",
+          "Payment done ₹${widget.rentalPrice}",
           style: TextStyle(fontSize: 15),
         ),
         centerTitle: true,
@@ -35,7 +65,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
         child: Column(children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.065,
+            height: MediaQuery.of(context).size.height * 0.085,
             color: Color.fromRGBO(51, 204, 102, 1),
             // color: Colors.red,
             child: Container(
@@ -53,11 +83,12 @@ class _PickupVehicleState extends State<PickupVehicle> {
                   ),
                 )),
           ),
+          SizedBox(height: 10.0,),
           Container(
             height: MediaQuery.of(context).size.height * 0.27,
 
-            // child: Image.network(''),
-            decoration: BoxDecoration(color: Colors.red),
+            child: Image.asset('assets/images/tick.png'),
+            //decoration: BoxDecoration(color: Colors.red),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
@@ -71,7 +102,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                       border: Border.all(color: Colors.black)),
                   child: Center(
                       child: Text(
-                    "Maruthi swift / 5 Seater / ₹ 2000/-",
+                        '${widget.vehicleName} / ${widget.seats} Seater / ${widget.rentalPrice}/-',
                     style: TextStyle(fontSize: 18),
                   )),
                 ),
@@ -94,7 +125,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                       fontSize: 10, color: Colors.grey),
                                 ),
                                 Text(
-                                  "Hydrabad",
+                                  "${widget.source}",
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -117,7 +148,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                       fontSize: 10, color: Colors.grey),
                                 ),
                                 Text(
-                                  "Vijayawada",
+                                  "${widget.destination}",
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -150,14 +181,14 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "8/31/2022",
-                                      style: TextStyle(fontSize: 20),
+                                      "${widget.pickupDateTime}",
+                                      style: TextStyle(fontSize: 18),
                                     ),
-                                    Text(
-                                      "12:30",
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black54),
-                                    ),
+                                    // Text(
+                                    //   "12:30",
+                                    //   style: TextStyle(
+                                    //       fontSize: 15, color: Colors.black54),
+                                    // ),
                                   ],
                                 ),
                               ],
@@ -185,14 +216,14 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "9/2/2022",
-                                      style: TextStyle(fontSize: 20),
+                                      "${widget.returnDateTime}",
+                                      style: TextStyle(fontSize: 18),
                                     ),
-                                    Text(
-                                      "19:00",
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black54),
-                                    ),
+                                    // Text(
+                                    //   "19:00",
+                                    //   style: TextStyle(
+                                    //       fontSize: 15, color: Colors.black54),
+                                    // ),
                                   ],
                                 ),
                               ],
@@ -219,7 +250,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                       fontSize: 10, color: Colors.grey),
                                 ),
                                 Text(
-                                  "Home deliver",
+                                  "${widget.delivery}",
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -237,7 +268,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                       fontSize: 10, color: Colors.grey),
                                 ),
                                 Text(
-                                  "Function",
+                                  "${widget.purpose}",
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -282,12 +313,12 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                 ),
                               ),
                               Text(
-                                "Abhinandhan",
+                                "${widget.ownerName}",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "+91 9949494949",
+                                "+91 ${widget.ownerPhoneNumber}",
                                 style: TextStyle(
                                     fontSize: 18, color: Colors.black54),
                               ),
@@ -352,7 +383,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                   color: Colors.black54, fontSize: 18),
                             ),
                             Text(
-                              "Petrol",
+                              "${widget.type}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
@@ -370,7 +401,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                   color: Colors.black54, fontSize: 18),
                             ),
                             Text(
-                              "TS08EC2505",
+                              "${widget.vehicleNumber}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
@@ -473,7 +504,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                         "You received a 4 digit OTP as SMS to registered mobile number. Please share with owner while receiving vehicle",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 14,
                             height: 1.25,
                             fontWeight: FontWeight.w500),
                       ),
@@ -529,7 +560,21 @@ class _PickupVehicleState extends State<PickupVehicle> {
                       MaterialStateProperty.all(Color.fromRGBO(2, 100, 171, 1)),
                 ),
                 onPressed: () {
-                 Get.to(RideStart());
+                 Get.to(RideStart(
+                   source: widget.source,
+                   destination: widget.destination,
+                   pickupDateTime: widget.pickupDateTime,
+                   returnDateTime: widget.returnDateTime,
+                   delivery: widget.delivery,
+                   purpose: widget.purpose,
+                   ownerName: widget.ownerName,
+                   ownerPhoneNumber: widget.ownerPhoneNumber,
+                   type: widget.type,
+                   vehicleNumber: widget.vehicleNumber,
+                   vehicleName: widget.vehicleName,
+                   seats: widget.seats,
+                   rentalPrice: widget.rentalPrice,
+                 ));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.33,
@@ -561,7 +606,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                   child: Center(
                     child: Text(
                       "Cancel Ride",
-                      style: TextStyle(fontSize: 22),
+                      style: TextStyle(fontSize: 18),
                       textAlign: TextAlign.center,
                     ),
                   ),

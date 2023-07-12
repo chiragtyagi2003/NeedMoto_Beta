@@ -602,8 +602,8 @@ class _RequestState extends State<Request> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      RequestPending(
-                                        vehicleLocation: widget.vehicleLocation,
+                                      RequestAccepted(
+                                        //vehicleLocation: widget.vehicleLocation,
                                         source: widget.source,
                                         destination: widget.destination,
                                         pickupDateTime: widget.pickupDateTime,

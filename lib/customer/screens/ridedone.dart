@@ -1,21 +1,69 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/submitVehicle.dart';
 
 
-class RideComplete extends StatelessWidget {
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _addressController = TextEditingController();
+class RideComplete extends StatefulWidget {
+
+  String source;
+  String destination;
+  String pickupDateTime;
+  String returnDateTime;
+  String delivery;
+  String purpose;
+  String ownerName;
+  String ownerPhoneNumber;
+  String type;
+  String vehicleNumber;
+  String vehicleName;
+  String seats;
+  double rentalPrice;
+
+  RideComplete({
+    required this.source,
+    required this.destination,
+    required this.pickupDateTime,
+    required this.returnDateTime,
+    required this.delivery,
+    required this.purpose,
+    required this.ownerName,
+    required this.ownerPhoneNumber,
+    required this.type,
+    required this.vehicleNumber,
+    required this.vehicleName,
+    required this.seats,
+    required this.rentalPrice,
+  });
+
+
+  @override
+  State<RideComplete> createState() => _RideCompleteState();
+}
+
+class _RideCompleteState extends State<RideComplete> {
+  final _readingController = TextEditingController();
+
+  final _fastTagController = TextEditingController();
+
+  final _damageController = TextEditingController();
+
   final _dateController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
+
+  final _messageController = TextEditingController();
+
+  final DateFormat _dateFormat = DateFormat('dd-MM-yyyy HH:mm');
+
   final List<String> options = ['Option 1', 'Option 2', 'Option 3'];
+
   String? _selectedOption;
 
-  RideComplete({super.key});
+
+  VehicleSubmitController vehicleSubmitController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +101,7 @@ class RideComplete extends StatelessWidget {
               child: Column(
                 children: [
                   TextFormField(
-                    controller: _nameController,
+                    controller: vehicleSubmitController.vehicleReadingController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -68,7 +116,12 @@ class RideComplete extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                     ),
                     value: _selectedOption,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedOption = value;
+                        vehicleSubmitController.vehicleScratchController.text = value.toString();
+                      });
+                    },
                     items: options
                         .map((option) => DropdownMenuItem(
                               value: option,
@@ -78,7 +131,7 @@ class RideComplete extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
-                    controller: _addressController,
+                    controller: vehicleSubmitController.vehicleDamageController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -87,11 +140,11 @@ class RideComplete extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
-                    controller: _emailController,
+                    controller: vehicleSubmitController.vehicleFastTagAmountController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
-                      labelText: 'Fasttag amount',
+                      labelText: 'Fast Tag amount',
                     ),
                   ),
                   SizedBox(height: 16),
@@ -99,7 +152,7 @@ class RideComplete extends StatelessWidget {
                     onTap: () => _selectDate(context),
                     child: IgnorePointer(
                       child: TextFormField(
-                        controller: _dateController,
+                        controller: vehicleSubmitController.vehicleDateTimeOfHandoverController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
@@ -112,6 +165,7 @@ class RideComplete extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   TextField(
+                    controller: vehicleSubmitController.vehicleMessageController,
                     maxLines: 5,
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -148,7 +202,13 @@ class RideComplete extends StatelessWidget {
                           elevation: 0,
                         ),
                         onPressed: () {
-                          Get.to(() => SubmitVehicle());
+                          print(vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
+                          vehicleSubmitController.extractSubmitDateAndTime(vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
+                          Get.to(() => SubmitVehicle(
+                            vehicleNumber: widget.vehicleNumber,
+                            ownerName: widget.ownerName,
+                            ownerPhoneNumber: widget.ownerPhoneNumber,
+                          ));
                         },
                       ),
                     ),
@@ -169,8 +229,26 @@ class RideComplete extends StatelessWidget {
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
+
     if (pickedDate != null) {
-      _dateController.text = _dateFormat.format(pickedDate);
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        DateTime selectedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+
+        vehicleSubmitController.vehicleDateTimeOfHandoverController.text =
+            _dateFormat.format(selectedDateTime);
+      }
     }
   }
+
 }

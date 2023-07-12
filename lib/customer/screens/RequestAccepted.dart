@@ -308,7 +308,21 @@ class RequestAccepted extends StatelessWidget {
                   SizedBox(height: 20,),
                   ElevatedButton(onPressed: () {
                     // Get.to(HomePage());
-                    Get.to(PickupVehicle());
+                    Get.to(PickupVehicle(
+                      source: source,
+                      destination: destination,
+                      pickupDateTime: pickupDateTime,
+                      returnDateTime: returnDateTime,
+                      delivery: delivery,
+                      purpose: purpose,
+                      ownerName: ownerName,
+                      ownerPhoneNumber: ownerPhoneNumber,
+                      type: type,
+                      vehicleNumber: vehicleNumber,
+                      vehicleName: vehicleName,
+                      seats: seats,
+                      rentalPrice: rentalPrice,
+                    ));
                     },
                       child: Text('Pay at Pickup')),
                 ],

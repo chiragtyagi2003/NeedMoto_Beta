@@ -39,7 +39,7 @@ class _GridState extends State<Grid> {
                   child: Column(
                     children: [
                       Image.asset(
-                        'assets/images/rr3.png',
+                        'assets/images/rr3.jpg',
                         width: 190,
                         height: 190,
                       ),
@@ -67,7 +67,7 @@ class _GridState extends State<Grid> {
                   child: Column(
                     children: [
                       Image.asset(
-                        '',
+                        'assets/images/car2.jpg',
                         width: 190,
                         height: 190,
                       ),

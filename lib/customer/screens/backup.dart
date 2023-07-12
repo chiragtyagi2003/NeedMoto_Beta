@@ -146,8 +146,8 @@ class HomePage extends StatelessWidget {
                 //   context,
                 //   MaterialPageRoute(builder: (context) => RideComplete()),
                 // );
-                // Navigator.pushNamed(context, 'RideComplete');
-                Get.to(() => RideComplete());
+                // // Navigator.pushNamed(context, 'RideComplete');
+                // Get.to(() => RideComplete());
               },
             ),
             Padding(
