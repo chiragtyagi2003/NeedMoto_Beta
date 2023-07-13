@@ -44,7 +44,7 @@ class _ChooseVehicleState extends State<ChooseVehicle> {
         child: Container(
           child: Column(
             children: [
-              // TimeSlider(),
+              TimeSlider(),
               SizedBox(
                 height: 10.0,
               ),

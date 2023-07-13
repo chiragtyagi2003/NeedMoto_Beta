@@ -49,6 +49,39 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
     // TODO: implement initState
     super.initState();
     vehicleSubmitController.vehicleTotalDurationController.text = vehicleSubmitController.calculateDuration(mainController.pickupDateTime.text, vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
+    calculateExtraPrice();
+  }
+
+  void calculateExtraPrice()
+  {
+    double totalHours = 0.0;
+    double hourlyRate = 0.0;
+
+    totalHours = vehicleSubmitController.calculateExtraTime(mainController.returnDateTime.text, vehicleSubmitController.vehicleDateTimeOfHandoverController.text).toDouble();
+
+    print('TOTAL HOURS: ${totalHours}');
+    // if vehicle submitted before return date time
+    if (totalHours < 0) {
+      vehicleSubmitController.vehicleOtherChargesController.text =  '0.0';
+    } else {
+
+      // price for different base -> 12 and 24
+      if(mainController.userChoiceHoursController.text == '12')
+        {
+          hourlyRate = double.parse(mainController.base12PriceController.text);
+          print('HOURLY RATE 12 HOURS: ${hourlyRate}');
+        }
+
+      else if(mainController.userChoiceHoursController.text == '24')
+        print('HOURLY RATE 24 HOURS: ${hourlyRate}');
+        {
+          hourlyRate = double.parse(mainController.base24PriceController.text);
+        }
+
+      double extraPrice = totalHours * hourlyRate;
+      vehicleSubmitController.vehicleOtherChargesController.text = extraPrice.toString();
+    }
+
   }
 
 
@@ -84,7 +117,7 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        '₹1500.00',
+                        '₹${vehicleSubmitController.vehicleOtherChargesController.text}',
                         style: TextStyle(
                             fontSize: 23, fontWeight: FontWeight.bold),
                       ),

@@ -52,6 +52,8 @@ class MainController extends GetxController {
 
   TextEditingController userChosenTime = TextEditingController();
 
+  String displayValue = "12";
+
   void calculateTimeDifference(String pickupDatetime, String returnDatetime) {
     // Parse the date strings into DateTime objects
     DateTime pickupDate = DateFormat('dd-MM-yyyy HH:mm').parse(pickupDatetime);

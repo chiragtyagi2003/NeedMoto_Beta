@@ -26,30 +26,25 @@ class VehicleSubmitController extends GetxController{
   void extractSubmitDateAndTime(String dateTimeString) {
     DateFormat customFormat = DateFormat('dd-MM-yyyy HH:mm');
     DateTime dateTime = customFormat.parse(dateTimeString);
-    print(dateTime);
+
 
     String date = '${dateTime.day}-${dateTime.month}-${dateTime.year}';
     String time = DateFormat('HH:mm').format(dateTime);
-    print(time);
 
     vehicleSubmitDateController.text = date;
     vehicleSubmitTimeController.text = time;
-    print(vehicleSubmitTimeController.text);
 
   }
 
   void extractReceivedDateAndTime(String dateTimeString) {
     DateFormat customFormat = DateFormat('dd-MM-yyyy HH:mm');
     DateTime dateTime = customFormat.parse(dateTimeString);
-    print(dateTime);
 
     String date = '${dateTime.day}-${dateTime.month}-${dateTime.year}';
     String time = DateFormat('HH:mm').format(dateTime);
-    print(time);
 
     vehicleReceivedDateController.text = date;
     vehicleReceivedTimeController.text = time;
-    print(vehicleReceivedTimeController.text);
 
   }
 
@@ -66,6 +61,17 @@ class VehicleSubmitController extends GetxController{
     return totalHours.toString();
   }
 
+  int calculateExtraTime(String userReturnDateTimeString, String submitDateTimeString) {
+    DateFormat customFormat = DateFormat('dd-MM-yyyy HH:mm');
+    DateTime startDateTime = customFormat.parse(userReturnDateTimeString);
+    DateTime endDateTime = customFormat.parse(submitDateTimeString);
 
+    Duration extraTime = endDateTime.difference(startDateTime);
+
+    // Calculate the total duration in hours and round off to the greatest integer
+    int totalHours = extraTime.inHours;
+
+    return totalHours;
+  }
 
 }
