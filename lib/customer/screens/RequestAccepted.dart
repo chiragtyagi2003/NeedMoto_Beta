@@ -19,6 +19,8 @@ class RequestAccepted extends StatelessWidget {
   String vehicleNumber;
   String vehicleName;
   String seats;
+  String base_12;
+  String base_24;
   double rentalPrice;
 
   RequestAccepted({
@@ -35,6 +37,8 @@ class RequestAccepted extends StatelessWidget {
     required this.vehicleName,
     required this.seats,
     required this.rentalPrice,
+    required this.base_12,
+    required this.base_24
   });
 
   void _handleBackButton() {
@@ -322,6 +326,8 @@ class RequestAccepted extends StatelessWidget {
                       vehicleName: vehicleName,
                       seats: seats,
                       rentalPrice: rentalPrice,
+                      base_12: base_12,
+                      base_24: base_24,
                     ));
                     },
                       child: Text('Pay at Pickup')),

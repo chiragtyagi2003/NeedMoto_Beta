@@ -130,6 +130,8 @@ class _RequestState extends State<Request> {
           vehicleName: widget.vehicleName,
           seats: widget.seats,
           rentalPrice: widget.rentalPrice,
+          base_12: widget.base_12,
+          base_24: widget.base_24,
         ));
       } else {
         Get.to(RequestRejected(
@@ -617,6 +619,8 @@ class _RequestState extends State<Request> {
                                         vehicleName: widget.vehicleName,
                                         seats: widget.seats,
                                         rentalPrice: widget.rentalPrice,
+                                        base_12: widget.base_12,
+                                        base_24: widget.base_24,
                                       )));
 
                           // Start the timer for the delay

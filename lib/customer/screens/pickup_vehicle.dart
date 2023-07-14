@@ -20,6 +20,8 @@ class PickupVehicle extends StatefulWidget {
   String vehicleName;
   String seats;
   double rentalPrice;
+  String base_12;
+  String base_24;
 
   PickupVehicle({
     required this.source,
@@ -35,6 +37,8 @@ class PickupVehicle extends StatefulWidget {
     required this.vehicleName,
     required this.seats,
     required this.rentalPrice,
+    required this.base_12,
+    required this.base_24,
   });
 
 
@@ -574,6 +578,8 @@ class _PickupVehicleState extends State<PickupVehicle> {
                    vehicleName: widget.vehicleName,
                    seats: widget.seats,
                    rentalPrice: widget.rentalPrice,
+                   base_12: widget.base_12,
+                   base_24: widget.base_24,
                  ));
                 },
                 child: Container(

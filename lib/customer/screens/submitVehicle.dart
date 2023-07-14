@@ -19,6 +19,8 @@ class SubmitVehicle extends StatefulWidget {
   String vehicleNumber;
   String ownerPhoneNumber;
   String ownerName;
+  String base_12;
+  String base_24;
 
   SubmitVehicle({
     // required this.reading,
@@ -30,6 +32,8 @@ class SubmitVehicle extends StatefulWidget {
     required this.vehicleNumber,
     required this.ownerName,
     required this.ownerPhoneNumber,
+    required this.base_12,
+    required this.base_24,
 });
 
   @override
@@ -43,6 +47,7 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
 
 
   MainController mainController = Get.find();
+  double totalHours = 0.0;
 
   @override
   void initState() {
@@ -52,9 +57,8 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
     calculateExtraPrice();
   }
 
-  void calculateExtraPrice()
-  {
-    double totalHours = 0.0;
+  void calculateExtraPrice(){
+
     double hourlyRate = 0.0;
 
     totalHours = vehicleSubmitController.calculateExtraTime(mainController.returnDateTime.text, vehicleSubmitController.vehicleDateTimeOfHandoverController.text).toDouble();
@@ -65,21 +69,32 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
       vehicleSubmitController.vehicleOtherChargesController.text =  '0.0';
     } else {
 
+      print(mainController.userChoiceHoursController.text);
       // price for different base -> 12 and 24
       if(mainController.userChoiceHoursController.text == '12')
         {
-          hourlyRate = double.parse(mainController.base12PriceController.text);
+          setState(() {
+            hourlyRate = double.parse(widget.base_12);
+          });
           print('HOURLY RATE 12 HOURS: ${hourlyRate}');
         }
 
       else if(mainController.userChoiceHoursController.text == '24')
-        print('HOURLY RATE 24 HOURS: ${hourlyRate}');
         {
-          hourlyRate = double.parse(mainController.base24PriceController.text);
+          setState(() {
+            hourlyRate = double.parse(widget.base_24);
+          });
+          print('HOURLY RATE 24 HOURS: ${hourlyRate}');
         }
 
+      print(mainController.userChoiceHoursController.text);
+       print("HOURLY RATE: ${hourlyRate}");
       double extraPrice = totalHours * hourlyRate;
-      vehicleSubmitController.vehicleOtherChargesController.text = extraPrice.toString();
+      print("EXTRA PRICE: ${extraPrice}");
+      setState(() {
+        vehicleSubmitController.vehicleOtherChargesController.text = extraPrice.toString();
+      });
+
     }
 
   }
@@ -335,7 +350,7 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          'No',
+                            totalHours < 0 ? 'No' : 'Yes',
                           style: TextStyle(fontWeight: FontWeight.w600),
                         )
                       ],

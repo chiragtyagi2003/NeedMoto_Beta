@@ -19,6 +19,8 @@ class RideStart extends StatefulWidget {
   String vehicleName;
   String seats;
   double rentalPrice;
+  String base_12;
+  String base_24;
 
   RideStart({
     required this.source,
@@ -34,6 +36,8 @@ class RideStart extends StatefulWidget {
     required this.vehicleName,
     required this.seats,
     required this.rentalPrice,
+    required this.base_12,
+    required this.base_24,
   });
 
   @override
@@ -156,6 +160,8 @@ class _RideStartState extends State<RideStart> {
                   vehicleName: widget.vehicleName,
                   seats: widget.seats,
                   rentalPrice: widget.rentalPrice,
+                  base_12: widget.base_12,
+                  base_24: widget.base_24,
                 ));
               },
               child: Container(

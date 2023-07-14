@@ -23,6 +23,8 @@ class RideComplete extends StatefulWidget {
   String vehicleName;
   String seats;
   double rentalPrice;
+  String base_12;
+  String base_24;
 
   RideComplete({
     required this.source,
@@ -38,6 +40,8 @@ class RideComplete extends StatefulWidget {
     required this.vehicleName,
     required this.seats,
     required this.rentalPrice,
+    required this.base_12,
+    required this.base_24,
   });
 
 
@@ -208,6 +212,8 @@ class _RideCompleteState extends State<RideComplete> {
                             vehicleNumber: widget.vehicleNumber,
                             ownerName: widget.ownerName,
                             ownerPhoneNumber: widget.ownerPhoneNumber,
+                            base_12: widget.base_12,
+                            base_24: widget.base_24,
                           ));
                         },
                       ),

@@ -87,7 +87,10 @@ class MyApp extends StatelessWidget {
               vehicleNumber: 'TD22DG3323',
               vehicleName: 'Merc Benz',
               seats: '4',
-              rentalPrice: 3234.53)),
+              rentalPrice: 3234.53,
+              base_12: '4000',
+              base_24: '5000',
+          )),
         ]);
   }
 }
