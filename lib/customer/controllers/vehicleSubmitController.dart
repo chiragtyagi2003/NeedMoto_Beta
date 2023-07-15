@@ -48,10 +48,10 @@ class VehicleSubmitController extends GetxController{
 
   }
 
-  String calculateDuration(String receivedDateTimeString, String submitDateTimeString) {
+  String calculateDuration(String startDateTimeString, String endDateTimeString) {
     DateFormat customFormat = DateFormat('dd-MM-yyyy HH:mm');
-    DateTime startDateTime = customFormat.parse(receivedDateTimeString);
-    DateTime endDateTime = customFormat.parse(submitDateTimeString);
+    DateTime startDateTime = customFormat.parse(startDateTimeString);
+    DateTime endDateTime = customFormat.parse(endDateTimeString);
 
     Duration duration = endDateTime.difference(startDateTime);
 

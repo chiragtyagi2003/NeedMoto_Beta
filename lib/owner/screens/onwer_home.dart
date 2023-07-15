@@ -135,7 +135,7 @@ class _OwnerHomeState extends State<OwnerHome> {
               ),
             ),
             SizedBox(height: 25),
-            Text("Welcome to Rush Wheels",
+            Text("Welcome to Need Moto",
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,

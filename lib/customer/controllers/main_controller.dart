@@ -52,7 +52,22 @@ class MainController extends GetxController {
 
   TextEditingController userChosenTime = TextEditingController();
 
+
+
   String displayValue = "12";
+
+  String calculateDuration(String startDateTimeString, String endDateTimeString) {
+    DateFormat customFormat = DateFormat('dd-MM-yyyy HH:mm');
+    DateTime startDateTime = customFormat.parse(startDateTimeString);
+    DateTime endDateTime = customFormat.parse(endDateTimeString);
+
+    Duration duration = endDateTime.difference(startDateTime);
+
+    // Calculate the total duration in hours and round off to the greatest integer
+    int totalHours = duration.inHours;
+
+    return totalHours.toString();
+  }
 
   void calculateTimeDifference(String pickupDatetime, String returnDatetime) {
     // Parse the date strings into DateTime objects

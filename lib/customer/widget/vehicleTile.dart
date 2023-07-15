@@ -158,10 +158,20 @@ class _VehicleTileState extends State<VehicleTile> {
     double basePrice = userChoiceHours == 12 ? double.parse(widget.base_12) : double.parse(widget.base_24);
     double distanceLimit = userChoiceHours == 12 ? 150.0 : 350.0;
 
+    double totalHoursDuration = 0.0;
+    totalHoursDuration= double.parse(mainController.calculateDuration(mainController.pickupDateTime.text, mainController.returnDateTime.text));
+
     // Perform the calculations
     double extraHoursCost = numberOfExtraHours * double.parse(widget.pricerPerHourCust);
     double distanceCost = distance > distanceLimit ? (distance - distanceLimit) * pricePerKmCust : 0.0;
-    double totalCost = basePrice + extraHoursCost + distanceCost;
+    double totalCost = double.parse(widget.base_12);
+    if (totalHoursDuration > 23)
+      {
+        totalCost += double.parse(widget.base_24);
+      }
+
+    totalCost += distanceCost;
+
 
     setState(() {
       rentalPrice = totalCost;

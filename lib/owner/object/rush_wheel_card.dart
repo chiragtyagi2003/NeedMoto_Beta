@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/car_details.dart';
+import 'package:need_moto/owner/screens/received_vehicle/track_vehicle.dart';
 
 
 class RushWheel extends StatefulWidget {
@@ -154,6 +155,7 @@ class _RushWheelState extends State<RushWheel> {
             color: Colors.black,
           ),
           Container(
+            height: MediaQuery.of(context).size.height * 0.05,
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,10 +197,15 @@ class _RushWheelState extends State<RushWheel> {
                 _offride
                     ? Row(
                         children: [
-                          Text("Track Vehicle",
-                              style:
-                                  TextStyle(color: Colors.green, fontSize: 12)),
-                        ],
+                          InkWell(
+                            onTap: () {
+                              Get.to(TrackVehicle());
+                            },
+                            child: Text("Track Vehicle",
+                                style:
+                                    TextStyle(color: Colors.green, fontSize: 10)),
+                          ),
+                        ]
                       )
                     : Container(),
                 InkWell(
