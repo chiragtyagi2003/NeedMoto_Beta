@@ -62,13 +62,13 @@ class OwnerMainController extends GetxController {
   Future<List<DocumentSnapshot<Map<String, dynamic>>>> fetchVehicles() async {
     final user = FirebaseAuth.instance.currentUser;
     final querySnapshot = await FirebaseFirestore.instance
-        .collection('owners')
-        .doc(user!.uid)
         .collection('vehicles')
+        .where('ownerID', isEqualTo: user!.uid)
         .get();
 
     return querySnapshot.docs;
   }
+
 
   // Get the current user's ID
   String getCurrentUserId() {

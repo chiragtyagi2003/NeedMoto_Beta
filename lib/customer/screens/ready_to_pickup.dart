@@ -422,7 +422,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                     child: Center(
                       child: Text(
                         "Cancel Ride",
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18 ),
                         textAlign: TextAlign.center,
                       ),
                     ),
