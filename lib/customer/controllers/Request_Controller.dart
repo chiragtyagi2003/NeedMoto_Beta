@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 
 
 class RequestController extends GetxController {
   RxList productData = [].obs;
   var status = ''.obs;
+
+  MainController mainController = Get.find();
 
   final RxList<DocumentSnapshot> myRequests = RxList<DocumentSnapshot>();
 
@@ -115,5 +118,105 @@ class RequestController extends GetxController {
 
     return finalRequestTime;
   }
+
+  Future<void> searchAndFetchDetails(String docId) async {
+    try {
+      // Query the "bookings" collection for the provided docId
+      DocumentSnapshot bookingSnapshot = await FirebaseFirestore.instance
+          .collection('bookings')
+          .doc(docId)
+          .get();
+
+      // Check if the booking document with the provided docId exists
+      if (bookingSnapshot.exists) {
+        // Fetch the ownerId and vehicleNumber from the booking document
+        String ownerId = bookingSnapshot['ownerID'];
+        String vehicleNumber = bookingSnapshot['vehicleNumber'];
+
+        mainController.assignedOwnerIDController.text = ownerId;
+
+        // Query the "vehicles" collection for matching ownerId and vehicleNumber
+        QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
+            .collection('vehicles')
+            .where('ownerID', isEqualTo: ownerId)
+            .where('vehicleNumber', isEqualTo: vehicleNumber)
+            .get();
+
+        // Check if a matching vehicle document exists
+        if (vehicleSnapshot.docs.isNotEmpty) {
+          // Retrieve the first matching vehicle document
+          DocumentSnapshot vehicleDocSnapshot = vehicleSnapshot.docs.first;
+
+          // Fetch the desired fields from the vehicle document
+          // ...
+          mainController.assignedVehicleNumberController.text = vehicleDocSnapshot['vehicleNumber'];
+          mainController.assignedOwnerNameController.text = vehicleDocSnapshot['ownerName'];
+          mainController.assignedOwnerPhoneNumberController.text = vehicleDocSnapshot['ownerPhoneNumber'];
+
+
+          print('name: ${mainController.assignedOwnerNameController.text}');
+          print('v-number: ${mainController.assignedVehicleNumberController.text}');
+          print('ph: ${mainController.assignedOwnerPhoneNumberController.text}');
+
+
+          // Further processing with the fetched details
+          // ...
+          // Your code here
+
+          // Example: Print the fetched details
+          print('Owner ID: $ownerId');
+          print('Vehicle Number: $vehicleNumber');
+
+          // ...
+        } else {
+          print('No matching vehicle found.');
+          // Handle the case when no matching vehicle is found
+        }
+      } else {
+        print('No matching booking found.');
+        // Handle the case when no matching booking is found
+      }
+    } catch (error) {
+      print('Error searching and fetching details: $error');
+    }
+  }
+
+
+
+  Future<void> updateOnRideField(String ownerId, String vehicleNumber) async {
+    try {
+      // Query the "vehicles" collection for matching ownerId and vehicleNumber
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('vehicles')
+          .where('ownerID', isEqualTo: ownerId)
+          .where('vehicleNumber', isEqualTo: vehicleNumber)
+          .get();
+
+      // Check if a matching vehicle document exists
+      if (snapshot.docs.isNotEmpty) {
+        // Get the first matching document
+        DocumentSnapshot document = snapshot.docs.first;
+
+        // Get the document ID
+        String docId = document.id;
+
+        // Update the on_ride field to false
+        await FirebaseFirestore.instance
+            .collection('vehicles')
+            .doc(docId)
+            .update({'on_ride': false});
+
+        print('on_ride field updated successfully!');
+      } else {
+        print('No matching vehicle found.');
+        // Handle the case when no matching vehicle is found
+      }
+    } catch (error) {
+      print('Error updating on_ride field: $error');
+    }
+  }
+
+
+
 
 }

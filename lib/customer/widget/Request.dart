@@ -105,6 +105,7 @@ class _RequestState extends State<Request> {
         widget.destination;
   }
 
+
   void checkBookingDocument(String documentId) async {
     try {
       final DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -113,6 +114,9 @@ class _RequestState extends State<Request> {
           .get();
 
       if (snapshot.exists) {
+
+        //fetch details
+        await requestController.searchAndFetchDetails(requestController.requestIDController.text);
         // Document exists, navigate to a certain page
         // Replace 'YourPage()' with the desired page widget or navigation logic
         Get.to(RequestAccepted(
@@ -386,20 +390,20 @@ class _RequestState extends State<Request> {
                                   ),
                                 ),
                                 const Spacer(),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow[800],
-                                  size: size.width * 0.06,
-                                ),
-                                Text(
-                                  widget.vehicleRating,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.yellow[800],
-                                    fontSize: size.width * 0.04,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                // Icon(
+                                //   Icons.star,
+                                //   color: Colors.yellow[800],
+                                //   size: size.width * 0.06,
+                                // ),
+                                // Text(
+                                //   widget.vehicleRating,
+                                //   textAlign: TextAlign.center,
+                                //   style: TextStyle(
+                                //     color: Colors.yellow[800],
+                                //     fontSize: size.width * 0.04,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
                               ],
                             ),
                             Row(
@@ -483,87 +487,87 @@ class _RequestState extends State<Request> {
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: size.height * 0.03,
-                              ),
-                              child: Text(
-                                'Owner Details',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: size.width * 0.055,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: SizedBox(
-                                height: size.height * 0.15,
-                                width: size.width * 0.9,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: size.height * 0.07,
-                                        width: size.width * 0.15,
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                          ),
-                                          child: Align(
-                                              child: Icon(
-                                                Icons.person,
-                                                color: Colors.white,
-                                              )),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: size.width * 0.05,
-                                          vertical: size.height * 0.015,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              widget.ownerName,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: size.width * 0.05,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            Text(
-                                              widget.ownerPhoneNumber,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color:
-                                                Colors.black.withOpacity(0.6),
-                                                fontSize: size.width * 0.032,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.symmetric(
+                            //     vertical: size.height * 0.03,
+                            //   ),
+                            //   child: Text(
+                            //     'Owner Details',
+                            //     style: TextStyle(
+                            //       color: Colors.black,
+                            //       fontSize: size.width * 0.055,
+                            //       fontWeight: FontWeight.bold,
+                            //     ),
+                            //   ),
+                            // // ),
+                            // Center(
+                            //   child: SizedBox(
+                            //     height: size.height * 0.15,
+                            //     width: size.width * 0.9,
+                            //     child: Container(
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.white,
+                            //         borderRadius: const BorderRadius.all(
+                            //           Radius.circular(10),
+                            //         ),
+                            //       ),
+                            //       child: Row(
+                            //         // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            //         crossAxisAlignment: CrossAxisAlignment.start,
+                            //         children: [
+                            //           SizedBox(
+                            //             height: size.height * 0.07,
+                            //             width: size.width * 0.15,
+                            //             child: Container(
+                            //               decoration: const BoxDecoration(
+                            //                 color: Colors.black,
+                            //                 borderRadius: BorderRadius.all(
+                            //                   Radius.circular(10),
+                            //                 ),
+                            //               ),
+                            //               child: Align(
+                            //                   child: Icon(
+                            //                     Icons.person,
+                            //                     color: Colors.white,
+                            //                   )),
+                            //             ),
+                            //           ),
+                            //           Padding(
+                            //             padding: EdgeInsets.symmetric(
+                            //               horizontal: size.width * 0.05,
+                            //               vertical: size.height * 0.015,
+                            //             ),
+                            //             child: Column(
+                            //               crossAxisAlignment:
+                            //               CrossAxisAlignment.start,
+                            //               children: [
+                            //                 Text(
+                            //                   widget.ownerName,
+                            //                   textAlign: TextAlign.center,
+                            //                   style: TextStyle(
+                            //                     color: Colors.black,
+                            //                     fontSize: size.width * 0.05,
+                            //                     fontWeight: FontWeight.bold,
+                            //                   ),
+                            //                 ),
+                            //                 Text(
+                            //                   widget.ownerPhoneNumber,
+                            //                   textAlign: TextAlign.center,
+                            //                   style: TextStyle(
+                            //                     color:
+                            //                     Colors.black.withOpacity(0.6),
+                            //                     fontSize: size.width * 0.032,
+                            //                     fontWeight: FontWeight.bold,
+                            //                   ),
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

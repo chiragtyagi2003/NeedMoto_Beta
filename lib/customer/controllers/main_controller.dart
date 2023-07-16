@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:need_moto/customer/controllers/DateController.dart';
@@ -32,8 +33,17 @@ class MainController extends GetxController {
   TextEditingController distanceController = TextEditingController(text: '150');
   TextEditingController extraHoursController = TextEditingController(text: '12');
   TextEditingController totalPriceController = TextEditingController();
+  TextEditingController bookedVehicleNumberController = TextEditingController();
+
+  TextEditingController ownerIDController = TextEditingController();
 
   TextEditingController vehicleTypeController = TextEditingController();
+
+  TextEditingController assignedVehicleNumberController = TextEditingController();
+  TextEditingController assignedOwnerNameController = TextEditingController();
+  TextEditingController assignedOwnerPhoneNumberController = TextEditingController();
+  TextEditingController assignedVehicleFuelTypeNumberController = TextEditingController();
+  TextEditingController assignedOwnerIDController = TextEditingController();
 
 
   final DateTimeController pickUpdateTimeController = DateTimeController();
@@ -50,7 +60,11 @@ class MainController extends GetxController {
   DropdownController seatsDropDownController = DropdownController();
 
 
+
   TextEditingController userChosenTime = TextEditingController();
+
+  String passOwnerID = "";
+  String passVehicleNumber = "";
 
 
 
@@ -94,12 +108,49 @@ class MainController extends GetxController {
     String owner = ownerId;
     String vehicle = vehicleNumber;
 
-    ownerNameController.text = owner;
-    vehicleNumberController.text = vehicle;
+
+    ownerIDController.text = owner;
+    bookedVehicleNumberController.text = vehicle;
+
 
     // Example: Print the owner and vehicle information
-    print('Owner ID: $owner');
-    print('Vehicle Number: $vehicle');
+    print('Owner ID: ${ownerIDController.text}');
+    print('Vehicle Number: ${bookedVehicleNumberController.text}');
+  }
+
+  Future<void> fetchVehicleDetails(String ownerId, String vehicleNumber) async {
+    try
+    {
+      print("Owner ID in fun: ${ownerId}");
+      print("vehicleNumber in fun: ${vehicleNumber}");
+
+      // Query the "vehicles" collection for matching documents
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('vehicles')
+          .where('ownerID', isEqualTo: ownerId)
+          .where('vehicleNumber', isEqualTo: vehicleNumber)
+          .get();
+
+      // Process the query results
+      if (snapshot.docs.isNotEmpty) {
+        // Retrieve the first matching document
+        DocumentSnapshot document = snapshot.docs.first;
+
+        // Fetch the desired details from the document
+// ...
+
+        // Further processing with the fetched details
+        // ...
+        // Your code here
+
+        // Example: Print the fetched details
+      } else {
+        print('No matching vehicles found.');
+        // Handle the case when no matching vehicles are found
+      }
+    } catch (error) {
+      print('Error fetching vehicle details: $error');
+    }
   }
 
 

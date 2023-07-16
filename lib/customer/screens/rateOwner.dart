@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/Request_Controller.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/StarRating.dart';
@@ -38,6 +39,8 @@ class _RateOwnerState extends State<RateOwner> {
 
 
   VehicleSubmitController vehicleSubmitController = Get.find();
+  RequestController requestController = Get.find();
+  MainController mainController = Get.find();
 
 
   void addSubmittedVehicle() async {
@@ -61,7 +64,7 @@ class _RateOwnerState extends State<RateOwner> {
     userDocument.collection('submittedVehicles');
 
     // Create a document ID using the parameter value and timestamp
-    String documentId = '${widget.vehicleNumber}-$timestamp';
+    String documentId = '${mainController.assignedVehicleNumberController.text}-$timestamp';
 
     // Create a new document in the "submittedvehicles" subcollection
     await submittedVehiclesCollection.doc(documentId).set({
@@ -72,21 +75,25 @@ class _RateOwnerState extends State<RateOwner> {
       'fast_tag_amount': vehicleSubmitController.vehicleFastTagAmountController.text,
       'date_time': vehicleSubmitController.vehicleDateTimeOfHandoverController.text,
       'message': vehicleSubmitController.vehicleMessageController.text,
-      'vehicleNumber': widget.vehicleNumber,
-      'ownerPhoneNumber': widget.ownerPhoneNumber,
-      'ownerName': widget.ownerName,
+      'vehicleNumber': mainController.assignedVehicleNumberController.text,
+      'ownerPhoneNumber': mainController.assignedOwnerPhoneNumberController.text,
+      'ownerName': mainController.assignedOwnerNameController.text,
+      'ownerId': mainController.assignedOwnerIDController.text,
       'uid': currentUserId,
       'received_date': vehicleSubmitController.vehicleReceivedDateController.text,
       'received_time': vehicleSubmitController.vehicleReceivedTimeController.text,
-      // 'total_duration': ,
+      'total_duration': vehicleSubmitController.vehicleTotalDurationController.text,
       // // 'ride_km':,
       'submit_date': vehicleSubmitController.vehicleSubmitDateController.text,
       'submit_time': vehicleSubmitController.vehicleSubmitTimeController.text,
-      // 'other_charges':,
+      'other_charges': vehicleSubmitController.vehicleOtherChargesController.text,
       'cust_rating': customerRating.toString(),
       'cust_msg_to_driver': vehicleSubmitController.vehicleMessageToOwnerController.text,
       // ...
     });
+
+    // change status of the vehicle
+    await requestController.updateOnRideField(mainController.assignedOwnerIDController.text, mainController.assignedVehicleNumberController.text);
   }
 
   @override
@@ -187,6 +194,8 @@ class _RateOwnerState extends State<RateOwner> {
                         elevation: 0,
                       ),
                       onPressed: () {
+                        addSubmittedVehicle();
+
                         Get.to(Points());
                       },
                     ),

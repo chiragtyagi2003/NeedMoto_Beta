@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/Request_Controller.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/pickup_vehicle.dart';
 import 'package:need_moto/customer/screens/ready_to_pickup.dart';
 
 
-class RequestAccepted extends StatelessWidget {
+class RequestAccepted extends StatefulWidget {
   String source;
   String destination;
   String pickupDateTime;
@@ -41,9 +43,24 @@ class RequestAccepted extends StatelessWidget {
     required this.base_24
   });
 
+  @override
+  State<RequestAccepted> createState() => _RequestAcceptedState();
+}
+
+class _RequestAcceptedState extends State<RequestAccepted> {
   void _handleBackButton() {
     // Perform your desired navigation here
     Get.to(Home());
+  }
+
+  RequestController requestController = Get.find();
+  MainController mainController = Get.find();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
   }
 
   @override
@@ -112,7 +129,7 @@ class RequestAccepted extends StatelessWidget {
                     height: 55,
                     decoration: BoxDecoration(border:Border.all(color: Colors.black),borderRadius: BorderRadius.circular(20),color: Colors.grey.shade400),
                     child: Text(
-                      '$vehicleName / $seats Seater / $rentalPrice/-',
+                      '${widget.vehicleName} / ${widget.seats} Seater / ${widget.rentalPrice}/-',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 18),),
                   ),
@@ -130,7 +147,7 @@ class RequestAccepted extends StatelessWidget {
                               width: 150,
                               height: 35,
                               child: TextField(
-                                  controller: TextEditingController(text: source),
+                                  controller: TextEditingController(text: widget.source),
                                   enabled: false,
                                   decoration: InputDecoration(hintText: 'hyderabad'))),
                         ],
@@ -152,7 +169,7 @@ class RequestAccepted extends StatelessWidget {
                               width: 130,
                               height: 35,
                               child: TextField(
-                                  controller: TextEditingController(text: destination),
+                                  controller: TextEditingController(text: widget.destination),
                                   enabled: false,
                                   decoration: InputDecoration(hintText: 'Chittoor'))),
                         ],
@@ -172,7 +189,7 @@ class RequestAccepted extends StatelessWidget {
                               width: 150,
                               height: 35,
                               child: TextField(
-                                  controller: TextEditingController(text: pickupDateTime),
+                                  controller: TextEditingController(text: widget.pickupDateTime),
                                   enabled: false,
                                   decoration: InputDecoration(
                                     hintText: '22-04-23',
@@ -199,7 +216,7 @@ class RequestAccepted extends StatelessWidget {
                               width: 140,
                               height: 35,
                               child: TextField(
-                                  controller: TextEditingController(text: returnDateTime),
+                                  controller: TextEditingController(text: widget.returnDateTime),
                                   enabled: false,
                                   decoration: InputDecoration(
                                     hintText: '24-02-23',
@@ -224,7 +241,7 @@ class RequestAccepted extends StatelessWidget {
                               width: 150,
                               height: 35,
                               child: TextField(
-                                  controller: TextEditingController(text: delivery),
+                                  controller: TextEditingController(text: widget.delivery),
                                   enabled: false,
                                   decoration: InputDecoration(hintText: 'Pickup'))),
                         ],
@@ -241,7 +258,7 @@ class RequestAccepted extends StatelessWidget {
                               width: 140,
                               height: 35,
                               child: TextField(
-                                  controller: TextEditingController(text: purpose),
+                                  controller: TextEditingController(text: widget.purpose),
                                   enabled: false,
                                   decoration: InputDecoration(hintText: 'Function'))),
                         ],
@@ -266,7 +283,7 @@ class RequestAccepted extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(width: 113,),
-                              Container(width: 150,height: 50,child: Text('$ownerName\n+91 $ownerPhoneNumber'))
+                              Container(width: 150,height: 50,child: Text('${mainController.assignedOwnerNameController.text}\n+91 ${mainController.assignedOwnerPhoneNumberController.text}'))
                             ],
                           ),
                           SizedBox(height: 30,),
@@ -275,7 +292,7 @@ class RequestAccepted extends StatelessWidget {
                             children: [
                               Text('Fuel type'),
                               SizedBox(width: 100,),
-                              Text('Petrol')
+                              Text('${mainController.typeController.text}')
                             ],
                           ),
                           SizedBox(height: 10,),
@@ -284,7 +301,7 @@ class RequestAccepted extends StatelessWidget {
                             children: [
                               Text('Vehicle number'),
                               SizedBox(width: 20,),
-                              Text('$vehicleNumber')
+                              Text('${mainController.assignedVehicleNumberController.text}')
                             ],
                           ),
                         ],
@@ -313,21 +330,21 @@ class RequestAccepted extends StatelessWidget {
                   ElevatedButton(onPressed: () {
                     // Get.to(HomePage());
                     Get.to(PickupVehicle(
-                      source: source,
-                      destination: destination,
-                      pickupDateTime: pickupDateTime,
-                      returnDateTime: returnDateTime,
-                      delivery: delivery,
-                      purpose: purpose,
-                      ownerName: ownerName,
-                      ownerPhoneNumber: ownerPhoneNumber,
-                      type: type,
-                      vehicleNumber: vehicleNumber,
-                      vehicleName: vehicleName,
-                      seats: seats,
-                      rentalPrice: rentalPrice,
-                      base_12: base_12,
-                      base_24: base_24,
+                      source: widget.source,
+                      destination: widget.destination,
+                      pickupDateTime: widget.pickupDateTime,
+                      returnDateTime: widget.returnDateTime,
+                      delivery: widget.delivery,
+                      purpose: widget.purpose,
+                      ownerName: widget.ownerName,
+                      ownerPhoneNumber: widget.ownerPhoneNumber,
+                      type: widget.type,
+                      vehicleNumber: widget.vehicleNumber,
+                      vehicleName: widget.vehicleName,
+                      seats: widget.seats,
+                      rentalPrice: widget.rentalPrice,
+                      base_12: widget.base_12,
+                      base_24: widget.base_24,
                     ));
                     },
                       child: Text('Pay at Pickup')),

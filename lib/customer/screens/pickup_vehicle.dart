@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/home2.dart';
 import 'package:need_moto/customer/screens/ready_to_pickup.dart';
@@ -51,6 +52,7 @@ class PickupVehicle extends StatefulWidget {
 class _PickupVehicleState extends State<PickupVehicle> {
 
   RequestController requestController = Get.find();
+  MainController mainController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -324,12 +326,12 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                 ),
                               ),
                               Text(
-                                "${widget.ownerName}",
+                                "${mainController.assignedOwnerNameController.text}",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "+91 ${widget.ownerPhoneNumber}",
+                                "+91 ${mainController.assignedOwnerPhoneNumberController.text}",
                                 style: TextStyle(
                                     fontSize: 18, color: Colors.black54),
                               ),
@@ -412,7 +414,7 @@ class _PickupVehicleState extends State<PickupVehicle> {
                                   color: Colors.black54, fontSize: 18),
                             ),
                             Text(
-                              "${widget.vehicleNumber}",
+                              "${mainController.assignedVehicleNumberController.text}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,

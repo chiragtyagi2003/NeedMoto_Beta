@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import'package:flutter/material.dart';
 import'package:get/get.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 
 class OwnerRequestHandler extends GetxController {
 
   final user = FirebaseAuth.instance.currentUser;
+  MainController mainController = Get.find();
 
   Future<void> updateStatusField(String status, String requestId) async {
     try {
@@ -110,14 +112,12 @@ class OwnerRequestHandler extends GetxController {
           'delivery': requestDocSnapshot['delivery'],
           'userId': requestDocSnapshot['userId'],
           'requestId': requestId,
-          'ownerId': user?.uid,
+          'ownerID': user?.uid,
           'pay_status': false,
           // Include other fields from the request document as needed
         });
 
         //pass the ownerID and vehicle number to customer interface
-
-
 
         print('Document transferred to the "bookings" collection successfully!');
       } else {
