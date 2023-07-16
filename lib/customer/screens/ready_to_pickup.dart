@@ -3,9 +3,47 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/Request_Controller.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
+import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
+import 'package:need_moto/customer/screens/ride_start.dart';
 
 class ReadyToPickup extends StatefulWidget {
-  const ReadyToPickup({super.key});
+
+  String source;
+  String destination;
+  String pickupDateTime;
+  String returnDateTime;
+  String delivery;
+  String purpose;
+  String ownerName;
+  String ownerPhoneNumber;
+  String type;
+  String vehicleNumber;
+  String vehicleName;
+  String seats;
+  double rentalPrice;
+  String base_12;
+  String base_24;
+
+  ReadyToPickup({
+    required this.source,
+    required this.destination,
+    required this.pickupDateTime,
+    required this.returnDateTime,
+    required this.delivery,
+    required this.purpose,
+    required this.ownerName,
+    required this.ownerPhoneNumber,
+    required this.type,
+    required this.vehicleNumber,
+    required this.vehicleName,
+    required this.seats,
+    required this.rentalPrice,
+    required this.base_12,
+    required this.base_24,
+  });
+
 
   @override
   State<ReadyToPickup> createState() => _ReadyToPickupState();
@@ -14,6 +52,10 @@ class ReadyToPickup extends StatefulWidget {
 class _ReadyToPickupState extends State<ReadyToPickup> {
   final Rxn<bool> selected = Rxn<bool>();
 
+  MainController mainController = Get.find();
+  VehicleSubmitController vehicleSubmitController = Get.find();
+  RequestController requestController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +63,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
         elevation: 0,
         backgroundColor: Color.fromRGBO(51, 204, 102, 1),
         title: Text(
-          "Payment done ₹4000",
+          "Payment done ₹${widget.rentalPrice}",
           style: TextStyle(fontSize: 15),
         ),
         centerTitle: true,
@@ -86,12 +128,12 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                             ),
                           ),
                           Text(
-                            "Abhinandhan",
+                            "${mainController.assignedOwnerNameController.text}",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "+91 9949494949",
+                            "+91 ${mainController.assignedOwnerPhoneNumberController.text}",
                             style:
                                 TextStyle(fontSize: 18, color: Colors.black54),
                           ),
@@ -155,7 +197,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                           style: TextStyle(color: Colors.black54, fontSize: 18),
                         ),
                         Text(
-                          "Petrol",
+                          "${mainController.typeController.text}",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
@@ -172,7 +214,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                           style: TextStyle(color: Colors.black54, fontSize: 18),
                         ),
                         Text(
-                          "TS08EC2505",
+                          "${mainController.assignedVehicleNumberController.text}",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
@@ -350,14 +392,37 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                     backgroundColor:
                         MaterialStateProperty.all(Colors.orange[600]),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    vehicleSubmitController.vehicleReceivedDateTimeController.text = DateTime.now().toString();
+                    print(vehicleSubmitController.vehicleReceivedDateTimeController.text);
+                    // set the received date and time
+                    vehicleSubmitController.extractReceivedDateAndTime(vehicleSubmitController.vehicleReceivedDateTimeController.text);
+                    vehicleSubmitController.addFieldsToBooking(requestController.requestIDController.text);
+                    Get.to(RideStart(
+                      source: widget.source,
+                      destination: widget.destination,
+                      pickupDateTime: widget.pickupDateTime,
+                      returnDateTime: widget.returnDateTime,
+                      delivery: widget.delivery,
+                      purpose: widget.purpose,
+                      ownerName: widget.ownerName,
+                      ownerPhoneNumber: widget.ownerPhoneNumber,
+                      type: widget.type,
+                      vehicleNumber: widget.vehicleNumber,
+                      vehicleName: widget.vehicleName,
+                      seats: widget.seats,
+                      rentalPrice: widget.rentalPrice,
+                      base_12: widget.base_12,
+                      base_24: widget.base_24,
+                    ));
+                  },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.33,
                     height: 50,
                     child: Center(
                       child: Text(
                         "Cancel Ride",
-                        style: TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                     ),

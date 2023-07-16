@@ -316,7 +316,23 @@ class _RequestAcceptedState extends State<RequestAccepted> {
                         child: ElevatedButton(
                             style:ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey.shade500,shape: StadiumBorder()),
                             onPressed: () {
-                              Get.to(ReadyToPickup());
+                              Get.to(ReadyToPickup(
+                                source: widget.source,
+                                destination: widget.destination,
+                                pickupDateTime: widget.pickupDateTime,
+                                returnDateTime: widget.returnDateTime,
+                                delivery: widget.delivery,
+                                purpose: widget.purpose,
+                                ownerName: widget.ownerName,
+                                ownerPhoneNumber: widget.ownerPhoneNumber,
+                                type: widget.type,
+                                vehicleNumber: widget.vehicleNumber,
+                                vehicleName: widget.vehicleName,
+                                seats: widget.seats,
+                                rentalPrice: widget.rentalPrice,
+                                base_12: widget.base_12,
+                                base_24: widget.base_24,
+                              ));
                             },
                             child: Text('Pay',style: TextStyle(color: Colors.white,fontSize: 20),)),
                       ),
