@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:need_moto/owner/screens/onwer_home.dart';
+import 'package:get/get.dart';
+import '../ownerHome.dart';
 
+// screen to show congratulations and points scored
 
 class RatingCongratulation extends StatefulWidget {
   const RatingCongratulation({super.key});
@@ -18,23 +20,24 @@ class _RatingCongratulationState extends State<RatingCongratulation> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              "Congratulation",
+            const Text(
+              "Congratulations!",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               "You have received 20 points",
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.w400),
             ),
             Stack(
               children: [
-                Image(
-                  image: AssetImage("image/design.png"),
+                const Image(
+                  image: AssetImage("assets/images/design.png"),
                   fit: BoxFit.cover,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 125),
-                  child: Center(
+                  padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.23),
+                  child: const Center(
                     child: Text(
                       "20",
                       style: TextStyle(
@@ -46,34 +49,36 @@ class _RatingCongratulationState extends State<RatingCongratulation> {
                 ),
               ],
             ),
-            Text(
+            const Text(
               "LEVEL 3",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
-            _OKButton(context),
+            const SizedBox(height: 20),
+            _oKButton(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _OKButton(BuildContext context) {
-    return Container(
+  // widget for ok button at bottom of screen
+  Widget _oKButton(BuildContext context) {
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.4,
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                )),
-            backgroundColor: MaterialStateProperty.all(Colors.green)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(Colors.green),
+        ),
         onPressed: () {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => OwnerHome()));
+          Get.to(OwnerHome());
         },
-        child: Center(
+        child: const Center(
           child: Text(
             "OK",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),

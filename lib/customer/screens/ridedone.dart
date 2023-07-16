@@ -208,12 +208,14 @@ class _RideCompleteState extends State<RideComplete> {
                         onPressed: () {
                           print(vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
                           vehicleSubmitController.extractSubmitDateAndTime(vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
+
                           Get.to(() => SubmitVehicle(
                             vehicleNumber: widget.vehicleNumber,
                             ownerName: widget.ownerName,
                             ownerPhoneNumber: widget.ownerPhoneNumber,
                             base_12: widget.base_12,
                             base_24: widget.base_24,
+
                           ));
                         },
                       ),

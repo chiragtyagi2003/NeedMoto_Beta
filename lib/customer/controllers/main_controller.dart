@@ -89,6 +89,19 @@ class MainController extends GetxController {
     userChosenTime.text = finalTime;
   }
 
+  void processOwnerAndVehicle(String ownerId, String vehicleNumber) {
+    // Store the ownerId and vehicleNumber in separate variables
+    String owner = ownerId;
+    String vehicle = vehicleNumber;
+
+    ownerNameController.text = owner;
+    vehicleNumberController.text = vehicle;
+
+    // Example: Print the owner and vehicle information
+    print('Owner ID: $owner');
+    print('Vehicle Number: $vehicle');
+  }
+
 
 
 

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:need_moto/customer/screens/StartingPage.dart';
 import 'package:need_moto/owner/screens/login.dart';
-import 'package:need_moto/owner/screens/onwer_home.dart';
+import 'package:need_moto/owner/screens/ownerHome.dart';
 
 
 import '../model/user.dart';

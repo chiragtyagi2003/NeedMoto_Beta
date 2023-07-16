@@ -206,8 +206,7 @@ class _SelfDriveState extends State<SelfDrive> {
                             // call the function to calculate days and hours time
                             mainController.calculateTimeDifference(pickupTime, returnTime);
 
-                            // set the received date and time
-                            vehicleSubmitController.extractReceivedDateAndTime(pickupTime);
+
 
                             Get.to(Grid());
                             // Navigator.push(

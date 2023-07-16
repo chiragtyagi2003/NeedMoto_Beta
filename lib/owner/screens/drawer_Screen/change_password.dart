@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:need_moto/owner/screens/onwer_home.dart';
+import 'package:need_moto/owner/screens/ownerHome.dart';
 
 
-import '../../object/textfield.dart';
+import '../../object/textField.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});

@@ -21,7 +21,8 @@ import 'package:need_moto/owner/controller/owner_image_controller.dart';
 import 'package:need_moto/owner/controller/owner_main_controller.dart';
 import 'package:need_moto/owner/controller/owner_request_handler.dart';
 import 'package:need_moto/owner/controller/vehicle_details_controller.dart';
-import 'package:need_moto/owner/screens/onwer_home.dart';
+import 'package:need_moto/owner/screens/ownerHome.dart';
+
 
 
 void main() async {
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'NotoSans',
         primarySwatch: Colors.blue,
         ),
-        initialRoute: '/owner',
+        initialRoute: '/StartPage',
         debugShowCheckedModeBanner: false,
         getPages: [
           GetPage(name: '/home', page: () => Home()),

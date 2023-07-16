@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/car_details.dart';
-import 'package:need_moto/owner/screens/received_vehicle/track_vehicle.dart';
+import 'package:need_moto/owner/screens/received_vehicle/trackVehicle.dart';
 
 
 class RushWheel extends StatefulWidget {

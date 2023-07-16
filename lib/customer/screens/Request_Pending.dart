@@ -30,6 +30,8 @@ class RequestPending extends StatelessWidget {
   String vehicleName;
   String seats;
   double rentalPrice;
+  String base_12;
+  String base_24;
 
   RequestPending({
     required this.vehicleLocation,
@@ -46,6 +48,8 @@ class RequestPending extends StatelessWidget {
     required this.vehicleName,
     required this.seats,
     required this.rentalPrice,
+    required this.base_12,
+    required this.base_24,
   });
 
   @override

@@ -3,8 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/car_details.dart';
 
 
-class VehicleHistroty extends StatelessWidget {
-  const VehicleHistroty({super.key});
+class VehicleHistory extends StatelessWidget {
+  const VehicleHistory({super.key});
 
   @override
   Widget build(BuildContext context) {

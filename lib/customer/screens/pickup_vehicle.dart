@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/Request_Controller.dart';
+import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/home2.dart';
 import 'package:need_moto/customer/screens/ready_to_pickup.dart';
 import 'package:need_moto/customer/screens/ride_start.dart';
@@ -47,9 +49,14 @@ class PickupVehicle extends StatefulWidget {
 }
 
 class _PickupVehicleState extends State<PickupVehicle> {
+
+  RequestController requestController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     final Rxn<bool> selected = Rxn<bool>();
+
+    VehicleSubmitController vehicleSubmitController  = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -564,6 +571,11 @@ class _PickupVehicleState extends State<PickupVehicle> {
                       MaterialStateProperty.all(Color.fromRGBO(2, 100, 171, 1)),
                 ),
                 onPressed: () {
+                  vehicleSubmitController.vehicleReceivedDateTimeController.text = DateTime.now().toString();
+                  print(vehicleSubmitController.vehicleReceivedDateTimeController.text);
+                  // set the received date and time
+                  vehicleSubmitController.extractReceivedDateAndTime(vehicleSubmitController.vehicleReceivedDateTimeController.text);
+                  vehicleSubmitController.addFieldsToBooking(requestController.requestIDController.text);
                  Get.to(RideStart(
                    source: widget.source,
                    destination: widget.destination,

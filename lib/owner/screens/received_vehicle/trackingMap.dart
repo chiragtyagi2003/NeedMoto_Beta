@@ -11,16 +11,24 @@ class TrackingMap extends StatefulWidget {
 
 class _TrackingMapState extends State<TrackingMap> {
   final panelController = PanelController();
+
   @override
   Widget build(BuildContext context) {
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.08;
-    final panelHeightOpen = MediaQuery.of(context).size.height * 0.35;
-    var fabHeight = MediaQuery.of(context).size.height * 0.1;
+    // Use media queries to get the available height and width of the screen
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Calculate the heights of the panel based on screen size
+    final panelHeightClosed = screenHeight * 0.08;
+    final panelHeightOpen = screenHeight * 0.35;
+
+    // Calculate the initial height of the FloatingActionButton
+    var fabHeight = screenHeight * 0.1;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new_outlined,
             color: Colors.black,
           ),
@@ -30,7 +38,7 @@ class _TrackingMapState extends State<TrackingMap> {
         ),
         surfaceTintColor: Colors.black,
         elevation: 1,
-        title: Text(
+        title: const Text(
           "TRACKING ",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
@@ -42,12 +50,12 @@ class _TrackingMapState extends State<TrackingMap> {
             controller: panelController,
             minHeight: panelHeightClosed,
             maxHeight: panelHeightOpen,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
             parallaxEnabled: true,
             parallaxOffset: 0.5,
             body: Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
+              height: screenHeight,
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage(
                           "https://lh3.googleusercontent.com/0quLbsXy2A75dAY8qxK8p-I8R1jVSAgUxrLzU5h2vGzulPkpV9Uk6V3kxKI6sICNjvuaDFgq4yn0IrcyEu6IygAjUx84q2s9f5ERHJ0=w638"),
@@ -75,7 +83,7 @@ class _TrackingMapState extends State<TrackingMap> {
     return FloatingActionButton(
       onPressed: () {},
       backgroundColor: Colors.white,
-      child: Icon(
+      child: const Icon(
         Icons.gps_fixed,
         color: Colors.blue,
       ),

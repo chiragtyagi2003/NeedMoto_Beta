@@ -3,11 +3,11 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:intl/intl.dart';
-// import 'package:onwer/screen/received_vehicle/rating_to_rider.dart';
+// import 'package:onwer/screen/received_vehicle/ratingToRider.dart';
 //
 // import '../../controller/scratches_dropdown.dart';
 // import '../../object/bottomNavigationBar.dart';
-// import '../../object/textfield.dart';
+// import '../../object/textField.dart';
 //
 // class ReceivedCar extends StatefulWidget {
 //   const ReceivedCar({super.key});

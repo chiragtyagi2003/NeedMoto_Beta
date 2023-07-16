@@ -1,7 +1,10 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:need_moto/customer/controllers/Request_Controller.dart';
+import 'dart:math';
 
 
 class VehicleSubmitController extends GetxController{
@@ -21,6 +24,12 @@ class VehicleSubmitController extends GetxController{
   TextEditingController vehicleOtherChargesController = TextEditingController();
   TextEditingController vehicleRatingController = TextEditingController();
   TextEditingController vehicleMessageToOwnerController = TextEditingController();
+  TextEditingController vehicleReceivedDateTimeController = TextEditingController();
+  TextEditingController vehicleOTPController = TextEditingController();
+
+
+  RequestController requestController = Get.find();
+
 
 
   void extractSubmitDateAndTime(String dateTimeString) {
@@ -36,19 +45,23 @@ class VehicleSubmitController extends GetxController{
 
   }
 
-  void extractReceivedDateAndTime(String dateTimeString) {
-    DateFormat customFormat = DateFormat('dd-MM-yyyy HH:mm');
-    DateTime dateTime = customFormat.parse(dateTimeString);
 
-    String date = '${dateTime.day}-${dateTime.month}-${dateTime.year}';
-    String time = DateFormat('HH:mm').format(dateTime);
 
-    vehicleReceivedDateController.text = date;
-    vehicleReceivedTimeController.text = time;
+    void extractReceivedDateAndTime(String dateTimeString) {
+      DateTime dateTime = DateTime.parse(dateTimeString);
+      String formattedDate =
+          '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year}';
+      String formattedTime =
+          '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
 
-  }
+      print("Date: $formattedDate");
+      print("Time: $formattedTime");
+      vehicleReceivedTimeController.text = formattedTime;
+      vehicleReceivedDateController.text = formattedDate;
+    }
 
-  String calculateDuration(String startDateTimeString, String endDateTimeString) {
+
+    String calculateDuration(String startDateTimeString, String endDateTimeString) {
     DateFormat customFormat = DateFormat('dd-MM-yyyy HH:mm');
     DateTime startDateTime = customFormat.parse(startDateTimeString);
     DateTime endDateTime = customFormat.parse(endDateTimeString);
@@ -72,6 +85,34 @@ class VehicleSubmitController extends GetxController{
     int totalHours = extraTime.inHours;
 
     return totalHours;
+  }
+
+  String generateOTP() {
+    Random random = Random();
+    int otp = random.nextInt(9999); // Generate a random number between 0 and 9999
+    vehicleOTPController.text =  otp.toString().padLeft(4, '0'); // Convert the number to a string and pad it with leading zeros if necessary
+    return vehicleOTPController.text;
+  }
+
+
+  Future<void> addFieldsToBooking(String documentId) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      CollectionReference bookingsCollection = firestore.collection('bookings');
+
+      DocumentReference documentRef = bookingsCollection.doc(documentId);
+
+
+      await documentRef.update({
+        'otp': generateOTP(),
+        'received_date': vehicleReceivedDateController.text,
+        'received_time': vehicleReceivedTimeController.text,
+      });
+
+      print('New fields added successfully!');
+    } catch (e) {
+      print('Error adding new fields: $e');
+    }
   }
 
 }

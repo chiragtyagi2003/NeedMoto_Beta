@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import '../onwer_home.dart';
+import '../ownerHome.dart';
 
 class RateUs extends StatefulWidget {
   const RateUs({super.key});

@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class OwnerMainController extends GetxController {
   TextEditingController vehicleNameController = TextEditingController();
@@ -44,5 +42,40 @@ class OwnerMainController extends GetxController {
     } catch (e) {
       print('Error saving data to Firestore: $e');
     }
+  }
+
+  Future<void> fetchData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance.collection('owners').doc(user.uid).get();
+
+      if (snapshot.exists) {
+        Map<String, dynamic> data = snapshot.data()!;
+        ownerNameController.text = data['name'];
+        ownerPhoneNumberController.text = data['phone_number'];
+      }
+    }
+  }
+
+
+  Future<List<DocumentSnapshot<Map<String, dynamic>>>> fetchVehicles() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('owners')
+        .doc(user!.uid)
+        .collection('vehicles')
+        .get();
+
+    return querySnapshot.docs;
+  }
+
+  // Get the current user's ID
+  String getCurrentUserId() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.uid;
+    }
+    return 'qFm8nd1BODSFfJLEsGNFLzjbOiN2';
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/owner/controller/owner_auth_controller.dart';
-import 'package:need_moto/owner/screens/add_vehicle.dart';
+import 'package:need_moto/owner/screens/addVehicle.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/offers.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/profile_page.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/refer_and_earn.dart';
@@ -17,180 +16,168 @@ class SideDrawer extends StatelessWidget {
 
   OwnerAuthController ownerAuthController = Get.find();
 
+  SideDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color.fromARGB(217, 0, 0, 0),
+      backgroundColor: const Color.fromARGB(217, 0, 0, 0),
       child: Container(
-        margin: EdgeInsets.only(left: 30),
+        margin: const EdgeInsets.only(left: 30),
         child: ListView(
           children: [
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
+                Get.to(const ProfilePage());
               },
-              child: Text(
-                "Profle",
+              child: const Text(
+                "Profile",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VehicleHistroty(),
-                    ));
+                Get.to(const VehicleHistory());
               },
-              child: Text(
+              child: const Text(
                 "Vehicle history",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddVehicle()));
+                Get.to(const AddVehicle());
               },
-              child: Text(
+              child: const Text(
                 "Add Vehicle",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "Payment history",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationPage()));
+               Get.to(NotificationPage());
               },
-              child: Text(
+              child: const Text(
                 "Notifications",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "Reports",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Settings()));
+               Get.to(const Settings());
               },
-              child: Text(
+              child: const Text(
                 "Settings",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Gps()));
+                Get.to(const Gps());
               },
-              child: Text(
+              child: const Text(
                 "Buy GPS",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "Subscription",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ReferAndEarn()));
+              Get.to(const ReferAndEarn());
               },
-              child: Text(
+              child: const Text(
                 "Refer and earn",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Offers()));
+                Get.to(const Offers());
               },
-              child: Text(
+              child: const Text(
                 "Offers",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "Policies",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "Help & Support",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => RateUs()));
+                Get.to(const RateUs());
               },
-              child: Text(
+              child: const Text(
                 "Rate Us",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "My wallet",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "Your earning",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             InkWell(
               onTap: () {
-               ownerAuthController.Logout();
+                ownerAuthController.Logout();
               },
-              child: Text(
+              child: const Text(
                 "Logout",
                 style: TextStyle(color: Colors.grey, fontSize: 20),
               ),

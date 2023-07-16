@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/ridedone.dart';
 import 'package:need_moto/customer/screens/vehicle_submission.dart';
 
@@ -22,6 +23,7 @@ class RideStart extends StatefulWidget {
   String base_12;
   String base_24;
 
+
   RideStart({
     required this.source,
     required this.destination,
@@ -38,6 +40,7 @@ class RideStart extends StatefulWidget {
     required this.rentalPrice,
     required this.base_12,
     required this.base_24,
+
   });
 
   @override
@@ -45,6 +48,9 @@ class RideStart extends StatefulWidget {
 }
 
 class _RideStartState extends State<RideStart> {
+
+  VehicleSubmitController vehicleSubmitController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +135,7 @@ class _RideStartState extends State<RideStart> {
                   borderRadius: BorderRadius.circular(12),
                   color: Color.fromRGBO(227, 250, 166, 1)),
               child: Text(
-                "You received a 4 digit OTP as SMS to registered mobile number. Please share with owner while receiving vehicle",
+                "Your 4 digit OTP is ${vehicleSubmitController.vehicleOTPController.text}. Please share with owner.",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
