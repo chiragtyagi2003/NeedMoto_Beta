@@ -107,6 +107,8 @@ class VehicleSubmitController extends GetxController{
         'otp': generateOTP(),
         'received_date': vehicleReceivedDateController.text,
         'received_time': vehicleReceivedTimeController.text,
+        'ongoing_ride': true,
+        'received_by_owner': false,
       });
 
       print('New fields added successfully!');

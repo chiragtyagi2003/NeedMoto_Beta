@@ -1,25 +1,78 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/owner/controller/owner_main_controller.dart';
 import 'package:need_moto/owner/screens/received_vehicle/ratingToRider.dart';
 import '../../controller/scratches_dropdown.dart';
 import '../../object/textField.dart';
 
 class ReceivedVehicle extends StatefulWidget {
-  const ReceivedVehicle({super.key});
+
+  String bookingId;
+
+  ReceivedVehicle({
+    required this.bookingId,
+  });
 
   @override
   State<ReceivedVehicle> createState() => _ReceivedVehicleState();
 }
 
 class _ReceivedVehicleState extends State<ReceivedVehicle> {
-  ScratchesDropdownController controller = ScratchesDropdownController();
-  final TextEditingController _ridingController = TextEditingController();
-  final TextEditingController _damageController = TextEditingController();
-  final TextEditingController _fastTagController = TextEditingController();
-  final TextEditingController _messageController = TextEditingController();
-  TextEditingController dateInput = TextEditingController();
+
   final Rxn<bool> selected = Rxn<bool>();
+  OwnerMainController mainController = Get.find();
+
+  Future<void> compareOTP(String docId) async {
+    try {
+      // Get the OTP from the booking document
+      final DocumentSnapshot bookingSnapshot = await FirebaseFirestore.instance
+          .collection('bookings')
+          .doc(docId)
+          .get();
+
+      if (!bookingSnapshot.exists) {
+        throw Exception('Booking not found');
+      }
+
+      String storedOTP = bookingSnapshot['otp'] as String;
+
+      // Get the entered OTP from the controllers
+      String enteredOTP = mainController.otpDigit1Controller.text +
+          mainController.otpDigit2Controller.text +
+          mainController.otpDigit3Controller.text +
+          mainController.otpDigit4Controller.text;
+
+      // Compare the entered OTP with the stored OTP
+      if (enteredOTP == storedOTP) {
+        // OTP is correct
+        // Perform the necessary
+        Fluttertoast.showToast(
+          msg: 'OTP verified!',
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+
+        Get.to(RatingToRider(bookingId: widget.bookingId));
+      } else {
+        // OTP is incorrect
+        // Show an error message or take appropriate action
+        Fluttertoast.showToast(
+            msg: 'Wrong OTP!',
+            gravity: ToastGravity.CENTER,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+        );
+      }
+    } catch (error) {
+      print('Error comparing OTP: $error');
+      throw error;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,27 +111,27 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                     Stack(
                       children: [
                         TextInputField(
-                          controller: _ridingController,
+                          controller: mainController.ownerReadingController,
                           myLabelText: "Reading",
                         ),
-                        Positioned(
-                          right: 0,
-                          child: Container(
-                            height: screenHeight * 0.1,
-                            width: screenWidth * 0.2,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(40),
-                              color: Colors.black12,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "100 Km",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ),
-                          ),
-                        )
+                        // Positioned(
+                        //   right: 0,
+                        //   child: Container(
+                        //     height: screenHeight * 0.1,
+                        //     width: screenWidth * 0.2,
+                        //     decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.grey),
+                        //       borderRadius: BorderRadius.circular(40),
+                        //       color: Colors.black12,
+                        //     ),
+                        //     child: const Center(
+                        //       child: Text(
+                        //         "100 Km",
+                        //         style: TextStyle(fontSize: 18),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -90,7 +143,7 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                         popupProps: const PopupProps.menu(
                           constraints: BoxConstraints(maxHeight: 200),
                         ),
-                        items: controller.options,
+                        items: mainController.ownerScratchController.options,
                         dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -100,29 +153,32 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                           ),
                         ),
                         onChanged: (value) {
-                          controller.setValue(value!);
+                          mainController.ownerScratchController.setValue(value!);
+                          setState(() {
+                            mainController.ownerScratchesController.text = value.toString();
+                          });
                         },
                         // selectedItem: controller.selectedItem,
                       ),
                     ),
                     const SizedBox(height: 20),
                     TextInputField(
-                      controller: _damageController,
+                      controller: mainController.ownerDamageController,
                       myLabelText: "Damages",
                     ),
                     const SizedBox(height: 20),
                     TextInputField(
-                      controller: _fastTagController,
+                      controller: mainController.ownerFastTagController,
                       myLabelText: "FastTag amount",
                     ),
                     const SizedBox(height: 20),
                     TextInputField(
-                      controller: _fastTagController,
+                      controller: mainController.ownerOtherChargesController,
                       myLabelText: "Other Charges",
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: _messageController,
+                      controller: mainController.ownerMessageController,
                       // maxLength: 10,
                       maxLines: 10,
                       minLines: 10,
@@ -157,7 +213,7 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
     );
   }
 
-  Widget otp() {
+  Widget otp(){
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -186,7 +242,8 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                   ),
                   child: Center(
                     child: TextFormField(
-                      initialValue: "",
+                      controller: mainController.otpDigit1Controller,
+                      maxLength: 1, // Limit to one character
                       style: const TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
@@ -204,7 +261,8 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                   ),
                   child: Center(
                     child: TextFormField(
-                      initialValue: "",
+                      controller: mainController.otpDigit2Controller,
+                      maxLength: 1, // Limit to one character
                       style: const TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
@@ -222,7 +280,8 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                   ),
                   child: Center(
                     child: TextFormField(
-                      initialValue: "",
+                      controller: mainController.otpDigit3Controller,
+                      maxLength: 1, // Limit to one character
                       style: const TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
@@ -240,7 +299,8 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                   ),
                   child: Center(
                     child: TextFormField(
-                      initialValue: "",
+                      controller: mainController.otpDigit4Controller,
+                      maxLength: 1, // Limit to one character
                       style: const TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
@@ -299,10 +359,8 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
           MaterialStateProperty.all(const Color.fromARGB(255, 0, 15, 112)),
         ),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const RatingToRider()),
-          );
+
+          compareOTP(widget.bookingId);
         },
         child: const Center(
           child: Text(

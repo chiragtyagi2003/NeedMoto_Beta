@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:need_moto/owner/controller/scratches_dropdown.dart';
 
 class OwnerMainController extends GetxController {
   TextEditingController vehicleNameController = TextEditingController();
@@ -16,6 +17,27 @@ class OwnerMainController extends GetxController {
 
   TextEditingController ownerNameController = TextEditingController();
   TextEditingController ownerPhoneNumberController = TextEditingController();
+
+  // receive vehicle controllers
+  ScratchesDropdownController ownerScratchController = ScratchesDropdownController();
+  final TextEditingController ownerReadingController = TextEditingController();
+  final TextEditingController ownerDamageController = TextEditingController();
+  final TextEditingController ownerFastTagController = TextEditingController();
+  final TextEditingController ownerMessageController = TextEditingController();
+  final TextEditingController ownerOtherChargesController = TextEditingController();
+  final TextEditingController ownerScratchesController = TextEditingController();
+  TextEditingController dateInput = TextEditingController();
+
+  // otp controllers
+  TextEditingController otpDigit1Controller = TextEditingController();
+  TextEditingController otpDigit2Controller = TextEditingController();
+  TextEditingController otpDigit3Controller = TextEditingController();
+  TextEditingController otpDigit4Controller = TextEditingController();
+  TextEditingController otpStringController = TextEditingController();
+
+  // feedback to rider controller
+  TextEditingController ownerRatingToRiderController = TextEditingController();
+  TextEditingController ownerMessageToCustomerController = TextEditingController();
 
   Future<void> saveVehicleDataToFirestore() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -77,5 +99,75 @@ class OwnerMainController extends GetxController {
       return user.uid;
     }
     return 'qFm8nd1BODSFfJLEsGNFLzjbOiN2';
+  }
+
+
+  Future<void> updateVehicleField(String ownerId, String vehicleNumber) async {
+    try {
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('vehicle')
+          .where('ownerId', isEqualTo: ownerId)
+          .where('vehicleNumber', isEqualTo: vehicleNumber)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        throw Exception('Vehicle not found');
+      }
+
+      final DocumentSnapshot document = snapshot.docs.first;
+
+      // Get the document ID
+      String docId = document.id;
+
+      // // Get the current value of 'owner_on_ride'
+       bool currentValue = document['owner_on_ride'];
+
+      // // Toggle the value of 'owner_on_ride'
+      bool newValue = !currentValue;
+
+      // Update the 'owner_on_ride' field
+      await FirebaseFirestore.instance
+          .collection('vehicles')
+          .doc(docId)
+          .update({'owner_on_ride': newValue});
+
+
+    } catch (error) {
+      print('Error updating vehicle field: $error');
+      throw error;
+    }
+  }
+
+  void addReceivedVehicle(String bookingId) async {
+    // Get the current user ID
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    // Get the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Create a reference to the bookings collection
+    CollectionReference submittedVehiclesCollection = firestore.collection('bookings');
+
+    // Create a document ID using the parameter value and timestamp
+    String documentId = bookingId;
+
+    // update fields in bookings
+    await submittedVehiclesCollection.doc(documentId).update({
+      // Add your data fields here
+      'owner_reading': ownerReadingController.text,
+      'owner_scratches': ownerScratchController,
+      'owner_damages': ownerDamageController.text,
+      'owner_fast_tag_amount': ownerFastTagController.text,
+      'owner_other_charges': ownerOtherChargesController.text,
+      'owner_message_controller': ownerMessageController.text,
+      'owner_message_to_customer': ownerMessageToCustomerController.text,
+      'owner_rating_to_rider': ownerRatingToRiderController.text,
+
+      // change status of received_by_owner
+      'received_by_owner': false,
+    });
+
+    print('updated');
+
   }
 }

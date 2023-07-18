@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:need_moto/admin/controllers/admin_booking_controller.dart';
 import 'package:need_moto/admin/controllers/admin_request_controller.dart';
 import 'package:need_moto/admin/controllers/payment_controller.dart';
-import 'package:need_moto/customer/controllers/PaymentController.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
 import 'package:need_moto/customer/controllers/VehicleBookingController.dart';
 import 'package:need_moto/customer/controllers/booking_controller.dart';
@@ -17,11 +16,13 @@ import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/RequestAccepted.dart';
 import 'package:need_moto/customer/screens/StartingPage.dart';
 import 'package:need_moto/owner/controller/owner_auth_controller.dart';
+import 'package:need_moto/owner/controller/owner_file_controller.dart';
 import 'package:need_moto/owner/controller/owner_image_controller.dart';
 import 'package:need_moto/owner/controller/owner_main_controller.dart';
 import 'package:need_moto/owner/controller/owner_request_handler.dart';
 import 'package:need_moto/owner/controller/vehicle_details_controller.dart';
 import 'package:need_moto/owner/screens/ownerHome.dart';
+
 
 
 
@@ -37,7 +38,6 @@ void main() async {
   Get.put(KycController());
   Get.put(MainController());
   Get.put(UserController());
-  Get.put(PaymentController());
   Get.put(RequestController());
   Get.put(VehicleBookingController());
   Get.put(BookingController());
@@ -49,6 +49,7 @@ void main() async {
   Get.put(VehicleDetailsController());
   Get.put(OwnerImageController());
   Get.put(OwnerRequestHandler());
+  Get.put(OwnerFileController());
 
 
   // admin controllers

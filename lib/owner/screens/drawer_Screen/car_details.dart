@@ -1,9 +1,42 @@
+import 'dart:core';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/customer_details.dart';
+import 'package:need_moto/owner/screens/received_vehicle/receivedVehicle.dart';
 import 'package:need_moto/owner/screens/received_vehicle/trackVehicle.dart';
 
-class CarDetails extends StatelessWidget {
-  const CarDetails({super.key});
+class CarDetails extends StatefulWidget {
+
+
+  final String vehicleName;
+  final String vehicleNumber;
+
+  CarDetails({
+   required this.vehicleName,
+   required this.vehicleNumber,
+});
+
+
+  @override
+  State<CarDetails> createState() => _CarDetailsState();
+}
+
+class _CarDetailsState extends State<CarDetails> {
+  final user = FirebaseAuth.instance.currentUser;
+
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> fetchBookings(String ownerId, String vehicleNumber) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('bookings')
+        .where('ownerID', isEqualTo: ownerId)
+        .where('vehicleNumber', isEqualTo: vehicleNumber)
+        .get();
+
+    return querySnapshot.docs;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,73 +57,216 @@ class CarDetails extends StatelessWidget {
         ),
         surfaceTintColor: Colors.black,
         elevation: 1,
-        title: const Text(
-          "Celerio - TS08EC2505",
+        title: Text(
+          "${widget.vehicleName} - ${widget.vehicleNumber}",
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: ListView(
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const TrackVehicle()));
+      body: FutureBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+        future: fetchBookings(user!.uid, widget.vehicleNumber),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+
+          final bookings = snapshot.data ?? [];
+
+          if (bookings.isEmpty) {
+            return Text('No bookings found.');
+          }
+
+          return ListView.builder(
+            itemCount: bookings.length,
+            itemBuilder: (context, index) {
+              final booking = bookings[index];
+              final bookingId = booking.id; // Access the ID of the current booking document
+              final ownerId = booking['ownerID'];
+              final vehicleNumber = booking['vehicleNumber'];
+              final userId = booking['userId'];
+              print('${bookingId}');
+              print('${userId}');
+
+              return _vehicleCard(context,bookingId, ownerId, vehicleNumber, userId);
             },
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Ride 5",
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 6, 21, 152),
-                        fontSize: screenHeight * 0.03,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "3000 KM",
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 6, 21, 152),
-                        fontSize: screenHeight * 0.03,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Divider(
-            color: Colors.black87.withOpacity(0.8),
-          ),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-          _vehicleCard(context),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Widget _vehicleCard(BuildContext context) {
+  // Widget _vehicleCard(BuildContext context, String ownerId, String vehicleNumber, String userId) {
+  //   final screenHeight = MediaQuery.of(context).size.height;
+  //   final screenWidth = MediaQuery.of(context).size.width;
+  //
+  //
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02, horizontal: screenWidth * 0.04),
+  //     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03, vertical: screenHeight * 0.02),
+  //     height: screenHeight * 0.18,
+  //     decoration: BoxDecoration(
+  //       boxShadow: [
+  //         const BoxShadow(
+  //           color:  Color.fromARGB(20, 0, 0, 0),
+  //           spreadRadius: 4,
+  //           blurRadius: 10,
+  //         ),
+  //       ],
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: [
+  //         Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 Text(
+  //                   "Name: ",
+  //                   style: TextStyle(
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w400,
+  //                     color: Colors.black54,
+  //                   ),
+  //                 ),
+  //                 Text(
+  //                   userId,
+  //                   style: TextStyle(
+  //                     color: Colors.black,
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             Row(
+  //               children: [
+  //                 Text(
+  //                   "Number: ",
+  //                   style: TextStyle(
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w400,
+  //                     color: Colors.black54,
+  //                   ),
+  //                 ),
+  //                 Text(
+  //                   "+91 9949494949",
+  //                   style: TextStyle(
+  //                     color: Colors.black,
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             Row(
+  //               children: [
+  //                 Text(
+  //                   "Date: ",
+  //                   style: TextStyle(
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w400,
+  //                     color: Colors.black54,
+  //                   ),
+  //                 ),
+  //                 Text(
+  //                   "27-07-2022",
+  //                   style: TextStyle(
+  //                     color: Colors.black,
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             Row(
+  //               children: [
+  //                 Text(
+  //                   "Ride KM: ",
+  //                   style: TextStyle(
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w400,
+  //                     color: Colors.black54,
+  //                   ),
+  //                 ),
+  //                 Text(
+  //                   "500",
+  //                   style: TextStyle(
+  //                     color: Colors.black,
+  //                     fontSize: screenWidth * 0.045,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //         InkWell(
+  //           onTap: () {
+  //             Navigator.push(context, MaterialPageRoute(builder: (context) => const CustomerDetails()));
+  //           },
+  //           child: Container(
+  //             padding: EdgeInsets.all(screenWidth * 0.01),
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(50),
+  //               color: Colors.orange[50],
+  //             ),
+  //             child: const Icon(
+  //               Icons.arrow_forward_ios,
+  //               color: Colors.orange,
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget _vehicleCard(BuildContext context,String bookingId, String ownerId, String assignedVehicleNumber, String userId) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
+    Future<Map<String, dynamic>> fetchRideDataAndCustomerDetails(String userId, String assignedVehicleNumber, String bookingId) async {
+      final userSnapshot = await FirebaseFirestore.instance.collection('customers').doc(userId).get();
+
+      if (!userSnapshot.exists) {
+        print("User Data not available ${userId}");
+        return {}; // User document does not exist
+      }
+
+      final customerData = userSnapshot.data() as Map<String, dynamic>;
+
+      final bookingSnapshot = await FirebaseFirestore.instance.collection('bookings').doc(bookingId).get();
+
+      if (!bookingSnapshot.exists) {
+        print("Booking data not available ${bookingId}");
+        return {}; // Booking document does not exist
+      }
+
+      final bookingData = bookingSnapshot.data() as Map<String, dynamic>;
+
+      return {
+        'userData': customerData,
+        'bookingData': bookingData,
+      };
+    }
+
+
     return Container(
+      width: MediaQuery.of(context).size.width * 0.5,
+      height: MediaQuery.of(context).size.height * 0.25,
       padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02, horizontal: screenWidth * 0.04),
       margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03, vertical: screenHeight * 0.02),
-      height: screenHeight * 0.18,
       decoration: BoxDecoration(
         boxShadow: [
           const BoxShadow(
-            color:  Color.fromARGB(20, 0, 0, 0),
+            color: Color.fromARGB(20, 0, 0, 0),
             spreadRadius: 4,
             blurRadius: 10,
           ),
@@ -105,91 +281,159 @@ class CarDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                children: [
-                  Text(
-                    "Name: ",
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  Text(
-                    "Kiran kumar reddy",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    "Number: ",
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  Text(
-                    "+91 9949494949",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    "Date: ",
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  Text(
-                    "27-07-2022",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    "Ride KM: ",
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  Text(
-                    "500",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: screenWidth * 0.045,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+              FutureBuilder<Map<String, dynamic>>(
+                future: fetchRideDataAndCustomerDetails(userId, assignedVehicleNumber, bookingId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+
+                  if (snapshot.hasError || snapshot.data == null) {
+                    return Text('Error: Data not available');
+                  }
+
+                  final customerData = snapshot.data!['userData'] as Map<String, dynamic>?;
+                  final bookingData = snapshot.data!['bookingData'] as Map<String, dynamic>?;
+
+                  if (customerData == null) {
+                    return Text('Error: Invalid  customer data format');
+                  }
+
+                  if (bookingData == null) {
+                    return Text('Error: Invalid booking data format');
+                  }
+
+
+
+                  final name =  customerData['name'] ?? '';
+                  final phoneNumber = customerData['phone'] ?? '';
+                  final receivedDate = bookingData['received_date'] ?? '';
+                  final rideKm = bookingData['ride_km'] ?? '';
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "Name: ",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          Text(
+                            name,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Number: ",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          Text(
+                            phoneNumber,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Date: ",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          Text(
+                            receivedDate,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Ride KM: ",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          Text(
+                            rideKm,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
           InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const CustomerDetails()));
+            onTap: () async {
+              try {
+                final DocumentSnapshot document = await FirebaseFirestore.instance
+                    .collection('bookings')
+                    .doc(bookingId)
+                    .get();
+
+                if (!document.exists) {
+                  throw Exception('Booking not found');
+                }
+
+                bool fieldValue = document['ongoing_ride'] as bool;
+                bool fieldValue2 = document['received_by_owner'] as bool;
+
+                if (fieldValue && !fieldValue2) {
+                  // Navigate to a track vehicle page
+                  Get.to(TrackVehicle(bookingId: bookingId,));
+
+                }
+                // if the ride is completed but the vehicle is not received by owner
+                else if (!fieldValue && !fieldValue2){
+                  // Navigate to customer details page
+                  Get.to(TrackVehicle(bookingId: bookingId,));
+                }
+                else {
+                  // Navigate to customer details page
+                  Get.to(CustomerDetails(bookingId: bookingId));
+                }
+              } catch (error) {
+                print('Error checking booking field: $error');
+                throw error;
+              }
+
             },
             child: Container(
               padding: EdgeInsets.all(screenWidth * 0.01),
@@ -207,4 +451,5 @@ class CarDetails extends StatelessWidget {
       ),
     );
   }
+
 }

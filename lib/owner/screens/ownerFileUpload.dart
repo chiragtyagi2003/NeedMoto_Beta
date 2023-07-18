@@ -15,7 +15,6 @@ class OwnerFileUpload extends StatefulWidget {
 class _OwnerFileUploadState extends State<OwnerFileUpload> {
   late OwnerFileController fileController = Get.find();
   OwnerMainController mainController = Get.find();
-  final imageController = Get.find();
 
   // Get the current user's ID
   String getCurrentUserId() {

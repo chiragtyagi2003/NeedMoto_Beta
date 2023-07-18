@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:need_moto/owner/controller/owner_file_controller.dart';
 import 'package:need_moto/owner/controller/owner_image_controller.dart';
 import 'package:need_moto/owner/controller/owner_main_controller.dart';
+import 'package:need_moto/owner/controller/owner_request_handler.dart';
 import 'package:need_moto/owner/screens/details.dart';
 import 'package:need_moto/owner/screens/ownerHome.dart';
 import 'package:need_moto/owner/screens/ownerPhotosUpload.dart';
@@ -20,6 +21,11 @@ class AddVehicle extends StatefulWidget {
 class _AddVehicleState extends State<AddVehicle> {
   int _currentStep = 0;
   bool checkField = false;
+
+  OwnerMainController mainController = Get.find();
+  OwnerRequestHandler ownerRequestController = Get.find();
+  OwnerImageController ownerImageController = Get.find();
+  OwnerFileController ownerFileController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -126,15 +132,13 @@ class _AddVehicleState extends State<AddVehicle> {
               ),
               onPressed: () async {
                 // Save the vehicle data to the database
-                await Get.find<OwnerMainController>()
-                    .saveVehicleDataToFirestore();
+                await mainController.saveVehicleDataToFirestore();
 
                 // Save the files to the database
-                await Get.find<OwnerFileController>().uploadFiles();
+                await ownerFileController.uploadFiles();
 
                 // Save the images to the database
-                await Get.find<OwnerImageController>()
-                    .uploadImagesToFirebase();
+                await ownerImageController.uploadImagesToFirebase();
 
                 Get.defaultDialog(
                   title: "Submit Successfully",

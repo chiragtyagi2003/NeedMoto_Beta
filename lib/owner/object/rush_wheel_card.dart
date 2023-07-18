@@ -22,12 +22,23 @@ class _RushWheelState extends State<RushWheel> {
   bool _offride = false;
   final Rxn<bool> selected = Rxn<bool>();
 
+  late String vehicleName;
+  late String vehicleNumber;
+  late String kmReading;
+
+  @override
+  void initState() {
+    super.initState();
+    final vehicleData = widget.vehicleDoc.data() as Map<String, dynamic>?;
+    vehicleName = vehicleData?['vehicleName'] ?? '';
+    vehicleNumber = vehicleData?['vehicleNumber'] ?? '';
+    kmReading = vehicleData?['vehicleCurrentReading'] ?? '';
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
-    final vehicleName = widget.vehicleDoc.data()!['vehicleName'];
-    final vehicleNumber = widget.vehicleDoc.data()!['vehicleNumber'];
-    final kmReading = widget.vehicleDoc.data()!['vehicleCurrentReading'];
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       height: MediaQuery.of(context).size.height * 0.24,
@@ -199,7 +210,7 @@ class _RushWheelState extends State<RushWheel> {
                         children: [
                           InkWell(
                             onTap: () {
-                              Get.to(TrackVehicle());
+                              // Get.to(TrackVehicle());
                             },
                             child: Text("Track Vehicle",
                                 style:
@@ -213,7 +224,7 @@ class _RushWheelState extends State<RushWheel> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: ((context) => CarDetails())));
+                            builder: ((context) => CarDetails(vehicleName: vehicleName!, vehicleNumber: vehicleNumber!,))));
                   },
                   child: Text("View more details",
                       style: TextStyle(color: Colors.red, fontSize: 12)),

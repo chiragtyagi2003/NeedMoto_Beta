@@ -137,8 +137,8 @@ class VehicleHistory extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CarDetails()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => CarDetails()));
             },
             child: Container(
               padding: EdgeInsets.all(5),
