@@ -41,25 +41,30 @@ class OwnerMainController extends GetxController {
 
   Future<void> saveVehicleDataToFirestore() async {
     final user = FirebaseAuth.instance.currentUser;
-    final ownerRef = FirebaseFirestore.instance.collection('owners').doc(user!.uid);
-    final vehiclesRef = ownerRef.collection('vehicles');
+    final collectionRef = FirebaseFirestore.instance.collection('vehicles');
+
 
     final vehicleData = {
       'vehicleName': vehicleNameController.text,
-      'vehicleCompany': vehicleCompanyController.text,
+      'brandName': vehicleCompanyController.text,
       'vehicleNumber': vehicleNumberController.text,
-      'vehicleModel': vehicleModelController.text,
+      'model': vehicleModelController.text,
       'vehicleCurrentReading': vehicleCurrentReadingController.text,
       'vehicleRcNumber': vehicleRcNumberController.text,
       'vehiclePendingChallans': vehiclePendingChallansController.text,
       'vehicleInsurance': vehicleInsuranceController.text,
       'vehicleLocation': vehicleLocationController.text,
+      'adminApproval': false,
+      'onRide': false,
+      'owner_on_ride': true,
+      'ownerName': ownerNameController.text,
+      'ownerPhoneNumber':  ownerPhoneNumberController.text,
+      'ownerId': user?.uid,
     };
 
-    final vehicleNumber = vehicleNumberController.text;
 
     try {
-      await vehiclesRef.doc(vehicleNumber).set(vehicleData);
+      await collectionRef.add(vehicleData); // Use add method to auto-generate document ID
       print('Data saved to Firestore successfully!');
     } catch (e) {
       print('Error saving data to Firestore: $e');

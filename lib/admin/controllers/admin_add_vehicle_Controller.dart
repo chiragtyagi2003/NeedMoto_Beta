@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:need_moto/admin/controllers/dropdown_controller.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class AdminAddVehicleController extends GetxController
-{
+class AdminAddVehicleController extends GetxController {
   TextEditingController average = TextEditingController();
   TextEditingController base12 = TextEditingController();
   TextEditingController base24 = TextEditingController();
@@ -22,13 +22,14 @@ class AdminAddVehicleController extends GetxController
   TextEditingController vehicleNumber = TextEditingController();
   DropdownController dropDowncontroller = DropdownController();
 
-  Future<void> addVehicleToCollection() async {
+  Future<void> addVehicleToCollection(String vehicleId) async {
     try {
       // Access Firestore instance
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       // Create a new document reference in the "vehicles" collection
-      DocumentReference vehicleRef = firestore.collection('vehicles').doc();
+      DocumentReference vehicleRef =
+          firestore.collection('vehicles').doc(vehicleId);
 
       // Create a map containing the vehicle data
       Map<String, dynamic> vehicleData = {
@@ -40,24 +41,54 @@ class AdminAddVehicleController extends GetxController
         'distanceRange': distanceRange.text,
         'kmpl': kmpl.text,
         'model': model.text,
-        // 'ownerID':,
-        'ownerName': ownerName.text,
         'pricePerDay': pricePerDay.text,
         'pricePerHourCust': pricePerHour.text,
         'pricePerKm': pricePerKm.text,
         'seating': dropDowncontroller.selectedItem.toString(),
         'type': type.text,
-        'vehicleName': "${brand.text} ${model.text}",
-        'vehicleNumber': vehicleNumber.text,
+        'adminApproval': true,
       };
 
       // Add the vehicle data to the Firestore document
-      await vehicleRef.set(vehicleData);
-
-      print('Vehicle added successfully!');
+      await vehicleRef.update(vehicleData);
     } catch (e) {
-      print('Error adding vehicle: $e');
+      Fluttertoast.showToast(
+        msg: "Error Adding Vehicle.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> fetchVehicleDetails(
+      String vehicleId) async {
+    try {
+      // Assuming you have a collection 'vehicles' in Firestore
+      var vehicleDocument = await FirebaseFirestore.instance
+          .collection('vehicles')
+          .doc(vehicleId)
+          .get();
+
+      ownerName.text = vehicleDocument['ownerName'];
+      vehicleNumber.text = vehicleDocument['vehicleNumber'];
+
+      return vehicleDocument;
+    } catch (e) {
+      // Handle any potential errors that might occur during the data retrieval process
+      Fluttertoast.showToast(
+        msg: "Error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      throw Exception('Failed to fetch vehicle details: $e');
+    }
+  }
 }

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class DetailsAdmin extends StatelessWidget {
   final String carImage;
-  final String milage;
+  final String mileage;
   final String ownername;
   final String phonenumber;
 
@@ -19,7 +19,7 @@ class DetailsAdmin extends StatelessWidget {
   final String speed;
   const DetailsAdmin({
     Key? key,
-    required this.milage,
+    required this.mileage,
     required this.carImage,
     required this.speed,
     required this.carName,
@@ -137,20 +137,6 @@ class DetailsAdmin extends StatelessWidget {
                                 ),
                               ),
                               const Spacer(),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow[800],
-                                size: size.width * 0.06,
-                              ),
-                              Text(
-                                carRating,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.yellow[800],
-                                  fontSize: size.width * 0.04,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
                             ],
                           ),
                           Row(
@@ -197,7 +183,7 @@ class DetailsAdmin extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            height: 120,
+                            height: size.height * 0.17,
                             child: ListView(
                               scrollDirection: Axis.horizontal,
 
@@ -213,7 +199,7 @@ class DetailsAdmin extends StatelessWidget {
                                 ),
                                 buildStat(
                                   Icons.car_rental,
-                                  '$milage km/l',
+                                  '$mileage km/l',
                                   'Mileage',
                                   size,
                                 ),
@@ -282,7 +268,7 @@ class DetailsAdmin extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.symmetric(
                                         horizontal: size.width * 0.05,
-                                        vertical: size.height * 0.015,
+                                        vertical: size.height * 0.0009,
                                       ),
                                       child: Column(
                                         crossAxisAlignment:

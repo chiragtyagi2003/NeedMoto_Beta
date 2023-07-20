@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import'package:flutter/material.dart';
 import'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 
@@ -75,7 +74,7 @@ class OwnerRequestHandler extends GetxController {
           .collection('vehicles')
           .where('ownerID', isEqualTo: user?.uid) // Replace with the actual owner ID
           .where('vehicleName', isEqualTo: requestDocSnapshot['vehicleName'])
-          .where('on_ride', isEqualTo: false)
+          .where('onRide', isEqualTo: false)
           .get();
 
       // Check if a matching vehicle document exists
@@ -90,10 +89,10 @@ class OwnerRequestHandler extends GetxController {
         // Get the first document from the query result
         DocumentSnapshot vehicleDocSnapshot = vehicleQuerySnapshot.docs.first;
 
-        // Update the "on_ride" field of the vehicle document to true
+        // Update the "onRide" field of the vehicle document to true
         String vehicleDocId = vehicleDocSnapshot.id;
         await FirebaseFirestore.instance.collection('vehicles').doc(vehicleDocId).update({
-          'on_ride': true,
+          'onRide': true,
         });
 
         // Fetch the vehicle number
@@ -114,6 +113,7 @@ class OwnerRequestHandler extends GetxController {
           'requestId': requestId,
           'ownerID': user?.uid,
           'pay_status': false,
+          'transaction_id': "",
           // Include other fields from the request document as needed
         });
 

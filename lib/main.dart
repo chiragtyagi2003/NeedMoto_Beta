@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:need_moto/admin/controllers/admin_add_vehicle_Controller.dart';
 import 'package:need_moto/admin/controllers/admin_booking_controller.dart';
+import 'package:need_moto/admin/controllers/admin_main_controller.dart';
 import 'package:need_moto/admin/controllers/admin_request_controller.dart';
 import 'package:need_moto/admin/controllers/payment_controller.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
@@ -53,9 +55,12 @@ void main() async {
 
 
   // admin controllers
+  Get.put(AdminMainController());
   Get.put(AdminPaymentsController());
   Get.put(AdminBookingController());
   Get.put(AdminRequestController());
+  Get.put(AdminAddVehicleController());
+
   runApp(const MyApp());
 }
 

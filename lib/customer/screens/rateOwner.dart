@@ -77,6 +77,9 @@ class _RateOwnerState extends State<RateOwner> {
       'other_charges': vehicleSubmitController.vehicleOtherChargesController.text,
       'customer_rating': customerRating.toString(),
       'customer_msg_to_driver': vehicleSubmitController.vehicleMessageToOwnerController.text,
+
+      // update ride status in booking
+      'ongoing_ride': false,
       // ...
     });
 

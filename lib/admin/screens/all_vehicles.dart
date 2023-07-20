@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:need_moto/admin/controllers/admin_main_controller.dart';
 import 'package:need_moto/admin/widget/vehicle_tile_1.dart';
+import 'package:need_moto/admin/widget/vehicle_tile_2.dart';
 import 'package:need_moto/customer/controllers/VehicleBookingController.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 
@@ -26,16 +28,25 @@ class MyWidget extends StatefulWidget {
   String returnDateTime;
   String delivery;
   String purpose;
+
   @override
   State<MyWidget> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<MyWidget> {
-  MainController mainController = Get.find();
+  AdminMainController mainController = Get.find();
   VehicleBookingController vehicleBookingController = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    mainController.fetchVehicleData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ... your existing code
       appBar: AppBar(
         actions: [
           Padding(
@@ -63,126 +74,134 @@ class _MyWidgetState extends State<MyWidget> {
           },
         ),
       ),
+
       body: Container(
         height: double.infinity,
         color: Colors.white,
         child: SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            returnDetail('Total', Colors.blue, '56'),
-                            returnDetail('Booked', Colors.red, '34'),
-                            returnDetail('Available', Colors.green, '12'),
-                          ]),
+          physics: ScrollPhysics(),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        returnDetail('Total', Colors.blue, mainController.totalVehiclesController.text),
+                        returnDetail('Booked', Colors.red, mainController.bookedVehiclesController.text),
+                        returnDetail('Available', Colors.green, mainController.availableVehiclesController.text),
+                      ],
                     ),
                   ),
                 ),
-                Obx(
-                      () => ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: vehicleBookingController.filteredCars.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var car = vehicleBookingController.filteredCars[index];
+              ),
 
-                      mainController.imgUrlController.text =
-                      'https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Hyundai-Grand-i10-Nios-200120231541.jpg&w=872&h=578&q=75&c=1';
-                      mainController.vehicleNameController.text =
-                      "${car["brandName"]} ${car["model"]}";
-                      mainController.seatsController.text = car["seating"];
-                      mainController.rentalPricePerKmController.text =
-                      car["pricePerDay"];
-                      mainController.perKmController.text =
-                      car["distanceRange"];
-                      mainController.distanceFromYouController.text = "2.5";
-                      mainController.averageController.text = car["average"];
-                      mainController.kpmlController.text = car["kpml"];
-                      mainController.typeController.text = car["type"];
-                      mainController.ownerNameController.text =
-                      car["ownerName"];
-                      mainController.ownerPhoneNumberController.text =
-                      "9999223222";
+              Obx(
+                    () =>
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: mainController.vehicleList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var vehicleDoc = mainController.vehicleList[index];
 
-                      return VehicleTile1(
-//key: ValueKey(index),
-                          imgUrl: mainController.imgUrlController.text,
-                          vehicleName:
-                          mainController.vehicleNameController.text,
-                          seats: mainController.seatsController.text,
-                          rentalPricePerKm:
-                          mainController.rentalPricePerKmController.text,
-                          perKm: mainController.perKmController.text,
-                          distanceFromYou:
-                          mainController.distanceFromYouController.text,
-                          kpml: mainController.kpmlController.text,
-                          type: mainController.typeController.text,
-                          ownerName: mainController.ownerNameController.text,
-                          ownerPhoneNumber:
-                          mainController.ownerPhoneNumberController.text,
-                          average: mainController.averageController.text,
-                          ////
-                          delivery: widget.delivery,
-                          source: widget.source,
-                          destination: widget.destination,
-                          pickupDateTime: widget.pickupDateTime,
-                          returnDateTime: widget.returnDateTime,
-                          purpose: widget.purpose,
-                          vehicleLocation: widget.vehicleLocation,
-                          userseats: widget.seats,
-                          booked: true);
-                    },
-                  ),
-                ),
-              ],
-            )),
+                        // Access the fields within the document
+                        late String brandName;
+                        late String model;
+                        late String seating;
+                        late String pricePerDay;
+                        late String distanceRange;
+                        late String average;
+                        late String kmpl;
+                        late String type;
+                        late String ownerName;
+                        late String ownerPhoneNumber;
+                        late String vehicleNumber;
+                        late bool booked;
+
+                        try {
+                          brandName = vehicleDoc['brandName'] ?? "N/A";
+                          model = vehicleDoc['model'] ?? "N/A";
+                          seating = vehicleDoc['seating'] ?? "N/A";
+                          pricePerDay = vehicleDoc['pricePerDay'] ?? "N/A";
+                          distanceRange = vehicleDoc['distanceRange'] ?? "N/A";
+                          average = vehicleDoc['average'] ?? "N/A";
+                          kmpl = vehicleDoc['kmpl'] ?? "N/A";
+                          type = vehicleDoc['type'] ?? "N/A";
+                          ownerName = vehicleDoc['ownerName'] ?? "N/A";
+                          ownerPhoneNumber = vehicleDoc['ownerPhoneNumber'] ?? "N/A";
+                          booked = vehicleDoc['onRide'] as bool;
+                          vehicleNumber = vehicleDoc['vehicleNumber'] ?? 'N/A';
+                        } catch (e) {
+                          // Print the exception to identify which field caused the error
+                          print("Error accessing fields: $e");
+                        }
+
+                        return VehicleTile2(
+                          imgUrl: 'https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Hyundai-Grand-i10-Nios-200120231541.jpg&w=872&h=578&q=75&c=1',
+                          vehicleName: "$brandName $model",
+                          seats: seating,
+                          rentalPricePerDay: pricePerDay,
+                          perKm: distanceRange,
+                          distanceFromYou: "2.5",
+                          kmpl: kmpl,
+                          type: type,
+                          ownerName: ownerName,
+                          ownerPhoneNumber: ownerPhoneNumber,
+                          average: average,
+                          booked: booked,
+                          vehicleNumber: vehicleNumber,
+                        );
+                      },
+                    ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-Widget returnDetail(String title, Color color, String number) {
-  return Expanded(
-    child: Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Card(
-        color: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 1,
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                title,
-                style:
-                TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                number,
-                style: TextStyle(
-                    fontSize: 42,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          height: 110,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black12),
-            borderRadius: BorderRadius.circular(12),
+  Widget returnDetail(String title, Color color, String number) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Card(
+          color: color,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12)),
+          elevation: 1,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  title,
+                  style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  number,
+                  style: TextStyle(
+                      fontSize: 42,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            height: 110,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black12),
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
 // 2. Image from Internet
-}
+  }

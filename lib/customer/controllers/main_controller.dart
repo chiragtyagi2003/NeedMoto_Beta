@@ -59,6 +59,8 @@ class MainController extends GetxController {
   DropdownController deliveryDropDownController = DropdownController();
   DropdownController seatsDropDownController = DropdownController();
 
+  TextEditingController durationDaysHoursController = TextEditingController();
+
 
 
   TextEditingController userChosenTime = TextEditingController();
@@ -152,6 +154,25 @@ class MainController extends GetxController {
       print('Error fetching vehicle details: $error');
     }
   }
+
+  String calculateDurationDaysHours(String startDate, String endDate) {
+    // Parse the start and end dates
+    DateTime startDateTime = DateFormat('dd-MM-yyyy HH:mm').parse(startDate);
+    DateTime endDateTime = DateFormat('dd-MM-yyyy HH:mm').parse(endDate);
+
+    // Calculate the difference between the two dates
+    Duration difference = endDateTime.difference(startDateTime);
+
+    // Calculate the number of days and hours in the duration
+    int days = difference.inDays;
+    int hours = difference.inHours % 24;
+
+    // Format the duration as "X days, Y hours"
+    String formattedDuration = "$days days, $hours hours";
+
+    return formattedDuration;
+  }
+
 
 
 

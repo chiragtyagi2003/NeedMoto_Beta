@@ -1,27 +1,54 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/admin/controllers/admin_main_controller.dart';
 import 'package:need_moto/admin/controllers/dropdown_controller.dart';
 import 'package:need_moto/admin/screens/add_vehicle.dart';
 import 'package:need_moto/admin/screens/admin_bookings.dart';
 import 'package:need_moto/admin/screens/all_vehicles.dart';
 import 'package:need_moto/admin/screens/payments.dart';
 import 'package:need_moto/admin/screens/admin_requests.dart';
+import 'package:need_moto/admin/screens/vehicle_requests.dart';
 import 'package:need_moto/admin/widget/my_appbar.dart';
 
 
-class AdminHome extends StatelessWidget {
+class AdminHome extends StatefulWidget {
   AdminHome({super.key});
+
+  @override
+  State<AdminHome> createState() => _AdminHomeState();
+}
+
+class _AdminHomeState extends State<AdminHome> {
+
+  AdminMainController mainController = Get.find();
+
   TextEditingController _vehicleNeedLocations = TextEditingController();
+
   TextEditingController _vehicleSource = TextEditingController();
+
   TextEditingController _vehicleDestination = TextEditingController();
+
   TextEditingController _pickupDateTime = TextEditingController();
+
   TextEditingController _returnDateTime = TextEditingController();
+
   TextEditingController _delivery = TextEditingController();
+
   TextEditingController _purpose = TextEditingController();
+
   DropdownController controller = DropdownController();
+
   DropdownController controllers = DropdownController();
+
   // DateTimeController Controller = DateTimeController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    mainController.countAndUpdateVariables();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +108,7 @@ class AdminHome extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 17)),
                     ],
-                  ),                                              
+                  ),
                   SizedBox(
                     height: 40,
                   ),
@@ -123,7 +150,7 @@ class AdminHome extends StatelessWidget {
                   ),
                   GestureDetector(
                       onTap: () {
-                        Get.to(() => AddVehicle());
+                        Get.to(() => VehicleRequests());
                       },
                       child: Container(
                         width: 250,

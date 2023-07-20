@@ -161,6 +161,7 @@ class _FormTileState extends State<FormTile> {
                     if (selectedDateTime != null) {
                       setState(() {
                         mainController.pickupDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
+                        mainController.durationDaysHoursController.text = mainController.calculateDurationDaysHours(mainController.pickupDateTime.text, mainController.returnDateTime.text);
                       });
                     }},
                   decoration: InputDecoration(
@@ -185,6 +186,7 @@ class _FormTileState extends State<FormTile> {
                     if (selectedDateTime != null) {
                      setState(() {
                        mainController.returnDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
+                       mainController.durationDaysHoursController.text = mainController.calculateDurationDaysHours(mainController.pickupDateTime.text, mainController.returnDateTime.text);
                      });
                     }},
                   decoration: InputDecoration(

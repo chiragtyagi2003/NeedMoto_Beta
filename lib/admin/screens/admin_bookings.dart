@@ -307,7 +307,8 @@ class _AdminBookingsState extends State<AdminBookings> {
                                           ),
                                         ),
                                         Text(
-                                          '${adminbooking.distanceinkm[index]} km',
+                                          '',
+                                          //'${adminbooking.distanceinkm[index]} km',
                                           style: TextStyle(
                                             fontSize: 15.0,
                                           ),

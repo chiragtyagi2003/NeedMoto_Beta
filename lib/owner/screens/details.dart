@@ -96,9 +96,8 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _challansValue,
                         onChanged: (value) {
                           setState(() {
-                            mainController.vehiclePendingChallansController =
-                            value! as TextEditingController;
-                            _challansValue = value;
+                            mainController.vehiclePendingChallansController.text = value.toString();
+                            _challansValue = value!;
                           });
                         },
                       ),
@@ -112,6 +111,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _challansValue,
                         onChanged: (value) {
                           setState(() {
+                            mainController.vehiclePendingChallansController.text = value.toString();
                             _challansValue = value!;
                           });
                         },
@@ -139,9 +139,8 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _insuranceValue,
                         onChanged: (value) {
                           setState(() {
-                            mainController.vehicleInsuranceController =
-                            value! as TextEditingController;
-                            _insuranceValue = value;
+                            mainController.vehicleInsuranceController.text = value.toString();
+                            _insuranceValue = value!;
                           });
                         },
                       ),
@@ -156,6 +155,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _insuranceValue,
                         onChanged: (value) {
                           setState(() {
+                            mainController.vehicleInsuranceController.text = value.toString();
                             _insuranceValue = value!;
                           });
                         },

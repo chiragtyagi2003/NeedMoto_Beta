@@ -206,6 +206,8 @@ class _SelfDriveState extends State<SelfDrive> {
                             // call the function to calculate days and hours time
                             mainController.calculateTimeDifference(pickupTime, returnTime);
 
+                            mainController.durationDaysHoursController.text = mainController.calculateDurationDaysHours(mainController.pickupDateTime.text, mainController.returnDateTime.text);
+
 
 
                             Get.to(Grid());

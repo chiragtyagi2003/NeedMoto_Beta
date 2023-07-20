@@ -3,69 +3,46 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/admin/widget/details_admin.dart';
 
-class VehicleTile1 extends StatefulWidget {
+class VehicleTile2 extends StatefulWidget {
   final String imgUrl;
   final String vehicleName;
   final String seats;
-  final String rentalPricePerKm;
+  final String rentalPricePerDay;
   final String perKm;
   final String distanceFromYou;
-  final String kpml;
+  final String kmpl;
   final String type;
   final String ownerName;
   final String ownerPhoneNumber;
   final String average;
+  final String vehicleNumber;
   // final String userId;
 
-  RxString userseats;
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
 
   bool booked;
 
-  VehicleTile1({
+  VehicleTile2({
     required this.imgUrl,
     required this.vehicleName,
     required this.seats,
-    required this.rentalPricePerKm,
+    required this.rentalPricePerDay,
     required this.perKm,
     required this.distanceFromYou,
-    required this.kpml,
+    required this.kmpl,
     required this.type,
     required this.ownerName,
     required this.ownerPhoneNumber,
     required this.average,
-    required this.userseats,
-    required this.vehicleLocation,
-    required this.source,
-    required this.destination,
-    required this.pickupDateTime,
-    required this.returnDateTime,
-    required this.delivery,
-    required this.purpose,
     required this.booked,
+    required this.vehicleNumber,
     // required this.userId
   });
 
   @override
-  State<VehicleTile1> createState() => _VehicleTile1State();
+  State<VehicleTile2> createState() => _VehicleTile2State();
 }
 
-class _VehicleTile1State extends State<VehicleTile1> {
-  bool kycdone = false;
-  // getKycStatus() async {
-  //   await CheckKyc.checkKycdone(widget.userId).then((iskycdone) {
-  //     setState(() {
-  //       // isLoading = false;
-  //       kycdone = iskycdone;
-  //     });
-  //   });
-  // }
+class _VehicleTile2State extends State<VehicleTile2> {
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +92,17 @@ class _VehicleTile1State extends State<VehicleTile1> {
 
                                 SizedBox(height: 8.0),
 
+                                Text(
+                                  widget.vehicleNumber,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 23.0,
+                                  ),
+                                ),
+
+                                SizedBox(height: 8.0),
+
+
                                 // Seats
 
                                 Row(
@@ -140,13 +128,13 @@ class _VehicleTile1State extends State<VehicleTile1> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Rent Amount : ',
+                                      'Price/Day: ',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
                                     Text(
-                                      '₹${widget.rentalPricePerKm}/-',
+                                      '₹${widget.rentalPricePerDay}/-',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                       ),
@@ -175,7 +163,7 @@ class _VehicleTile1State extends State<VehicleTile1> {
 
                                 SizedBox(
                                   height: 15,
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -186,7 +174,7 @@ class _VehicleTile1State extends State<VehicleTile1> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Hero(
-                                tag: widget.vehicleName,
+                                tag: widget.rentalPricePerDay,
                                 child: Image.asset(
                                   'assets/i30n.png',
                                 )),
@@ -229,13 +217,13 @@ class _VehicleTile1State extends State<VehicleTile1> {
                     onPressed: () {
                       Get.to(
                         DetailsAdmin(
-                            mileage: widget.kpml,
+                            mileage: widget.kmpl,
                             type: widget.type,
                             speed: widget.average,
                             bags: '5',
                             carImage: 'assets/i30n.png',
                             carName: widget.vehicleName,
-                            carPrice: widget.rentalPricePerKm,
+                            carPrice: widget.rentalPricePerDay,
                             carRating: '4.5',
                             isRotated: true,
                             people: widget.seats,
@@ -249,4 +237,5 @@ class _VehicleTile1State extends State<VehicleTile1> {
       ),
     );
   }
+
 }

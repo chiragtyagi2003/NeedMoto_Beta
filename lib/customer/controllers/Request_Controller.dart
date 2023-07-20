@@ -204,7 +204,7 @@ class RequestController extends GetxController {
         await FirebaseFirestore.instance
             .collection('vehicles')
             .doc(docId)
-            .update({'on_ride': false});
+            .update({'onRide': false});
 
         print('on_ride field updated successfully!');
       } else {
