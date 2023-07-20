@@ -89,12 +89,12 @@ class MapPanel extends StatelessWidget {
   }
 
   Widget buildStatusWidget(
-      IconData icon,
-      Color color,
-      String title,
-      String value1,
-      String value2,
-      ) {
+    IconData icon,
+    Color color,
+    String title,
+    String value1,
+    String value2,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,8 +111,7 @@ class MapPanel extends StatelessWidget {
             const SizedBox(width: 5),
             Text(
               title,
-              style:
-              TextStyle(color: color, fontWeight: FontWeight.w500),
+              style: TextStyle(color: color, fontWeight: FontWeight.w500),
             ),
             Text(
               value1,
@@ -191,6 +190,8 @@ class MapPanel extends StatelessWidget {
   }
 
   void togglePanel() {
-    panelController.isPanelOpen ? panelController.close() : panelController.open();
+    panelController.isPanelOpen
+        ? panelController.close()
+        : panelController.open();
   }
 }

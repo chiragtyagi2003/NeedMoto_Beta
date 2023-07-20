@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:need_moto/owner/screens/ownerHome.dart';
 
 
@@ -14,14 +14,14 @@ class CancelRequest extends StatefulWidget {
 class _CancelRequestState extends State<CancelRequest> {
   String? cancelReason;
   bool textbox = false;
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -29,7 +29,7 @@ class _CancelRequestState extends State<CancelRequest> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "Cancel Request",
           style: TextStyle(color: Colors.black),
         ),
@@ -38,27 +38,27 @@ class _CancelRequestState extends State<CancelRequest> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
-                child: Text(
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                child: const Text(
                   "Cancellation reasons",
                   textAlign: TextAlign.start,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     RadioListTile(
                       activeColor: Colors.orange,
-                      title: Text(
+                      title: const Text(
                         "I have work with vehicle",
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
@@ -73,7 +73,7 @@ class _CancelRequestState extends State<CancelRequest> {
                     ),
                     RadioListTile(
                       activeColor: Colors.orange,
-                      title: Text(
+                      title: const Text(
                         "Vehicle is out of station",
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
@@ -88,7 +88,7 @@ class _CancelRequestState extends State<CancelRequest> {
                     ),
                     RadioListTile(
                       activeColor: Colors.orange,
-                      title: Text(
+                      title: const Text(
                         "Vehicle is not in good condition",
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
@@ -104,7 +104,7 @@ class _CancelRequestState extends State<CancelRequest> {
                     ),
                     RadioListTile(
                       activeColor: Colors.orange,
-                      title: Text(
+                      title: const Text(
                         "Other",
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
@@ -118,7 +118,7 @@ class _CancelRequestState extends State<CancelRequest> {
                       },
                     ),
                     textbox ? textfield() : Container(),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _submitButton(context)
                   ]),
             ],
@@ -129,7 +129,7 @@ class _CancelRequestState extends State<CancelRequest> {
   }
 
   Widget _submitButton(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       height: 50,
       child: ElevatedButton(
@@ -140,10 +140,9 @@ class _CancelRequestState extends State<CancelRequest> {
             )),
             backgroundColor: MaterialStateProperty.all(Colors.orange)),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => OwnerHome()));
+          Get.to(const OwnerHome());
         },
-        child: Center(
+        child: const Center(
           child: Text(
             "Submit",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
@@ -156,12 +155,12 @@ class _CancelRequestState extends State<CancelRequest> {
 
   Widget textfield() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
       child: TextField(
         maxLines: 10,
         controller: _controller,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: const BorderSide(

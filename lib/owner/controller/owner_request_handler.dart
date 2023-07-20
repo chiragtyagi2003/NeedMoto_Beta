@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import'package:flutter/material.dart';
-import'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
+import 'package:flutter/material.dart';
 
 class OwnerRequestHandler extends GetxController {
-
   final user = FirebaseAuth.instance.currentUser;
   MainController mainController = Get.find();
 
@@ -13,57 +13,31 @@ class OwnerRequestHandler extends GetxController {
     try {
       // Get a reference to the document in the "requests" collection
       DocumentReference requestDocRef =
-      FirebaseFirestore.instance.collection('requests').doc(requestId);
+          FirebaseFirestore.instance.collection('requests').doc(requestId);
 
       // Update the value of the "status" field
       await requestDocRef.update({'status': status});
-
-      print('Status field updated successfully!');
-
 
       // Transfer the request to the "bookings" collection
       await transferRequestToBookings(requestDocRef, requestId);
 
       // Delete the document from the "requests" collection
       await requestDocRef.delete();
-
-      print('Document deleted from the "requests" collection successfully!');
     } catch (error) {
-      print('Error updating status field: $error');
+      Fluttertoast.showToast(
+        msg: "Error.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
 
-  // Future<void> transferRequestToBookings(DocumentReference requestDocRef, String requestId) async {
-  //   try {
-  //     // Retrieve the document snapshot from the "requests" collection
-  //     DocumentSnapshot requestDocSnapshot = await requestDocRef.get();
-  //     print(requestDocRef.toString());
-  //     print(requestDocSnapshot);
-  //
-  //     // Transfer the document to the "bookings" collection with additional fields
-  //     await FirebaseFirestore.instance.collection('bookings').doc(requestId).set({
-  //       'status': requestDocSnapshot['status'],
-  //       'vehicleName': requestDocSnapshot['vehicleName'],
-  //       'source': requestDocSnapshot['source'],
-  //       'destination': requestDocSnapshot['destination'],
-  //       'pickupDateTime': requestDocSnapshot['pickupDateTime'],
-  //       'returnDateTime': requestDocSnapshot['returnDateTime'],
-  //       'purpose': requestDocSnapshot['purpose'],
-  //       'delivery': requestDocSnapshot['delivery'],
-  //       'userId': requestDocSnapshot['userId'],
-  //       'requestId': requestId,
-  //       'ownerId': user?.uid,
-  //       'pay_status': false,
-  //       // Include other fields from the request document as needed
-  //     });
-  //
-  //     print('Document transferred to the "bookings" collection successfully!');
-  //   } catch (error) {
-  //     print('Error transferring document to "bookings" collection: $error');
-  //   }
-  // }
-
-  Future<void> transferRequestToBookings(DocumentReference requestDocRef, String requestId) async {
+  Future<void> transferRequestToBookings(
+      DocumentReference requestDocRef, String requestId) async {
     try {
       // Retrieve the document snapshot from the "requests" collection
       DocumentSnapshot requestDocSnapshot = await requestDocRef.get();
@@ -73,9 +47,10 @@ class OwnerRequestHandler extends GetxController {
       // Query the "vehicles" collection for a matching vehicle
       QuerySnapshot vehicleQuerySnapshot = await FirebaseFirestore.instance
           .collection('vehicles')
-          .where('ownerID', isEqualTo: user?.uid) // Replace with the actual owner ID
+          .where('ownerID',
+              isEqualTo: user?.uid) // Replace with the actual owner ID
           .where('vehicleName', isEqualTo: requestDocSnapshot['vehicleName'])
-          .where('on_ride', isEqualTo: false)
+          .where('onRide', isEqualTo: false)
           .get();
 
       // Check if a matching vehicle document exists
@@ -90,17 +65,23 @@ class OwnerRequestHandler extends GetxController {
         // Get the first document from the query result
         DocumentSnapshot vehicleDocSnapshot = vehicleQuerySnapshot.docs.first;
 
-        // Update the "on_ride" field of the vehicle document to true
+        // Update the "onRide" field of the vehicle document to true
         String vehicleDocId = vehicleDocSnapshot.id;
-        await FirebaseFirestore.instance.collection('vehicles').doc(vehicleDocId).update({
-          'on_ride': true,
+        await FirebaseFirestore.instance
+            .collection('vehicles')
+            .doc(vehicleDocId)
+            .update({
+          'onRide': true,
         });
 
         // Fetch the vehicle number
         String fetchedVehicleNumber = vehicleDocSnapshot['vehicleNumber'];
 
         // Transfer the document to the "bookings" collection with additional fields
-        await FirebaseFirestore.instance.collection('bookings').doc(requestId).set({
+        await FirebaseFirestore.instance
+            .collection('bookings')
+            .doc(requestId)
+            .set({
           'status': requestDocSnapshot['status'],
           'vehicleName': requestDocSnapshot['vehicleName'],
           'vehicleNumber': fetchedVehicleNumber,
@@ -114,18 +95,30 @@ class OwnerRequestHandler extends GetxController {
           'requestId': requestId,
           'ownerID': user?.uid,
           'pay_status': false,
+          'transaction_id': "",
           // Include other fields from the request document as needed
         });
-
-        //pass the ownerID and vehicle number to customer interface
-
-        print('Document transferred to the "bookings" collection successfully!');
       } else {
-        print('No matching vehicle found.');
-        // Handle the case when no matching vehicle is found
+        Fluttertoast.showToast(
+          msg: "Error. No vehicles found.",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey[600],
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
       }
     } catch (error) {
-      print('Error transferring document to "bookings" collection: $error');
+      Fluttertoast.showToast(
+        msg: "Error.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
 
@@ -133,6 +126,7 @@ class OwnerRequestHandler extends GetxController {
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
+        // delete that request from the current owner
         await FirebaseFirestore.instance
             .collection('owners')
             .doc(user.uid)
@@ -143,31 +137,40 @@ class OwnerRequestHandler extends GetxController {
       }
     } catch (e) {
       // Handle error
-      print('Error declining request: $e');
+      Fluttertoast.showToast(
+        msg: "Error.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
 
   void handleAccept(String requestId) async {
     try {
       await updateStatusField('accepted', requestId);
-      final QuerySnapshot ownersSnapshot = await FirebaseFirestore.instance
-          .collection('owners')
-          .get();
+      final QuerySnapshot ownersSnapshot =
+          await FirebaseFirestore.instance.collection('owners').get();
 
+      // delete that request from all owners
       for (final ownerDoc in ownersSnapshot.docs) {
         final ownerRef = ownerDoc.reference;
-        final requestRef =
-        ownerRef.collection('requests').doc(requestId);
+        final requestRef = ownerRef.collection('requests').doc(requestId);
         await requestRef.delete();
       }
-
-      // Handle success or show a notification
     } catch (e) {
-      // Handle error
-      print('Error accepting request: $e');
+      Fluttertoast.showToast(
+        msg: "Error.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
-
-
-
 }

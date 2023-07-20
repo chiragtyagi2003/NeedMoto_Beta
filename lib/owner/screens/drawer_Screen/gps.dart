@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:get/get.dart';
 
 import '../gps_tabscreen/all_screen.dart';
 
@@ -27,7 +24,7 @@ class _GpsState extends State<Gps> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.black,
               ),
@@ -35,13 +32,13 @@ class _GpsState extends State<Gps> {
                 Navigator.pop(context);
               },
             ),
-            title: Text(
+            title: const Text(
               "GPS",
               style: TextStyle(color: Colors.black),
             ),
             surfaceTintColor: Colors.blue,
             elevation: 1,
-            bottom: TabBar(
+            bottom: const TabBar(
               tabs: [
                 Tab(
                     child: Text(
@@ -60,7 +57,7 @@ class _GpsState extends State<Gps> {
               ],
             ),
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               AllGPS(),
               AllGPS(),

@@ -35,7 +35,7 @@ class _DetailsPageState extends State<DetailsPage> {
             myLabelText: "Vehicle Name",
           ),
           const SizedBox(height: 20),
-          DropField(), // Custom dropdown field for company selection
+          const DropField(), // Custom dropdown field for company selection
           const SizedBox(height: 20),
           TextInputField(
             controller: mainController.vehicleNumberController,
@@ -96,9 +96,9 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _challansValue,
                         onChanged: (value) {
                           setState(() {
-                            mainController.vehiclePendingChallansController =
-                            value! as TextEditingController;
-                            _challansValue = value;
+                            mainController.vehiclePendingChallansController
+                                .text = value == 1 ? 'Yes' : 'No';
+                            _challansValue = value!;
                           });
                         },
                       ),
@@ -112,6 +112,8 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _challansValue,
                         onChanged: (value) {
                           setState(() {
+                            mainController.vehiclePendingChallansController
+                                .text = value == 2 ? 'No' : 'Yes';
                             _challansValue = value!;
                           });
                         },
@@ -139,9 +141,9 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _insuranceValue,
                         onChanged: (value) {
                           setState(() {
-                            mainController.vehicleInsuranceController =
-                            value! as TextEditingController;
-                            _insuranceValue = value;
+                            mainController.vehicleInsuranceController.text =
+                                value == 1 ? 'Yes' : 'No';
+                            _insuranceValue = value!;
                           });
                         },
                       ),
@@ -156,6 +158,8 @@ class _DetailsPageState extends State<DetailsPage> {
                         groupValue: _insuranceValue,
                         onChanged: (value) {
                           setState(() {
+                            mainController.vehicleInsuranceController.text =
+                                value == 2 ? 'No' : 'Yes';
                             _insuranceValue = value!;
                           });
                         },

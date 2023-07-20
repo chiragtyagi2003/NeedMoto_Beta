@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MapPanel extends StatelessWidget {
@@ -15,7 +13,7 @@ class MapPanel extends StatelessWidget {
       controller: controller,
       padding: EdgeInsets.zero,
       children: <Widget>[
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         dragHandler(),
         content(),
       ],
@@ -24,9 +22,9 @@ class MapPanel extends StatelessWidget {
 
   Widget content() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 17),
       child: Column(children: [
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
@@ -39,11 +37,11 @@ class MapPanel extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 8),
-        Divider(
+        const SizedBox(height: 8),
+        const Divider(
           color: Colors.black,
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -56,27 +54,27 @@ class MapPanel extends StatelessWidget {
                   color: Colors.green[600],
                   size: 15,
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Icon(Icons.remove_circle_outline_outlined)
 
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Text(
                       "Running",
                       style: TextStyle(
                           color: Colors.green[600],
                           fontWeight: FontWeight.w500),
                     ),
-                    Text(
+                    const Text(
                       "20.1 KM",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
-                    Text(
+                    const Text(
                       "7h 8m",
                       style: TextStyle(
                           color: Colors.black,
@@ -96,26 +94,26 @@ class MapPanel extends StatelessWidget {
                   color: Colors.red[600],
                   size: 15,
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //
 
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Text(
                       "Stops",
                       style: TextStyle(
                           color: Colors.red[600], fontWeight: FontWeight.w500),
                     ),
-                    Text(
+                    const Text(
                       "0 Stop",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
-                    Text(
+                    const Text(
                       "-",
                       style: TextStyle(
                           color: Colors.black,
@@ -135,8 +133,8 @@ class MapPanel extends StatelessWidget {
                   color: Colors.grey[600],
                   size: 15,
                 ),
-                SizedBox(width: 5),
-                Column(
+                const SizedBox(width: 5),
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Icon(Icons.remove_circle_outline_outlined)
@@ -167,7 +165,7 @@ class MapPanel extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -176,8 +174,8 @@ class MapPanel extends StatelessWidget {
               color: Colors.green[600],
               size: 25,
             ),
-            SizedBox(width: 10),
-            Column(
+            const SizedBox(width: 10),
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -208,8 +206,8 @@ class MapPanel extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(height: 25),
-        Text(
+        const SizedBox(height: 25),
+        const Text(
           "Nagole Roda Chandrapuri colony, Uppdal, Hyderabad, Rangareddy, Telangana, 500039, India",
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
           textAlign: TextAlign.justify,

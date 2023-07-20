@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/owner/controller/owner_file_controller.dart';
 import 'package:need_moto/owner/controller/owner_image_controller.dart';
 import 'package:need_moto/owner/controller/owner_main_controller.dart';
+import 'package:need_moto/owner/controller/owner_request_handler.dart';
 import 'package:need_moto/owner/screens/details.dart';
 import 'package:need_moto/owner/screens/ownerHome.dart';
 import 'package:need_moto/owner/screens/ownerPhotosUpload.dart';
@@ -20,6 +22,11 @@ class AddVehicle extends StatefulWidget {
 class _AddVehicleState extends State<AddVehicle> {
   int _currentStep = 0;
   bool checkField = false;
+
+  OwnerMainController mainController = Get.find();
+  OwnerRequestHandler ownerRequestController = Get.find();
+  OwnerImageController ownerImageController = Get.find();
+  OwnerFileController ownerFileController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +74,7 @@ class _AddVehicleState extends State<AddVehicle> {
                   ),
                   isActive: _currentStep > 0,
                   state:
-                  _currentStep > 0 ? StepState.complete : StepState.editing,
+                      _currentStep > 0 ? StepState.complete : StepState.editing,
                 ),
                 Step(
                   title: const Text('Documents'),
@@ -80,7 +87,7 @@ class _AddVehicleState extends State<AddVehicle> {
                   ),
                   isActive: _currentStep > 1,
                   state:
-                  _currentStep > 1 ? StepState.complete : StepState.editing,
+                      _currentStep > 1 ? StepState.complete : StepState.editing,
                 ),
                 Step(
                   title: const Text('Photos'),
@@ -93,7 +100,7 @@ class _AddVehicleState extends State<AddVehicle> {
                   ),
                   isActive: _currentStep > 2,
                   state:
-                  _currentStep > 2 ? StepState.complete : StepState.editing,
+                      _currentStep > 2 ? StepState.complete : StepState.editing,
                 ),
               ],
             ),
@@ -114,103 +121,115 @@ class _AddVehicleState extends State<AddVehicle> {
             height: 55,
             child: _currentStep == 2
                 ? ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all(
-                  const Color.fromARGB(255, 15, 94, 159),
-                ),
-              ),
-              onPressed: () async {
-                // Save the vehicle data to the database
-                await Get.find<OwnerMainController>()
-                    .saveVehicleDataToFirestore();
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 15, 94, 159),
+                      ),
+                    ),
+                    onPressed: () async {
+                      try {
+                        // Save the vehicle data to the database
+                        await mainController.saveVehicleDataToFirestore();
 
-                // Save the files to the database
-                await Get.find<OwnerFileController>().uploadFiles();
+                        // Save the files to the database
+                        await ownerFileController.uploadFiles();
 
-                // Save the images to the database
-                await Get.find<OwnerImageController>()
-                    .uploadImagesToFirebase();
+                        // Save the images to the database
+                        await ownerImageController.uploadImagesToFirebase();
 
-                Get.defaultDialog(
-                  title: "Submit Successfully",
-                  middleText:
-                  "You have uploaded all documents successfully. Verification will be done by Rush wheels within 24 hours.",
-                  confirm: ElevatedButton(
-                    onPressed: () {
-                      Get.to(const OwnerHome());
+                        Get.defaultDialog(
+                          title: "Submit Successfully",
+                          middleText:
+                              "You have uploaded all documents successfully. Verification will be done by Rush wheels within 24 hours.",
+                          confirm: ElevatedButton(
+                            onPressed: () {
+                              Get.to(const OwnerHome());
+                            },
+                            child: const Text('Ok'),
+                          ),
+                        );
+                      } catch (e) {
+                        // Handle the error, show a snackbar, or display an error message
+                        // to the user indicating that the submission was not successful.
+                        Fluttertoast.showToast(
+                          msg: "Error",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.grey[600],
+                          textColor: Colors.black,
+                          fontSize: 16.0,
+                        );
+                      }
                     },
-                    child: const Text('Ok'),
-                  ),
-                );
-              },
-              child: const Center(
-                child: Text(
-                  "Submit",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            )
+                    child: const Center(
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
                 : ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 15, 94, 159),
+                      ),
+                    ),
+                    onPressed: () {
+                      _currentStep < 2
+                          ? setState(() => _currentStep += 1)
+                          : null;
+                    },
+                    child: const Center(
+                      child: Text(
+                        "Next",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
-                ),
-                backgroundColor: MaterialStateProperty.all(
-                  const Color.fromARGB(255, 15, 94, 159),
-                ),
-              ),
-              onPressed: () {
-                _currentStep < 2
-                    ? setState(() => _currentStep += 1)
-                    : null;
-              },
-              child: const Center(
-                child: Text(
-                  "Next",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
           ),
           _currentStep > 0
               ? InkWell(
-            onTap: () {
-              _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
-            },
-            child: Container(
-              margin: const EdgeInsets.only(left: 30),
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              width: MediaQuery.of(context).size.width * 0.2,
-              height: 50,
-              child: const Text(
-                "Prev",
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-          )
+                  onTap: () {
+                    _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: 50,
+                    child: const Text(
+                      "Prev",
+                      style: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                )
               : const SizedBox(
-            width: 0,
-            height: 10.0,
-          ),
+                  width: 0,
+                  height: 10.0,
+                ),
         ],
       ),
     );
@@ -221,4 +240,3 @@ class _AddVehicleState extends State<AddVehicle> {
     setState(() => _currentStep = step);
   }
 }
-

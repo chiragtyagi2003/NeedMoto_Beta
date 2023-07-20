@@ -9,7 +9,7 @@ class TonesOwnField extends StatefulWidget {
 
 class _TonesOwnFieldState extends State<TonesOwnField> {
   String dropDownValue = "";
-  List<String> TonesType = [
+  List<String> tonesType = [
     '4 Tones',
     '5 Tones',
     '6 Tones',
@@ -17,32 +17,32 @@ class _TonesOwnFieldState extends State<TonesOwnField> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            DropdownButtonFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30.0),
-                  ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          DropdownButtonFormField(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30.0),
                 ),
-                hintStyle: TextStyle(color: Colors.grey[800]),
-                hintText: "Tones",
               ),
-              // value: dropDownValue,
-              onChanged: (Value) {
-                setState(() {
-                  dropDownValue = Value!;
-                });
-              },
-              items: TonesType.map((TonesTitle) => DropdownMenuItem(
-                  value: TonesTitle, child: Text("$TonesTitle"))).toList(),
+              hintStyle: TextStyle(color: Colors.grey[800]),
+              hintText: "Tones",
             ),
-          ],
-        ),
+            // value: dropDownValue,
+            onChanged: (value) {
+              setState(() {
+                dropDownValue = value!;
+              });
+            },
+            items: tonesType
+                .map((tonesTitle) => DropdownMenuItem(
+                    value: tonesTitle, child: Text(tonesTitle)))
+                .toList(),
+          ),
+        ],
       ),
     );
   }

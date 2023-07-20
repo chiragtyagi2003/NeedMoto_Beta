@@ -9,7 +9,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.white,
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.menu,
           color: Colors.black,
         ),
@@ -23,21 +23,21 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           border: Border.all(color: Colors.black12, width: 1.0),
           color: Colors.white,
         ),
-        child: TextField(
+        width: 320.0,
+        height: 45,
+        child: const TextField(
           decoration: InputDecoration(
             hintText: 'Search',
             prefixIcon: Icon(Icons.search),
             border: InputBorder.none,
           ),
         ),
-        width: 320.0,
-        height: 45,
       ),
       actions: [
         CircleAvatar(
           backgroundColor: Colors.grey.shade300,
           child: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
               color: Colors.black,
             ),
@@ -46,7 +46,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             },
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 5.0,
         ),
       ],
@@ -54,5 +54,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(65);
+  Size get preferredSize => const Size.fromHeight(65);
 }

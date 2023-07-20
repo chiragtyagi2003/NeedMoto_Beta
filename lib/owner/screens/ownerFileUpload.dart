@@ -6,7 +6,7 @@ import 'package:need_moto/owner/controller/owner_main_controller.dart';
 import 'package:need_moto/owner/object/kycDocUpload.dart';
 
 class OwnerFileUpload extends StatefulWidget {
-  const OwnerFileUpload({Key? key});
+  const OwnerFileUpload({Key? key}) : super(key: key);
 
   @override
   State<OwnerFileUpload> createState() => _OwnerFileUploadState();
@@ -15,7 +15,6 @@ class OwnerFileUpload extends StatefulWidget {
 class _OwnerFileUploadState extends State<OwnerFileUpload> {
   late OwnerFileController fileController = Get.find();
   OwnerMainController mainController = Get.find();
-  final imageController = Get.find();
 
   // Get the current user's ID
   String getCurrentUserId() {
@@ -90,8 +89,10 @@ class _OwnerFileUploadState extends State<OwnerFileUpload> {
         ),
 
         Container(
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.04, vertical: size.height * 0.02),
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.04, vertical: size.height * 0.015),
+          margin: EdgeInsets.symmetric(
+              horizontal: size.width * 0.04, vertical: size.height * 0.02),
+          padding: EdgeInsets.symmetric(
+              horizontal: size.width * 0.04, vertical: size.height * 0.015),
           decoration: BoxDecoration(
             color: Colors.red[50],
             border: Border.all(color: Colors.red),

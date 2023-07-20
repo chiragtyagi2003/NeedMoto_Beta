@@ -1,21 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/admin/controllers/admin_add_vehicle_Controller.dart';
 
 import 'package:need_moto/admin/widget/my_appbar.dart';
 
-class AddVehicle extends StatelessWidget {
+class AddVehicle extends StatefulWidget {
+  String vehicleId;
 
+  AddVehicle({
+    super.key,
+    required this.vehicleId,
+  });
+
+  @override
+  State<AddVehicle> createState() => _AddVehicleState();
+}
+
+class _AddVehicleState extends State<AddVehicle> {
   AdminAddVehicleController adminAddVehicleController = Get.find();
+  late Future<DocumentSnapshot<Map<String, dynamic>>> vehicleDataFuture;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Initialize the future in the initState method
+    vehicleDataFuture =
+        adminAddVehicleController.fetchVehicleDetails(widget.vehicleId);
+  }
 
   //Options display
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      drawer: Drawer(
+      appBar: const MyAppBar(),
+      drawer: const Drawer(
         child: Text('drawer'),
       ),
       body: SafeArea(
@@ -24,15 +45,15 @@ class AddVehicle extends StatelessWidget {
             color: Colors.white,
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.all(10)),
+                const Padding(padding: EdgeInsets.all(10)),
 
-                Text(
+                const Text(
                   'Enter Vehicle Details',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 //Customer details
 
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Padding(
@@ -40,7 +61,7 @@ class AddVehicle extends StatelessWidget {
                       left: 40, right: 40, bottom: 20, top: 20),
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -51,10 +72,10 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Company'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -65,11 +86,11 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Model'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
 
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -81,10 +102,10 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Vehicle Number'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -95,7 +116,7 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Vehicle Type'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       Container(
@@ -103,26 +124,29 @@ class AddVehicle extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20)),
                         //Controller usage
                         child: DropdownSearch(
-                          popupProps: PopupProps.menu(
+                          popupProps: const PopupProps.menu(
                             constraints: BoxConstraints(maxHeight: 200),
                           ),
-                          items: adminAddVehicleController.dropDowncontroller.options,
+                          items: adminAddVehicleController
+                              .dropDowncontroller.options,
                           dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                labelText: 'Seats',
-                              )),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            labelText: 'Seats',
+                          )),
                           onChanged: (value) {
-                            adminAddVehicleController.dropDowncontroller.setValue(value!);
+                            adminAddVehicleController.dropDowncontroller
+                                .setValue(value!);
                           },
-                          selectedItem: adminAddVehicleController.dropDowncontroller.selectedItem,
+                          selectedItem: adminAddVehicleController
+                              .dropDowncontroller.selectedItem,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -134,11 +158,11 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Average Speed'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
 
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -149,10 +173,10 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Mileage(kmpl)'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -163,20 +187,21 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Range'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
 
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: SizedBox(
                           height: 100,
                           child: TextField(
                             controller: adminAddVehicleController.ownerName,
-
-                            maxLines: null, // Set this
-                            expands: true, // and this
+                            maxLines: null,
+                            // Set this
+                            expands: true,
+                            // and this
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
@@ -186,10 +211,10 @@ class AddVehicle extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -200,10 +225,10 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Base price (12 hrs)'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -214,10 +239,10 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Base price (24 hrs)'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -228,10 +253,10 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Price per day'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -242,10 +267,10 @@ class AddVehicle extends StatelessWidget {
                               labelText: 'Price per km'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
-                      Container(
+                      SizedBox(
                         width: 350,
                         height: 60,
                         child: TextField(
@@ -258,7 +283,7 @@ class AddVehicle extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
 
@@ -272,20 +297,31 @@ class AddVehicle extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               labelText: 'Description')),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       //car details display button
                       GestureDetector(
-                          onTap: () {
-                            adminAddVehicleController.addVehicleToCollection();
+                          onTap: () async {
+                            try {
+                              await adminAddVehicleController
+                                  .addVehicleToCollection(widget.vehicleId);
+                            } catch (e) {
+                              Get.snackbar(
+                                'Error',
+                                'Failed to add vehicle. Please try again later.',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                              );
+                            }
                           },
                           child: Container(
                             width: 250,
                             height: 50,
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [
+                                gradient: const LinearGradient(colors: [
                                   Colors.orange,
                                   Colors.orangeAccent
                                 ], stops: [
@@ -293,7 +329,7 @@ class AddVehicle extends StatelessWidget {
                                   0.7
                                 ]),
                                 borderRadius: BorderRadius.circular(25)),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 'Add Vehicle',
                                 style: TextStyle(
@@ -308,7 +344,7 @@ class AddVehicle extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
               ],

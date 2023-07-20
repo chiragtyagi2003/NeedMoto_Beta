@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../ownerHome.dart';
@@ -19,7 +17,7 @@ class _RateUsState extends State<RateUs> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -27,7 +25,7 @@ class _RateUsState extends State<RateUs> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "RATE US",
           style: TextStyle(color: Colors.black),
         ),
@@ -35,13 +33,13 @@ class _RateUsState extends State<RateUs> {
         elevation: 1,
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 100),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 100),
               child: Image(
                 image: AssetImage(
                   "image/img.jpg",
@@ -49,19 +47,19 @@ class _RateUsState extends State<RateUs> {
                 fit: BoxFit.contain,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),
               child: Image(
                 image: AssetImage("image/googleplay.png"),
               ),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Your opinion matters to us",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "We work super hard to serve you better and would love to know how would you rate our app?",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -70,7 +68,7 @@ class _RateUsState extends State<RateUs> {
                   fontSize: 20,
                   color: Colors.black87),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             RatingBar(
               initialRating: 0,
               minRating: 0,
@@ -82,12 +80,9 @@ class _RateUsState extends State<RateUs> {
                 half: const Icon(Icons.star_half, color: Colors.orange),
                 empty: const Icon(Icons.star_border, color: Colors.orange),
               ),
-              onRatingUpdate: (rating) {
-                // Rating is updated
-                print('rating update to: $rating');
-              },
+              onRatingUpdate: (rating) {},
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _submitButton(context)
           ],
         ),
@@ -96,7 +91,7 @@ class _RateUsState extends State<RateUs> {
   }
 
   Widget _submitButton(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.4,
       height: 50,
       child: ElevatedButton(
@@ -105,13 +100,13 @@ class _RateUsState extends State<RateUs> {
                 RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(40),
             )),
-            backgroundColor:
-                MaterialStateProperty.all(Color.fromARGB(255, 0, 15, 112))),
+            backgroundColor: MaterialStateProperty.all(
+                const Color.fromARGB(255, 0, 15, 112))),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => OwnerHome()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const OwnerHome()));
         },
-        child: Center(
+        child: const Center(
           child: Text(
             "Submit",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),

@@ -50,24 +50,14 @@ class _RateOwnerState extends State<RateOwner> {
     // Get the Firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    // Create a reference to the "customers" collection
-    CollectionReference customersCollection = firestore.collection('customers');
-
-    // Create a reference to the current user's document
-    DocumentReference userDocument = customersCollection.doc(currentUserId);
-
-    // Generate a timestamp
-    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-
-    // Create a reference to the "submittedvehicles" subcollection
-    CollectionReference submittedVehiclesCollection =
-    userDocument.collection('submittedVehicles');
+    // Create a reference to the bookings collection
+    CollectionReference submittedVehiclesCollection = firestore.collection('bookings');
 
     // Create a document ID using the parameter value and timestamp
-    String documentId = '${mainController.assignedVehicleNumberController.text}-$timestamp';
+    String documentId = '${requestController.requestIDController.text}';
 
-    // Create a new document in the "submittedvehicles" subcollection
-    await submittedVehiclesCollection.doc(documentId).set({
+    // update fields in bookings
+    await submittedVehiclesCollection.doc(documentId).update({
       // Add your data fields here
       'reading': vehicleSubmitController.vehicleReadingController.text,
       'scratches': vehicleSubmitController.vehicleScratchController.text,
@@ -78,17 +68,18 @@ class _RateOwnerState extends State<RateOwner> {
       'vehicleNumber': mainController.assignedVehicleNumberController.text,
       'ownerPhoneNumber': mainController.assignedOwnerPhoneNumberController.text,
       'ownerName': mainController.assignedOwnerNameController.text,
-      'ownerId': mainController.assignedOwnerIDController.text,
-      'uid': currentUserId,
       'received_date': vehicleSubmitController.vehicleReceivedDateController.text,
       'received_time': vehicleSubmitController.vehicleReceivedTimeController.text,
       'total_duration': vehicleSubmitController.vehicleTotalDurationController.text,
-      // // 'ride_km':,
+      'ride_km': vehicleSubmitController.vehicleRideKmController.text,
       'submit_date': vehicleSubmitController.vehicleSubmitDateController.text,
       'submit_time': vehicleSubmitController.vehicleSubmitTimeController.text,
       'other_charges': vehicleSubmitController.vehicleOtherChargesController.text,
-      'cust_rating': customerRating.toString(),
-      'cust_msg_to_driver': vehicleSubmitController.vehicleMessageToOwnerController.text,
+      'customer_rating': customerRating.toString(),
+      'customer_msg_to_driver': vehicleSubmitController.vehicleMessageToOwnerController.text,
+
+      // update ride status in booking
+      'ongoing_ride': false,
       // ...
     });
 

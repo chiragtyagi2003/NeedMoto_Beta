@@ -76,7 +76,7 @@ class _RatingCongratulationState extends State<RatingCongratulation> {
           backgroundColor: MaterialStateProperty.all(Colors.green),
         ),
         onPressed: () {
-          Get.to(OwnerHome());
+          Get.to(const OwnerHome());
         },
         child: const Center(
           child: Text(

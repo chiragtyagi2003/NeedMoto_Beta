@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:need_moto/owner/screens/drawer_Screen/car_details.dart';
-
 
 class VehicleHistory extends StatelessWidget {
   const VehicleHistory({super.key});
@@ -11,7 +8,7 @@ class VehicleHistory extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -19,7 +16,7 @@ class VehicleHistory extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "Vehicle History",
           style: TextStyle(color: Colors.black),
         ),
@@ -34,7 +31,7 @@ class VehicleHistory extends StatelessWidget {
           _vehicleCard(context),
           _vehicleCard(context),
           _vehicleCard(context),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           _addButton(context),
         ],
       ),
@@ -44,108 +41,105 @@ class VehicleHistory extends StatelessWidget {
 
   Widget _vehicleCard(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       height: MediaQuery.of(context).size.height * 0.16,
-      decoration: BoxDecoration(boxShadow: [
+      decoration: BoxDecoration(boxShadow: const [
         BoxShadow(
             color: Color.fromARGB(20, 0, 0, 0), spreadRadius: 4, blurRadius: 10)
       ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            // margin: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Name: ",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black54),
-                    ),
-                    Text(
-                      "Calerio",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Number: ",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black54),
-                    ),
-                    Text(
-                      "TS08EC2505",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Ride: ",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black54),
-                    ),
-                    Text(
-                      "5",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Ride KM: ",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black54),
-                    ),
-                    Text(
-                      "3000",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-              ],
-            ),
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Name: ",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black54),
+                  ),
+                  Text(
+                    "Calerio",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Number: ",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black54),
+                  ),
+                  Text(
+                    "TS08EC2505",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Ride: ",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black54),
+                  ),
+                  Text(
+                    "5",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Ride KM: ",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black54),
+                  ),
+                  Text(
+                    "3000",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+            ],
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CarDetails()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => CarDetails()));
             },
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: Colors.orange[50]),
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.orange,
               ),
@@ -158,7 +152,7 @@ class VehicleHistory extends StatelessWidget {
 
   Widget _addButton(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 100),
+      margin: const EdgeInsets.symmetric(horizontal: 100),
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
@@ -169,7 +163,7 @@ class VehicleHistory extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all(Colors.orange[600]),
         ),
         onPressed: () {},
-        child: Center(
+        child: const Center(
           child: Text(
             "Add Vehicle",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),

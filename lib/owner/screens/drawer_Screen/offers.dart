@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Offers extends StatefulWidget {
   const Offers({super.key});
@@ -16,7 +14,7 @@ class _OffersState extends State<Offers> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -24,7 +22,7 @@ class _OffersState extends State<Offers> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "OFFERS",
           style: TextStyle(color: Colors.black),
         ),
@@ -34,11 +32,11 @@ class _OffersState extends State<Offers> {
       body: SingleChildScrollView(
         child: Column(children: [
           _offers(context),
-          Divider(
+          const Divider(
             color: Colors.black,
           ),
           _offers(context),
-          Divider(
+          const Divider(
             color: Colors.black,
           ),
         ]),
@@ -48,28 +46,28 @@ class _OffersState extends State<Offers> {
 
   Widget _offers(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "You will get extra 100 register today",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
             height: MediaQuery.of(context).size.height * 0.2,
-            decoration: BoxDecoration(color: Colors.black26),
+            decoration: const BoxDecoration(color: Colors.black26),
           ),
-          SizedBox(height: 10),
-          Text(
+          const SizedBox(height: 10),
+          const Text(
             "You will get extra 100 register today",
             style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.w500,
                 fontSize: 17),
           ),
-          Text(
+          const Text(
             "Offer expires in 2 days",
             style: TextStyle(fontSize: 15),
           ),

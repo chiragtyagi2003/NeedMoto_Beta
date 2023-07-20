@@ -6,10 +6,6 @@ class TileDocumentController extends GetxController {
   final progressBar = 0.0.obs;
   final errorMessage = Rxn<String>();
 
-  // TileDocumentController({required String initialFileName}) {
-  //   fileName.value = initialFileName;
-  // }
-
   void updateFileName(String value) {
     fileName.value = value;
   }

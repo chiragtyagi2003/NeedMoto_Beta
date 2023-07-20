@@ -14,7 +14,8 @@ class UploadPhotos extends StatefulWidget {
 class _UploadPhotosState extends State<UploadPhotos> {
   final ImagePicker _imagePicker = ImagePicker();
   RxList<File> multiImages = <File>[].obs; // Use RxList<File> from GetX
-  final OwnerImageController _imageController = Get.find<OwnerImageController>(); // Get the instance of ImageController
+  final OwnerImageController _imageController =
+      Get.find<OwnerImageController>(); // Get the instance of ImageController
 
   Future<void> multiImagePicker() async {
     final List<XFile> pickedImages = await _imagePicker.pickMultiImage();
@@ -25,7 +26,6 @@ class _UploadPhotosState extends State<UploadPhotos> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         const Text(
@@ -40,17 +40,17 @@ class _UploadPhotosState extends State<UploadPhotos> {
             final List<File> images = _imageController.images.value;
             return images.isNotEmpty
                 ? GridView.count(
-              crossAxisCount: 3,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              shrinkWrap: true,
-              children: images
-                  .map((e) => Image.file(
-                e,
-                fit: BoxFit.cover,
-              ))
-                  .toList(),
-            )
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                    shrinkWrap: true,
+                    children: images
+                        .map((e) => Image.file(
+                              e,
+                              fit: BoxFit.cover,
+                            ))
+                        .toList(),
+                  )
                 : addPhotos();
           }),
         ),

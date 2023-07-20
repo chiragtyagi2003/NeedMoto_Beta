@@ -106,7 +106,7 @@ class _OwnerHomeState extends State<OwnerHome> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                      return const Text("Can't load data.");
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Text('No vehicles found.');
                     } else {

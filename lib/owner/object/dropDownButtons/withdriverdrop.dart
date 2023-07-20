@@ -16,34 +16,32 @@ class _WithDriverDropFieldState extends State<WithDriverDropField> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            DropdownButtonFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30.0),
-                  ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          DropdownButtonFormField(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30.0),
                 ),
-                hintStyle: TextStyle(color: Colors.grey[800]),
-                hintText: "With",
               ),
-              // value: dropDownValue,
-              onChanged: (Value) {
-                setState(() {
-                  dropDownValue = Value!;
-                });
-              },
-              items: driverType
-                  .map((DriverTitle) => DropdownMenuItem(
-                      value: DriverTitle, child: Text("$DriverTitle")))
-                  .toList(),
+              hintStyle: TextStyle(color: Colors.grey[800]),
+              hintText: "With",
             ),
-          ],
-        ),
+            // value: dropDownValue,
+            onChanged: (value) {
+              setState(() {
+                dropDownValue = value!;
+              });
+            },
+            items: driverType
+                .map((driverTitle) => DropdownMenuItem(
+                    value: driverTitle, child: Text(driverTitle)))
+                .toList(),
+          ),
+        ],
       ),
     );
   }

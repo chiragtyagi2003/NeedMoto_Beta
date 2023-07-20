@@ -36,6 +36,14 @@ class ChooseVehicle extends StatefulWidget {
 class _ChooseVehicleState extends State<ChooseVehicle> {
   MainController mainController = Get.find();
   VehicleBookingController vehicleBookingController = Get.find();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +52,11 @@ class _ChooseVehicleState extends State<ChooseVehicle> {
         child: Container(
           child: Column(
             children: [
-              TimeSlider(),
+              // TimeSlider(),
+              SizedBox(height: 10.0,),
+              Container(
+                child: Text(mainController.durationDaysHoursController.text),
+              ),
               SizedBox(
                 height: 10.0,
               ),
