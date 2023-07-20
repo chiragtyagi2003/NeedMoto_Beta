@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:need_moto/owner/model/vehicle_details.dart';
@@ -9,54 +10,57 @@ class VehicleDetailsController extends GetxController {
   static VehicleDetailsController instance = Get.find();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   void details(
-    String vehicle_name,
-    String vehicle_company,
-    String vehicle_number,
-    String vehicle_model,
-    String current_reading,
-    String vechicle_Rc_number,
-    String vehicle_location,
+    String vehicleName,
+    String vehicleCompany,
+    String vehicleNumber,
+    String vehicleModel,
+    String currentReading,
+    String vehicleRcNumber,
+    String vehicleLocation,
   ) async {
     try {
-      if (vehicle_name.isNotEmpty &&
-          vehicle_company.isNotEmpty &&
-          vehicle_number.isNotEmpty &&
-          vehicle_model.isNotEmpty &&
-          current_reading.isNotEmpty &&
-          vechicle_Rc_number.isNotEmpty &&
+      if (vehicleName.isNotEmpty &&
+          vehicleCompany.isNotEmpty &&
+          vehicleNumber.isNotEmpty &&
+          vehicleModel.isNotEmpty &&
+          currentReading.isNotEmpty &&
+          vehicleRcNumber.isNotEmpty &&
 
           // fuel_type.isNotEmpty &&
           // own_plate.isNotEmpty &&
           // pending_challans == true &&
           // insurence_vehicle == true &&
-          vehicle_location.isNotEmpty) {
-        final User? current_user = _auth.currentUser;
-        VehicleDetails user_vehicleDetails = VehicleDetails(
-          vehicle_name: vehicle_name,
-          vehicle_company: vehicle_company,
-          vehicle_number: vehicle_number,
-          vehicle_model: vehicle_model,
-          current_reading: current_reading,
-          vechicle_Rc_number: vechicle_Rc_number,
-          // fuel_type: fuel_type,
-          // own_plate: own_plate,
-          // pending_challans: pending_challans,
-          // insurence_vehicle: insurence_vehicle,
-          vehicle_location: vehicle_location,
+          vehicleLocation.isNotEmpty) {
+        final User? currentUser = _auth.currentUser;
+        VehicleDetails userVehicledetails = VehicleDetails(
+          vehicle_name: vehicleName,
+          vehicle_company: vehicleCompany,
+          vehicle_number: vehicleNumber,
+          vehicle_model: vehicleModel,
+          current_reading: currentReading,
+          vechicle_Rc_number: vehicleRcNumber,
+          vehicle_location: vehicleLocation,
         );
 
         await FirebaseFirestore.instance
             .collection('owners')
-            .doc(current_user!.uid)
+            .doc(currentUser!.uid)
             .collection("vehicle_details")
-            .doc(vehicle_number)
-            .set(user_vehicleDetails.toJson());
+            .doc(vehicleNumber)
+            .set(userVehicledetails.toJson());
       } else {
         Get.snackbar("Error Occurred", "Please Enter all fields");
       }
     } catch (e) {
-      print(e);
-      Get.snackbar("Error Occurred", e.toString());
+      Fluttertoast.showToast(
+        msg: "Error.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
 }

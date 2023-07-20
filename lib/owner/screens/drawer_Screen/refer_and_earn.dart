@@ -1,5 +1,4 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ReferAndEarn extends StatefulWidget {
@@ -16,7 +15,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -24,7 +23,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "REFER AND EARN",
           style: TextStyle(color: Colors.black),
         ),
@@ -33,25 +32,25 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
       ),
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image(
+          const Image(
             image: AssetImage("image/referandearn.jpg"),
             fit: BoxFit.cover,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Earn ₹ 300 for every Friend you Refer",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 21,
                       fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   "Get a friend to start using Rush wheels today and earn ₹ 300 when they complete their first vehicle register or first vehicle booking",
                   style: TextStyle(
                     color: Colors.black,
@@ -59,28 +58,28 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                     height: 1.5,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
-                  padding:
-                      EdgeInsets.only(left: 20, top: 10, right: 10, bottom: 30),
+                  padding: const EdgeInsets.only(
+                      left: 20, top: 10, right: 10, bottom: 30),
                   height: MediaQuery.of(context).size.height * 0.3,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(165, 255, 235, 238),
+                      color: const Color.fromARGB(165, 255, 235, 238),
                       border: Border.all(color: Colors.red),
                       borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(
+                      const Text(
                         "How it works",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 19,
                             fontWeight: FontWeight.w500),
                       ),
-                      Divider(color: Colors.black),
+                      const Divider(color: Colors.black),
                       Row(
                         children: [
                           Container(
@@ -89,7 +88,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                             decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(20)),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 "1",
                                 style: TextStyle(
@@ -99,8 +98,8 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Text(
+                          const SizedBox(width: 10),
+                          const Text(
                             "Refer your friend with your unique referal code",
                             style: TextStyle(
                               color: Colors.black,
@@ -118,7 +117,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                             decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(20)),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 "2",
                                 style: TextStyle(
@@ -128,15 +127,13 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Container(
-                            child: Text(
-                              "Your friend gets ₹ 300 in Rush wheels first \nvehicle register or first vehicle booking",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                height: 1.5,
-                              ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            "Your friend gets ₹ 300 in Rush wheels first \nvehicle register or first vehicle booking",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              height: 1.5,
                             ),
                           )
                         ],
@@ -149,7 +146,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                             decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(20)),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 "3",
                                 style: TextStyle(
@@ -159,8 +156,8 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Text(
+                          const SizedBox(width: 10),
+                          const Text(
                             "Your will gets ₹ 300 after their first vehicle\n register or first vehicle booking",
                             style: TextStyle(
                               color: Colors.black,
@@ -173,17 +170,17 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                     ],
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 DottedBorder(
-                  dashPattern: [8, 8, 8, 8],
+                  dashPattern: const [8, 8, 8, 8],
                   borderType: BorderType.RRect,
-                  color: Color.fromRGBO(101, 128, 26, 1),
+                  color: const Color.fromRGBO(101, 128, 26, 1),
                   child: Container(
                     height: 50,
                     width: MediaQuery.of(context).size.width,
-                    color: Color.fromRGBO(227, 250, 166, 1),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                    color: const Color.fromRGBO(227, 250, 166, 1),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

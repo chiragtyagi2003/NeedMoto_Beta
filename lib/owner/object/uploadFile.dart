@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/owner/controller/owner_tile_document_controller.dart';
 
-
-
 class UploadDocument extends StatelessWidget {
   UploadDocument(
       {super.key,
@@ -26,11 +24,11 @@ class UploadDocument extends StatelessWidget {
           height: 70,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(184, 5, 67, 153)),
+              color: const Color.fromARGB(184, 5, 67, 153)),
           child: Center(
               child: Text(
             filetype,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
         ),
@@ -42,25 +40,19 @@ class UploadDocument extends StatelessWidget {
               children: [
                 Text(
                   filename,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 20,
                       color: Colors.black45,
                       fontWeight: FontWeight.w400),
                 ),
-                Text('2.5 MB'),
+                const Text('2.5 MB'),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             LinearProgressIndicator(value: tileDocController.progressBar.value),
-            SizedBox(height: 5),
-            // Text(
-            //   "This document should be more than 2mb",
-            //   style: TextStyle(
-            //       fontSize: 12, color: Colors.red, fontWeight: FontWeight.w500),
-            // ),
-
+            const SizedBox(height: 5),
             showexp ? expDate() : Container(),
           ],
         ),
@@ -72,48 +64,46 @@ class UploadDocument extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           "Exp Date:",
           style: TextStyle(
               fontWeight: FontWeight.w500, color: Colors.black45, fontSize: 14),
         ),
-        SizedBox(width: 5),
-        Container(
-          child: Row(children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(176, 232, 255, 59)),
-              child: Text(
-                "DD",
-                style: TextStyle(fontSize: 13),
-              ),
+        const SizedBox(width: 5),
+        Row(children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: const Color.fromARGB(176, 232, 255, 59)),
+            child: const Text(
+              "DD",
+              style: TextStyle(fontSize: 13),
             ),
-            SizedBox(width: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(176, 232, 255, 59)),
-              child: Text(
-                "MM",
-                style: TextStyle(fontSize: 13),
-              ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: const Color.fromARGB(176, 232, 255, 59)),
+            child: const Text(
+              "MM",
+              style: TextStyle(fontSize: 13),
             ),
-            SizedBox(width: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(176, 232, 255, 59)),
-              child: Text(
-                "YYYY",
-                style: TextStyle(fontSize: 13),
-              ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: const Color.fromARGB(176, 232, 255, 59)),
+            child: const Text(
+              "YYYY",
+              style: TextStyle(fontSize: 13),
             ),
-          ]),
-        ),
+          ),
+        ]),
       ],
     );
   }

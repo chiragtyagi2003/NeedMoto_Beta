@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/owner/controller/owner_auth_controller.dart';
 import 'package:need_moto/owner/object/textField.dart';
+import 'package:need_moto/owner/screens/signUp.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -58,6 +59,7 @@ class LoginScreen extends StatelessWidget {
                 child: TextInputField(
                   controller: _passwordController,
                   myLabelText: "Password",
+                  obscureText: true,
                 ),
               ),
               SizedBox(
@@ -70,10 +72,12 @@ class LoginScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(screenHeight * 0.03),
                     ),
                   ),
-                  backgroundColor: MaterialStateProperty.all(Colors.orange[600]),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.orange[600]),
                 ),
                 onPressed: () async {
-                  ownerAuthController.Login(
+                  // errors are handled within the login function
+                  ownerAuthController.login(
                     _emailController.text,
                     _passwordController.text,
                   );
@@ -86,7 +90,9 @@ class LoginScreen extends StatelessWidget {
                   child: const Text("Login"),
                 ),
               ),
-              const SizedBox(height: 10.0,),
+              const SizedBox(
+                height: 10.0,
+              ),
               ElevatedButton(
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -97,10 +103,7 @@ class LoginScreen extends StatelessWidget {
                   backgroundColor: MaterialStateProperty.all(Colors.blue[600]),
                 ),
                 onPressed: () async {
-                  ownerAuthController.Login(
-                    _emailController.text,
-                    _passwordController.text,
-                  );
+                  Get.to(SignUpScreen());
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(
@@ -110,7 +113,6 @@ class LoginScreen extends StatelessWidget {
                   child: const Text("Sign Up"),
                 ),
               ),
-
             ],
           ),
         ),

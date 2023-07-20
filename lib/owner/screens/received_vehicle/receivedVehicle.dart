@@ -5,14 +5,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/owner/controller/owner_main_controller.dart';
 import 'package:need_moto/owner/screens/received_vehicle/ratingToRider.dart';
-import '../../controller/scratches_dropdown.dart';
 import '../../object/textField.dart';
 
 class ReceivedVehicle extends StatefulWidget {
+  final String bookingId;
 
-  String bookingId;
-
-  ReceivedVehicle({
+  const ReceivedVehicle({
+    super.key,
     required this.bookingId,
   });
 
@@ -21,7 +20,6 @@ class ReceivedVehicle extends StatefulWidget {
 }
 
 class _ReceivedVehicleState extends State<ReceivedVehicle> {
-
   final Rxn<bool> selected = Rxn<bool>();
   OwnerMainController mainController = Get.find();
 
@@ -61,18 +59,24 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
         // OTP is incorrect
         // Show an error message or take appropriate action
         Fluttertoast.showToast(
-            msg: 'Wrong OTP!',
-            gravity: ToastGravity.CENTER,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
+          msg: 'Wrong OTP!',
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
         );
       }
     } catch (error) {
-      print('Error comparing OTP: $error');
-      throw error;
+      Fluttertoast.showToast(
+        msg: "Error.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -153,9 +157,11 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                           ),
                         ),
                         onChanged: (value) {
-                          mainController.ownerScratchController.setValue(value!);
+                          mainController.ownerScratchController
+                              .setValue(value!);
                           setState(() {
-                            mainController.ownerScratchesController.text = value.toString();
+                            mainController.ownerScratchesController.text =
+                                value.toString();
                           });
                         },
                         // selectedItem: controller.selectedItem,
@@ -186,7 +192,7 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
                         labelText: 'Message',
                         alignLabelWithHint: true,
                         constraints:
-                        const BoxConstraints(maxHeight: 400, minHeight: 50),
+                            const BoxConstraints(maxHeight: 400, minHeight: 50),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40),
                           borderSide: const BorderSide(
@@ -213,7 +219,7 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
     );
   }
 
-  Widget otp(){
+  Widget otp() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -319,7 +325,7 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
             child: Row(
               children: [
                 Obx(
-                      () => Checkbox(
+                  () => Checkbox(
                     activeColor: const Color.fromARGB(255, 33, 103, 243),
                     value: selected.value == true,
                     onChanged: (val) {
@@ -356,10 +362,9 @@ class _ReceivedVehicleState extends State<ReceivedVehicle> {
             ),
           ),
           backgroundColor:
-          MaterialStateProperty.all(const Color.fromARGB(255, 0, 15, 112)),
+              MaterialStateProperty.all(const Color.fromARGB(255, 0, 15, 112)),
         ),
         onPressed: () {
-
           compareOTP(widget.bookingId);
         },
         child: const Center(

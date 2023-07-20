@@ -14,7 +14,7 @@ class Item {
 
 class HandoverVehicle extends StatelessWidget {
   final dataList = <Item>[
-    Item(title: "Aadhar Card", isselected: false),
+    Item(title: "Aadhaar Card", isselected: false),
     Item(title: "Pan Card", isselected: false),
     Item(title: "Bike", isselected: false),
     Item(title: "Canceled Cheque ", isselected: false),

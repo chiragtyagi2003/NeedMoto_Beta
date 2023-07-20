@@ -12,8 +12,6 @@ import 'drawer_Screen/rate_us.dart';
 import 'drawer_Screen/settings.dart';
 
 class SideDrawer extends StatelessWidget {
-
-
   OwnerAuthController ownerAuthController = Get.find();
 
   SideDrawer({super.key});
@@ -67,7 +65,7 @@ class SideDrawer extends StatelessWidget {
             const SizedBox(height: 25),
             InkWell(
               onTap: () {
-               Get.to(NotificationPage());
+                Get.to(NotificationPage());
               },
               child: const Text(
                 "Notifications",
@@ -85,7 +83,7 @@ class SideDrawer extends StatelessWidget {
             const SizedBox(height: 25),
             InkWell(
               onTap: () {
-               Get.to(const Settings());
+                Get.to(const Settings());
               },
               child: const Text(
                 "Settings",
@@ -113,7 +111,7 @@ class SideDrawer extends StatelessWidget {
             const SizedBox(height: 25),
             InkWell(
               onTap: () {
-              Get.to(const ReferAndEarn());
+                Get.to(const ReferAndEarn());
               },
               child: const Text(
                 "Refer and earn",
@@ -175,7 +173,7 @@ class SideDrawer extends StatelessWidget {
             const SizedBox(height: 25),
             InkWell(
               onTap: () {
-                ownerAuthController.Logout();
+                ownerAuthController.logout();
               },
               child: const Text(
                 "Logout",

@@ -1,17 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:need_moto/owner/screens/drawer_Screen/car_details.dart';
-import 'package:need_moto/owner/screens/received_vehicle/trackVehicle.dart';
-
 
 class RushWheel extends StatefulWidget {
-  // const RushWheel({super.key});
-
   final DocumentSnapshot<Map<String, dynamic>> vehicleDoc;
 
-  RushWheel(this.vehicleDoc);
+  const RushWheel(this.vehicleDoc, {super.key});
 
   @override
   State<RushWheel> createState() => _RushWheelState();
@@ -19,7 +14,7 @@ class RushWheel extends StatefulWidget {
 
 class _RushWheelState extends State<RushWheel> {
   bool forAndroid = false;
-  bool _offride = false;
+  bool _offRide = false;
   final Rxn<bool> selected = Rxn<bool>();
 
   late String vehicleName;
@@ -29,18 +24,16 @@ class _RushWheelState extends State<RushWheel> {
   @override
   void initState() {
     super.initState();
-    final vehicleData = widget.vehicleDoc.data() as Map<String, dynamic>?;
+    final vehicleData = widget.vehicleDoc.data();
     vehicleName = vehicleData?['vehicleName'] ?? '';
     vehicleNumber = vehicleData?['vehicleNumber'] ?? '';
     kmReading = vehicleData?['vehicleCurrentReading'] ?? '';
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       height: MediaQuery.of(context).size.height * 0.24,
       // height: MediaQuery.of(context).size.height * 0.3,
       decoration: BoxDecoration(
@@ -56,7 +49,7 @@ class _RushWheelState extends State<RushWheel> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -69,7 +62,7 @@ class _RushWheelState extends State<RushWheel> {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "Name:",
                                 style: TextStyle(
                                     fontSize: 17,
@@ -78,17 +71,17 @@ class _RushWheelState extends State<RushWheel> {
                               ),
                               Text(
                                 vehicleName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 17,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w400),
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "Number:",
                                 style: TextStyle(
                                     fontSize: 17,
@@ -97,17 +90,17 @@ class _RushWheelState extends State<RushWheel> {
                               ),
                               Text(
                                 vehicleNumber,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 17,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w400),
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "KM:",
                                 style: TextStyle(
                                     fontSize: 17,
@@ -116,7 +109,7 @@ class _RushWheelState extends State<RushWheel> {
                               ),
                               Text(
                                 kmReading,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 17,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w400),
@@ -129,10 +122,13 @@ class _RushWheelState extends State<RushWheel> {
                 Column(
                   children: [
                     Switch(
-                      activeColor: Color.fromARGB(198, 244, 67, 54),
-                      activeTrackColor: Color.fromARGB(126, 247, 151, 146),
-                      inactiveThumbColor: Color.fromARGB(179, 211, 211, 211),
-                      inactiveTrackColor: Color.fromARGB(255, 189, 188, 188),
+                      activeColor: const Color.fromARGB(198, 244, 67, 54),
+                      activeTrackColor:
+                          const Color.fromARGB(126, 247, 151, 146),
+                      inactiveThumbColor:
+                          const Color.fromARGB(179, 211, 211, 211),
+                      inactiveTrackColor:
+                          const Color.fromARGB(255, 189, 188, 188),
                       splashRadius: 50.0,
                       value: forAndroid,
                       onChanged: (value) {
@@ -141,8 +137,8 @@ class _RushWheelState extends State<RushWheel> {
                         });
                       },
                     ),
-                    SizedBox(height: 10),
-                    CircleAvatar(
+                    const SizedBox(height: 10),
+                    const CircleAvatar(
                       radius: 32,
                       backgroundColor:
                           Colors.green, //change color according to the status
@@ -162,12 +158,12 @@ class _RushWheelState extends State<RushWheel> {
             ),
           ),
           // SizedBox(height: 10,)
-          Divider(
+          const Divider(
             color: Colors.black,
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.05,
-            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -175,58 +171,54 @@ class _RushWheelState extends State<RushWheel> {
                   children: [
                     Obx(
                       () => Checkbox(
-                        activeColor: Color.fromARGB(255, 33, 103, 243),
+                        activeColor: const Color.fromARGB(255, 33, 103, 243),
                         value: selected.value == true,
                         onChanged: (val) {
                           if (val == true) {
                             selected.value = true;
                             setState(() {
-                              _offride = true;
+                              _offRide = true;
                             });
-                            print(_offride);
                           } else {
                             selected.value = false;
                             setState(() {
-                              _offride = false;
+                              _offRide = false;
                             });
-                            print(_offride);
                           }
                         },
                       ),
                     ),
-                    _offride
-                        ? Text(
+                    _offRide
+                        ? const Text(
                             "On Ride",
                             style: TextStyle(color: Colors.blue),
                           )
-                        : Text(
+                        : const Text(
                             "Off Ride",
                             style: TextStyle(color: Colors.grey),
                           ),
                   ],
                 ),
-                _offride
-                    ? Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              // Get.to(TrackVehicle());
-                            },
-                            child: Text("Track Vehicle",
-                                style:
-                                    TextStyle(color: Colors.green, fontSize: 10)),
-                          ),
-                        ]
-                      )
+                _offRide
+                    ? Row(children: [
+                        InkWell(
+                          onTap: () {
+                            // Get.to(TrackVehicle());
+                          },
+                          child: const Text("Track Vehicle",
+                              style:
+                                  TextStyle(color: Colors.green, fontSize: 10)),
+                        ),
+                      ])
                     : Container(),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => CarDetails(vehicleName: vehicleName!, vehicleNumber: vehicleNumber!,))));
+                    Get.to(CarDetails(
+                      vehicleName: vehicleName,
+                      vehicleNumber: vehicleNumber,
+                    ));
                   },
-                  child: Text("View more details",
+                  child: const Text("View more details",
                       style: TextStyle(color: Colors.red, fontSize: 12)),
                 ),
               ],

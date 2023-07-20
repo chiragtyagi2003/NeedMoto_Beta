@@ -15,32 +15,32 @@ class _AllGPSState extends State<AllGPS> {
         color: Colors.white,
         child: Column(
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             field(context, true),
-            Divider(
+            const Divider(
               color: Colors.black,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             field(context, false),
-            Divider(
+            const Divider(
               color: Colors.black,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             field(context, false),
-            Divider(
+            const Divider(
               color: Colors.black,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             field(context, true),
-            Divider(
+            const Divider(
               color: Colors.black,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             field(context, false),
-            Divider(
+            const Divider(
               color: Colors.black,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             field(context, true),
           ],
         ),
@@ -50,14 +50,14 @@ class _AllGPSState extends State<AllGPS> {
 
   Widget field(BuildContext context, bool ignition) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -76,26 +76,26 @@ class _AllGPSState extends State<AllGPS> {
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(60, 255, 205, 210),
+                        color: const Color.fromARGB(60, 255, 205, 210),
                         borderRadius: BorderRadius.circular(30)),
                     child: IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.email_outlined,
                           size: 23,
                           color: Colors.red,
                         )),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Container(
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(88, 200, 230, 201),
+                        color: const Color.fromARGB(88, 200, 230, 201),
                         borderRadius: BorderRadius.circular(30)),
                     child: IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.phone_outlined,
                           size: 23,
                           color: Colors.green,
@@ -105,20 +105,20 @@ class _AllGPSState extends State<AllGPS> {
               )
             ],
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Column(children: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.pin_drop_outlined,
                     color: Colors.black,
                   ),
-                  SizedBox(width: 10),
-                  Container(
+                  const SizedBox(width: 10),
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.81,
-                    child: Text(
+                    child: const Text(
                       "Nagole Roda Chandrapuri colony, Uppdal, Hyderabad, Rangareddy, Telangana, 500039, India",
                       style: TextStyle(
                           fontSize: 14,
@@ -129,30 +129,30 @@ class _AllGPSState extends State<AllGPS> {
                   )
                 ],
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Row(
                 children: [
                   ignition
-                      ? Icon(
+                      ? const Icon(
                           Icons.circle,
                           color: Colors.green,
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.remove_circle,
                           color: Colors.red,
                         ),
-                  SizedBox(width: 10),
-                  Container(
+                  const SizedBox(width: 10),
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: ignition
-                        ? Text(
+                        ? const Text(
                             "Running",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.green),
                           )
-                        : Text(
+                        : const Text(
                             "Stopped Since 1h 27m",
                             style: TextStyle(
                                 fontSize: 14,
@@ -163,8 +163,8 @@ class _AllGPSState extends State<AllGPS> {
                   )
                 ],
               ),
-              SizedBox(height: 5),
-              Divider(
+              const SizedBox(height: 5),
+              const Divider(
                 color: Colors.black,
               ),
               Row(
@@ -172,7 +172,7 @@ class _AllGPSState extends State<AllGPS> {
                 children: [
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "Ignition ",
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -184,7 +184,7 @@ class _AllGPSState extends State<AllGPS> {
                       )
                     ],
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         "Speed ",
@@ -197,7 +197,7 @@ class _AllGPSState extends State<AllGPS> {
                       )
                     ],
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         "Travelled Today ",

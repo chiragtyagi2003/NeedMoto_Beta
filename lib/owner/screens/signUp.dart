@@ -91,10 +91,10 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   backgroundColor:
-                  MaterialStateProperty.all(Colors.orange[600]),
+                      MaterialStateProperty.all(Colors.orange[600]),
                 ),
                 onPressed: () async {
-                  ownerAuthController.SignUp(
+                  ownerAuthController.signUp(
                     _nameController.text,
                     _emailController.text,
                     _passwordController.text,
@@ -102,8 +102,7 @@ class SignUpScreen extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  padding:
-                  EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: screenWidth * 0.12,
                     vertical: screenHeight * 0.02,
                   ),

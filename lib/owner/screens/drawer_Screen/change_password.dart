@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:need_moto/owner/screens/ownerHome.dart';
 
-
 import '../../object/textField.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -55,7 +54,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             TextInputField(
               myLabelText: "Confirm Password",
               controller: _confirmPasswordController,
-              obscuretext: true,
+              obscureText: true,
             ),
             SizedBox(height: 25),
             _submitButton(context)
