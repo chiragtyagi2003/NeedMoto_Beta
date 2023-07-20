@@ -25,11 +25,7 @@ import 'package:need_moto/owner/controller/owner_request_handler.dart';
 import 'package:need_moto/owner/controller/vehicle_details_controller.dart';
 import 'package:need_moto/owner/screens/ownerHome.dart';
 
-
-
-
 void main() async {
-
   // initialize the firebase services for the app
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -53,7 +49,6 @@ void main() async {
   Get.put(OwnerRequestHandler());
   Get.put(OwnerFileController());
 
-
   // admin controllers
   Get.put(AdminMainController());
   Get.put(AdminPaymentsController());
@@ -72,39 +67,37 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         theme: ThemeData(
-        fontFamily: 'NotoSans',
-        primarySwatch: Colors.blue,
+          fontFamily: 'NotoSans',
+          primarySwatch: Colors.blue,
         ),
         initialRoute: '/StartPage',
         debugShowCheckedModeBanner: false,
         getPages: [
-          GetPage(name: '/home', page: () => Home()),
+          GetPage(name: '/home', page: () => const Home()),
           GetPage(name: '/StartPage', page: () => AnimatedCardsListView()),
-          GetPage(name: '/grid', page: () => Grid()),
-          GetPage(name: '/owner', page: () => OwnerHome()),
+          GetPage(name: '/grid', page: () => const Grid()),
+          GetPage(name: '/owner', page: () => const OwnerHome()),
 
           // testing routes
-          GetPage(name: '/reqAcc', page: () => RequestAccepted(source: 'delhi',
-              destination: 'lucknow',
-              pickupDateTime: '22-02-22 14:28',
-              returnDateTime: '23-01-23 11:34',
-              delivery: 'Home Delivery',
-              purpose: 'Travel',
-              ownerName: 'Chirag Tyagi',
-              ownerPhoneNumber: 'ccccc',
-              type: 'diesel',
-              vehicleNumber: 'TD22DG3323',
-              vehicleName: 'Merc Benz',
-              seats: '4',
-              rentalPrice: 3234.53,
-              base_12: '4000',
-              base_24: '5000',
-          )),
+          GetPage(
+              name: '/reqAcc',
+              page: () => RequestAccepted(
+                    source: 'delhi',
+                    destination: 'lucknow',
+                    pickupDateTime: '22-02-22 14:28',
+                    returnDateTime: '23-01-23 11:34',
+                    delivery: 'Home Delivery',
+                    purpose: 'Travel',
+                    ownerName: 'Chirag Tyagi',
+                    ownerPhoneNumber: 'ccccc',
+                    type: 'diesel',
+                    vehicleNumber: 'TD22DG3323',
+                    vehicleName: 'Merc Benz',
+                    seats: '4',
+                    rentalPrice: 3234.53,
+                    base_12: '4000',
+                    base_24: '5000',
+                  )),
         ]);
   }
 }
-
-
-
-
-
