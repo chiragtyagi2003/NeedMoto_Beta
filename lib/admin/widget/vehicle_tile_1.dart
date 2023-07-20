@@ -1,19 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/admin/screens/add_vehicle.dart';
-import 'package:need_moto/admin/widget/details_admin.dart';
 
 class VehicleTile1 extends StatefulWidget {
-
-
   DocumentSnapshot<Map<String, dynamic>> vehicleSnapshot;
 
-  VehicleTile1({
+  VehicleTile1({super.key,
     required this.vehicleSnapshot,
   });
-
 
   @override
   State<VehicleTile1> createState() => _VehicleTile1State();
@@ -22,17 +17,16 @@ class VehicleTile1 extends StatefulWidget {
 class _VehicleTile1State extends State<VehicleTile1> {
   @override
   Widget build(BuildContext context) {
-
     final Map<String, dynamic> vehicleData = widget.vehicleSnapshot.data()!;
     final vehicleId = widget.vehicleSnapshot.id;
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(children: [
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Card(
@@ -63,17 +57,17 @@ class _VehicleTile1State extends State<VehicleTile1> {
 
                                 Text(
                                   "${vehicleData['vehicleName']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 23.0,
                                   ),
                                 ),
 
-                                SizedBox(height: 8.0),
+                                const SizedBox(height: 8.0),
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Owner Name :',
                                       style: TextStyle(
                                         fontSize: 16.0,
@@ -81,7 +75,7 @@ class _VehicleTile1State extends State<VehicleTile1> {
                                     ),
                                     Text(
                                       '${vehicleData['ownerName']}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
@@ -89,11 +83,13 @@ class _VehicleTile1State extends State<VehicleTile1> {
                                   ],
                                 ),
 
-                                SizedBox(height: 8.0,),
+                                const SizedBox(
+                                  height: 8.0,
+                                ),
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Vehicle Number:',
                                       style: TextStyle(
                                         fontSize: 16.0,
@@ -101,7 +97,7 @@ class _VehicleTile1State extends State<VehicleTile1> {
                                     ),
                                     Text(
                                       '${vehicleData['vehicleNumber']}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
@@ -109,7 +105,9 @@ class _VehicleTile1State extends State<VehicleTile1> {
                                   ],
                                 ),
 
-                                SizedBox(height: 8.0,),
+                                const SizedBox(
+                                  height: 8.0,
+                                ),
                                 // Seats
 
                                 // Row(
@@ -130,7 +128,6 @@ class _VehicleTile1State extends State<VehicleTile1> {
                                 //     // Icon(Icons.event_seat_sharp),
                                 //   ],
                                 // ),
-
                               ],
                             ),
                           ),
@@ -177,12 +174,14 @@ class _VehicleTile1State extends State<VehicleTile1> {
               right: MediaQuery.of(context).size.width / 3.25,
               child: Container(
                   decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 158, 175, 76)),
+                        backgroundColor: const Color.fromARGB(255, 158, 175, 76)),
                     onPressed: () {
-                      Get.to(AddVehicle(vehicleId: vehicleId,));
+                      Get.to(AddVehicle(
+                        vehicleId: vehicleId,
+                      ));
                       // Get.to(
                       //   DetailsAdmin(
                       //       milage: widget.kpml,
@@ -198,13 +197,11 @@ class _VehicleTile1State extends State<VehicleTile1> {
                       //       ownername: widget.ownerName,
                       //       phonenumber: widget.ownerPhoneNumber),
                       // );
-
                     },
-                    child: Text('Add'),
+                    child: const Text('Add'),
                   )))
         ]),
       ),
     );
   }
-
 }

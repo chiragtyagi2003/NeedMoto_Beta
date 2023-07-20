@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
 class AdminBookingController extends GetxController {
 
   TextEditingController carName = TextEditingController();
@@ -33,8 +34,8 @@ class AdminBookingController extends GetxController {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
+          backgroundColor: Colors.grey[600],
+          textColor: Colors.black,
           fontSize: 16.0,
         );
     }
@@ -78,7 +79,7 @@ class AdminBookingController extends GetxController {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey[600],
-        textColor: Colors.white,
+        textColor: Colors.black,
         fontSize: 16.0,
       );
       return null;
@@ -105,7 +106,7 @@ class AdminBookingController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.grey[600],
-          textColor: Colors.white,
+          textColor: Colors.black,
           fontSize: 16.0,
         );
         return null;
@@ -118,7 +119,7 @@ class AdminBookingController extends GetxController {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey[600],
-        textColor: Colors.white,
+        textColor: Colors.black,
         fontSize: 16.0,
       );
       return null;
@@ -146,7 +147,7 @@ class AdminBookingController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.grey[600],
-          textColor: Colors.white,
+          textColor: Colors.black,
           fontSize: 16.0,
         );
         return null;
@@ -159,7 +160,7 @@ class AdminBookingController extends GetxController {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey[600],
-        textColor: Colors.white,
+        textColor: Colors.black,
         fontSize: 16.0,
       );
       return null;

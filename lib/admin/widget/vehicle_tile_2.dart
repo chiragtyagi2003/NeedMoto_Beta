@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/admin/widget/details_admin.dart';
@@ -16,12 +15,9 @@ class VehicleTile2 extends StatefulWidget {
   final String ownerPhoneNumber;
   final String average;
   final String vehicleNumber;
-  // final String userId;
-
-
   bool booked;
 
-  VehicleTile2({
+  VehicleTile2({super.key,
     required this.imgUrl,
     required this.vehicleName,
     required this.seats,
@@ -43,17 +39,16 @@ class VehicleTile2 extends StatefulWidget {
 }
 
 class _VehicleTile2State extends State<VehicleTile2> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(children: [
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Card(
@@ -84,38 +79,37 @@ class _VehicleTile2State extends State<VehicleTile2> {
 
                                 Text(
                                   widget.vehicleName,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 23.0,
                                   ),
                                 ),
 
-                                SizedBox(height: 8.0),
+                                const SizedBox(height: 8.0),
 
                                 Text(
                                   widget.vehicleNumber,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 23.0,
                                   ),
                                 ),
 
-                                SizedBox(height: 8.0),
-
+                                const SizedBox(height: 8.0),
 
                                 // Seats
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Seats :',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
                                     Text(
-                                      '${widget.seats}',
-                                      style: TextStyle(
+                                      widget.seats,
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
@@ -127,7 +121,7 @@ class _VehicleTile2State extends State<VehicleTile2> {
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Price/Day: ',
                                       style: TextStyle(
                                         fontSize: 16.0,
@@ -135,7 +129,7 @@ class _VehicleTile2State extends State<VehicleTile2> {
                                     ),
                                     Text(
                                       '₹${widget.rentalPricePerDay}/-',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
@@ -144,7 +138,7 @@ class _VehicleTile2State extends State<VehicleTile2> {
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Daily Limit :',
                                       style: TextStyle(
                                         fontSize: 16.0,
@@ -152,16 +146,16 @@ class _VehicleTile2State extends State<VehicleTile2> {
                                     ),
                                     Text(
                                       '  ${widget.perKm} km',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
                                   ],
                                 ),
 
-                                SizedBox(height: 16.0),
+                                const SizedBox(height: 16.0),
 
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                               ],
@@ -199,7 +193,7 @@ class _VehicleTile2State extends State<VehicleTile2> {
                     left: 18.0, right: 18, top: 8, bottom: 8),
                 child: Text(
                   widget.booked ? 'Booked' : 'Available',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -210,10 +204,10 @@ class _VehicleTile2State extends State<VehicleTile2> {
               right: MediaQuery.of(context).size.width / 3.25,
               child: Container(
                   decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 158, 175, 76)),
+                        backgroundColor: const Color.fromARGB(255, 158, 175, 76)),
                     onPressed: () {
                       Get.to(
                         DetailsAdmin(
@@ -231,11 +225,10 @@ class _VehicleTile2State extends State<VehicleTile2> {
                             phonenumber: widget.ownerPhoneNumber),
                       );
                     },
-                    child: Text('More Details'),
+                    child: const Text('More Details'),
                   )))
         ]),
       ),
     );
   }
-
 }

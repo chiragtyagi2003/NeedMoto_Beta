@@ -58,7 +58,7 @@ class AdminAddVehicleController extends GetxController {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey[600],
-        textColor: Colors.white,
+        textColor: Colors.black,
         fontSize: 16.0,
       );
     }
@@ -85,7 +85,7 @@ class AdminAddVehicleController extends GetxController {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey[600],
-        textColor: Colors.white,
+        textColor: Colors.black,
         fontSize: 16.0,
       );
       throw Exception('Failed to fetch vehicle details: $e');

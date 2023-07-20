@@ -17,6 +17,7 @@ class DetailsAdmin extends StatelessWidget {
   final bool isRotated;
   final String type;
   final String speed;
+
   const DetailsAdmin({
     Key? key,
     required this.mileage,
@@ -69,7 +70,7 @@ class DetailsAdmin extends StatelessWidget {
           title: Text(
             carName,
             textAlign: TextAlign.left,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xff3b22a1),
               fontSize: 25,
               fontWeight: FontWeight.bold,
@@ -86,7 +87,7 @@ class DetailsAdmin extends StatelessWidget {
           child: Container(
             height: size.height,
             width: size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromARGB(255, 254, 252, 252),
             ),
             child: SafeArea(
@@ -102,25 +103,25 @@ class DetailsAdmin extends StatelessWidget {
                         children: [
                           isRotated
                               ? Hero(
-                            tag: carName,
-                            child: Image.asset(
-                              carImage,
-                              height: size.width * 0.5,
-                              width: size.width * 0.8,
-                              fit: BoxFit.contain,
-                            ),
-                          )
+                                  tag: carName,
+                                  child: Image.asset(
+                                    carImage,
+                                    height: size.width * 0.5,
+                                    width: size.width * 0.8,
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
                               : Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(pi),
-                            child: Image.asset(
-                              carImage,
-                              height: size.width * 0.5,
-                              width: size.width * 0.8,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.rotationY(pi),
+                                  child: Image.asset(
+                                    carImage,
+                                    height: size.width * 0.5,
+                                    width: size.width * 0.8,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
@@ -182,7 +183,7 @@ class DetailsAdmin extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: size.height * 0.17,
                             child: ListView(
                               scrollDirection: Axis.horizontal,
@@ -238,9 +239,9 @@ class DetailsAdmin extends StatelessWidget {
                               height: size.height * 0.15,
                               width: size.width * 0.9,
                               child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.all(
+                                  borderRadius: BorderRadius.all(
                                     Radius.circular(10),
                                   ),
                                 ),
@@ -258,11 +259,11 @@ class DetailsAdmin extends StatelessWidget {
                                             Radius.circular(10),
                                           ),
                                         ),
-                                        child: Align(
+                                        child: const Align(
                                             child: Icon(
-                                              Icons.person,
-                                              color: Colors.white,
-                                            )),
+                                          Icons.person,
+                                          color: Colors.white,
+                                        )),
                                       ),
                                     ),
                                     Padding(
@@ -272,7 +273,7 @@ class DetailsAdmin extends StatelessWidget {
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             ownername,
@@ -288,7 +289,7 @@ class DetailsAdmin extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color:
-                                              Colors.black.withOpacity(0.6),
+                                                  Colors.black.withOpacity(0.6),
                                               fontSize: size.width * 0.032,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -315,11 +316,11 @@ class DetailsAdmin extends StatelessWidget {
   }
 
   Padding buildStat(
-      IconData icon,
-      String title,
-      String desc,
-      Size size,
-      ) {
+    IconData icon,
+    String title,
+    String desc,
+    Size size,
+  ) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: size.width * 0.015,
@@ -345,7 +346,7 @@ class DetailsAdmin extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  color: Color(0xff3b22a1),
+                  color: const Color(0xff3b22a1),
                   size: size.width * 0.08,
                 ),
                 Padding(
