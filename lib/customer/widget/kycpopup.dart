@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/customer/controllers/controllerkyc.dart';
 import 'package:need_moto/customer/screens/chooseVehicle.dart';
 
 class KycPopUp extends StatefulWidget {
-  KycPopUp({
+  const KycPopUp({
     Key? key,
     required this.seats,
     required this.vehicleLocation,
@@ -15,30 +14,28 @@ class KycPopUp extends StatefulWidget {
     required this.delivery,
     required this.purpose,
   }) : super(key: key);
-  RxString seats;
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
+  final RxString seats;
+  final String vehicleLocation;
+  final String source;
+  final String destination;
+  final String pickupDateTime;
+  final String returnDateTime;
+  final String delivery;
+  final String purpose;
   @override
   State<KycPopUp> createState() => _KycPopUpState();
 }
 
 class _KycPopUpState extends State<KycPopUp> {
-  final KycController kycPopUpController = Get.find<KycController>();
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           Icon(
@@ -46,24 +43,22 @@ class _KycPopUpState extends State<KycPopUp> {
             size: 60.0,
             color: Colors.green[400],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
-          Center(
-            child: Container(
-              child: Text(
-                'Successfully Uploaded!',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
-              ),
+          const Center(
+            child: Text(
+              'Successfully Uploaded!',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
             ),
           ),
           Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.5,
               height: MediaQuery.of(context).size.height * 0.2,
-              margin: EdgeInsets.all(4.0),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
+              margin: const EdgeInsets.all(4.0),
+              child: const Padding(
+                padding: EdgeInsets.all(5.0),
                 child: Text(
                   'You have uploaded all documents successfully.\n'
                   'Verification will be done by Rush wheels within short time.',
@@ -72,21 +67,12 @@ class _KycPopUpState extends State<KycPopUp> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5.0,
           ),
           GestureDetector(
             onTap: () {
-              Get.offAll(ChooseVehicle(
-                // seats: widget.seats,
-                // vehicleLocation: widget.vehicleLocation,
-                // source: widget.source,
-                // destination: widget.destination,
-                // pickupDateTime: widget.pickupDateTime,
-                // returnDateTime: widget.returnDateTime,
-                // delivery: widget.delivery,
-                // purpose: widget.purpose,
-              ));
+              Get.offAll(const ChooseVehicle());
               // Get.offAll(Home());
             },
             child: Container(
@@ -96,7 +82,7 @@ class _KycPopUpState extends State<KycPopUp> {
                 color: Colors.green[400],
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   'ok',
                   style: TextStyle(

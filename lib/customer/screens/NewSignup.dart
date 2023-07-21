@@ -8,6 +8,8 @@ import 'package:need_moto/owner/screens/signUp.dart';
 import '../controllers/user_controllers.dart';
 
 class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
@@ -15,7 +17,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   DateTime _selectedDate = DateTime.now();
   UserController userController = Get.find();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -33,7 +35,7 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> registerUser() async {
     try {
       UserCredential userCredential =
-      await _auth.createUserWithEmailAndPassword(
+          await _auth.createUserWithEmailAndPassword(
         email: userController.userEmailController.text,
         password: userController.userPasswordController.text,
       );
@@ -44,7 +46,7 @@ class _SignupPageState extends State<SignupPage> {
 
         // Create a new document in the "customers" collection
         final userDocRef =
-        firestore.collection('customers').doc(userCredential.user!.uid);
+            firestore.collection('customers').doc(userCredential.user!.uid);
 
         // Set the data for the user document
         await userDocRef.set({
@@ -56,39 +58,12 @@ class _SignupPageState extends State<SignupPage> {
           'kyc_status': false,
         });
 
-        print('User added to Firestore successfully');
-        Get.to(Home());
+        Get.to(const Home());
       }
     } catch (e) {
-      print('Error registering user: $e');
+      Get.snackbar("Error", e.toString());
     }
   }
-
-  // Future<void> addUserToFirestore() async {
-  //   try {
-  //     // Access the Firestore instance
-  //     final firestore = FirebaseFirestore.instance;
-  //
-  //     // Create a new document in the "customers" collection
-  //     final userDocRef = firestore.collection('customers').doc();
-  //
-  //     // Set the data for the user document
-  //     await userDocRef.set({
-  //       'uid': userDocRef.id, // Add the document ID as a field
-  //       'name': userController.userNameController.text,
-  //       'email': userController.userEmailController.text,
-  //       'phone': userController.userPhoneNumberController.text,
-  //       'dob': _selectedDate.toString(),
-  //       'kyc_status': userController.userKycStatusController.text,
-  //     });
-  //
-  //     print('name: ${userController.userNameController.text}');
-  //
-  //     print('User added to Firestore successfully');
-  //   } catch (e) {
-  //     print('Error adding user to Firestore: $e');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +78,7 @@ class _SignupPageState extends State<SignupPage> {
             onPressed: () {
               Get.back();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               size: 20,
               color: Colors.black,
@@ -111,7 +86,7 @@ class _SignupPageState extends State<SignupPage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: Column(
@@ -119,7 +94,7 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 Column(
                   children: [
-                    Column(
+                    const Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
@@ -129,35 +104,37 @@ class _SignupPageState extends State<SignupPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // SizedBox(
-                        //   height: 20,
-                        // ),
-                        // Text(
-                        //   "Create an Account,Its free",
-                        //   style: TextStyle(
-                        //     fontSize: 15,
-                        //     color: Colors.grey[700],
-                        //   ),
-                        // ),
                         SizedBox(
                           height: 30,
                         )
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: Column(
                         children: [
-                          makeInput(label: "Name", controller: userController.userNameController),
-                          makeInput(label: "Email", controller: userController.userEmailController),
-                          makeInput(label: "Password", obsureText: true, controller: userController.userPasswordController),
+                          makeInput(
+                              label: "Name",
+                              controller: userController.userNameController),
+                          makeInput(
+                              label: "Email",
+                              controller: userController.userEmailController),
+                          makeInput(
+                              label: "Password",
+                              obsureText: true,
+                              controller:
+                                  userController.userPasswordController),
                           makeInput(
                               label: "Confirm Password", obsureText: true),
-                          makeInput(label: "Mobile Number", isNum: true, controller: userController.userPhoneNumberController),
+                          makeInput(
+                              label: "Mobile Number",
+                              isNum: true,
+                              controller:
+                                  userController.userPhoneNumberController),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Date of Birth",
                                 style: TextStyle(
                                     fontSize: 15,
@@ -166,15 +143,15 @@ class _SignupPageState extends State<SignupPage> {
                               ),
                               TextFormField(
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 10),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    border: OutlineInputBorder(
+                                    border: const OutlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey))),
                                 onTap: () => _selectDate(context),
@@ -190,7 +167,7 @@ class _SignupPageState extends State<SignupPage> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               )
                             ],
@@ -199,12 +176,12 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: Container(
-                        padding: EdgeInsets.only(top: 3, left: 3),
+                        padding: const EdgeInsets.only(top: 3, left: 3),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),
-                            border: Border(
+                            border: const Border(
                                 bottom: BorderSide(color: Colors.black),
                                 top: BorderSide(color: Colors.black),
                                 right: BorderSide(color: Colors.black),
@@ -214,12 +191,12 @@ class _SignupPageState extends State<SignupPage> {
                           height: 60,
                           onPressed: () {
                             registerUser();
-                            Get.to(Home());
+                            Get.to(const Home());
                           },
-                          color: Color(0xFF182B3A),
+                          color: const Color(0xFF182B3A),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40)),
-                          child: Text(
+                          child: const Text(
                             "Sign Up",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -230,18 +207,18 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Already have an account? "),
+                        const Text("Already have an account? "),
                         TextButton(
                           onPressed: () {
                             Get.to(() => LoginPage());
                           },
-                          child: Text(
+                          child: const Text(
                             "Login",
                             style: TextStyle(
                                 color: Colors.black,
@@ -251,19 +228,18 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Rent your own vehicle"),
+                        const Text("Rent your own vehicle"),
                         TextButton(
                           onPressed: () {
                             Get.to(() => SignUpScreen());
                           },
-                          child: Text(
+                          child: const Text(
                             "Register as Owner",
                             style: TextStyle(
                                 color: Colors.black,
@@ -284,13 +260,17 @@ class _SignupPageState extends State<SignupPage> {
   }
 }
 
-Widget makeInput({label, obsureText = false, isNum = false, TextEditingController? controller}) {
+Widget makeInput(
+    {label,
+    obsureText = false,
+    isNum = false,
+    TextEditingController? controller}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         label,
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
       TextField(
@@ -298,18 +278,19 @@ Widget makeInput({label, obsureText = false, isNum = false, TextEditingControlle
         keyboardType: isNum ? TextInputType.number : TextInputType.text,
         obscureText: obsureText,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.grey,
             ),
           ),
-          border:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+          border: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey)),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 15,
       )
     ],

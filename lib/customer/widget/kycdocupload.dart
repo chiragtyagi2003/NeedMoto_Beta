@@ -5,22 +5,18 @@ import 'package:file_picker/file_picker.dart';
 import 'package:need_moto/customer/controllers/filecontroller.dart';
 import 'package:need_moto/customer/controllers/tiledocumentcontroller.dart';
 
-
 class KycUploadDocumentTile extends StatelessWidget {
   final String fileName;
   final TileDocumentController tileDocController;
   final FileController fileController;
 
-  KycUploadDocumentTile({required this.fileName, required this.fileController})
+  KycUploadDocumentTile(
+      {super.key, required this.fileName, required this.fileController})
       : tileDocController = Get.put(TileDocumentController(), tag: fileName);
 
-// KycUploadDocumentTile({required this.fileName});
-// KycUploadDocumentTile({required this.fileName}) {
-//   tileDocController.updateFileName(fileName);
-// }
   @override
   Widget build(BuildContext context) {
-        return Obx(() => Padding(
+    return Obx(() => Padding(
           padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 2.0),
           child: GestureDetector(
             onTap: () async {
@@ -35,7 +31,6 @@ class KycUploadDocumentTile extends StatelessWidget {
                 String extension = result.files.single.extension!;
                 String name = result.files.single.name;
                 double fileSizeInKB = file.lengthSync() / 1024;
-                print(fileSizeInKB);
                 String size = fileSizeInKB < 1000
                     ? '${fileSizeInKB.toStringAsFixed(2)} KB'
                     : '${(fileSizeInKB / 1024).toStringAsFixed(2)} MB';
@@ -47,9 +42,9 @@ class KycUploadDocumentTile extends StatelessWidget {
                   // Update tile information
                   tileDocController.updateFileName('$name - $size');
                   tileDocController.updateFileExtension(extension);
-                  double progess_percentage = (fileSizeInKB / 2000);
-                  print(progess_percentage);
-                  tileDocController.updateProgressBarValue(progess_percentage);
+                  double progessPercentage = (fileSizeInKB / 2000);
+                  // print(progessPercentage);
+                  tileDocController.updateProgressBarValue(progessPercentage);
                   tileDocController.updateErrorMessage(null);
 
                   //upload file
@@ -72,7 +67,7 @@ class KycUploadDocumentTile extends StatelessWidget {
                           : Icons.insert_drive_file_rounded,
                   size: 40.0,
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,16 +77,17 @@ class KycUploadDocumentTile extends StatelessWidget {
                             ? tileDocController.fileName.value
                             : fileName,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8.0,
                       ),
                       LinearProgressIndicator(
                         value: tileDocController.progressBar.value,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                        valueColor:
+                            const AlwaysStoppedAnimation<Color>(Colors.green),
                       ),
                       Obx(() => Text(
                             tileDocController.errorMessage.value ?? '',
-                            style: TextStyle(color: Colors.red),
+                            style: const TextStyle(color: Colors.red),
                           ))
                     ],
                   ),

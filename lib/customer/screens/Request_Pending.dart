@@ -1,39 +1,30 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../controllers/Request_Controller.dart';
 
 class RequestPending extends StatelessWidget {
   final requestController = Get.put(RequestController());
 
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
-  String ownerName;
-  String ownerPhoneNumber;
-  String type;
-  String vehicleNumber;
-  String vehicleName;
-  String seats;
-  double rentalPrice;
-  String base_12;
-  String base_24;
+  final String vehicleLocation;
+  final String source;
+  final String destination;
+  final String pickupDateTime;
+  final String returnDateTime;
+  final String delivery;
+  final String purpose;
+  final String ownerName;
+  final String ownerPhoneNumber;
+  final String type;
+  final String vehicleNumber;
+  final String vehicleName;
+  final String seats;
+  final double rentalPrice;
+  final String base_12;
+  final String base_24;
 
   RequestPending({
+    super.key,
     required this.vehicleLocation,
     required this.source,
     required this.destination,
@@ -54,7 +45,6 @@ class RequestPending extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.blue.shade600,
       body: SafeArea(
@@ -63,38 +53,38 @@ class RequestPending extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   IconButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 20,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
-                  Text(
+                  const Text(
                     'Request has been sent to owner.',
                     style: TextStyle(color: Colors.white),
                     textAlign: TextAlign.center,
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 140,
                   ),
-                  Container(
+                  SizedBox(
                     width: 75,
                     height: 75,
                     child: Image.asset(
@@ -104,10 +94,10 @@ class RequestPending extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              Row(
+              const Row(
                 children: [
                   SizedBox(
                     width: 70,
@@ -119,7 +109,7 @@ class RequestPending extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Container(
@@ -129,12 +119,12 @@ class RequestPending extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                   color: Colors.white,
                 ),
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    Padding(padding: EdgeInsets.all(15)),
+                    const Padding(padding: EdgeInsets.all(15)),
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       width: 380,
                       height: 55,
                       decoration: BoxDecoration(
@@ -144,19 +134,19 @@ class RequestPending extends StatelessWidget {
                       child: Text(
                         '$vehicleName / $seats Seater / $rentalPrice/-',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
-                        Padding(padding: EdgeInsets.all(5)),
+                        const Padding(padding: EdgeInsets.all(5)),
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.all(15)),
-                            Container(
+                            const Padding(padding: EdgeInsets.all(15)),
+                            const SizedBox(
                               width: 150,
                               height: 15,
                               child: Text(
@@ -165,13 +155,15 @@ class RequestPending extends StatelessWidget {
                                 style: TextStyle(fontSize: 10),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                                 width: 150,
                                 height: 35,
                                 child: TextField(
-                                    controller: TextEditingController(text: source),
+                                    controller:
+                                        TextEditingController(text: source),
                                     enabled: false,
-                                    decoration: InputDecoration(hintText: 'hyderabad'))),
+                                    decoration: const InputDecoration(
+                                        hintText: 'hyderabad'))),
                           ],
                         ),
                         SizedBox(
@@ -179,19 +171,19 @@ class RequestPending extends StatelessWidget {
                           height: 10,
                           child: IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.swap_horiz,
                               color: Colors.orange,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.all(15)),
-                            Container(
+                            const Padding(padding: EdgeInsets.all(15)),
+                            const SizedBox(
                               width: 140,
                               height: 15,
                               child: Text(
@@ -200,24 +192,26 @@ class RequestPending extends StatelessWidget {
                                 style: TextStyle(fontSize: 10),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                                 width: 140,
                                 height: 35,
                                 child: TextField(
-                                    controller: TextEditingController(text: destination),
+                                    controller: TextEditingController(
+                                        text: destination),
                                     enabled: false,
-                                    decoration: InputDecoration(hintText: 'Chittoor'))),
+                                    decoration: const InputDecoration(
+                                        hintText: 'Chittoor'))),
                           ],
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        Padding(padding: EdgeInsets.all(5)),
+                        const Padding(padding: EdgeInsets.all(5)),
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.all(15)),
-                            Container(
+                            const Padding(padding: EdgeInsets.all(15)),
+                            const SizedBox(
                               width: 150,
                               height: 15,
                               child: Text(
@@ -226,15 +220,16 @@ class RequestPending extends StatelessWidget {
                                 style: TextStyle(fontSize: 10),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                                 width: 150,
                                 height: 45,
                                 child: TextField(
-                                    controller: TextEditingController(text: pickupDateTime),
+                                    controller: TextEditingController(
+                                        text: pickupDateTime),
                                     enabled: false,
-                                    decoration: InputDecoration(
-                                        hintText: '22-04-23',
-                                        hintStyle: TextStyle(fontSize: 14),
+                                    decoration: const InputDecoration(
+                                      hintText: '22-04-23',
+                                      hintStyle: TextStyle(fontSize: 14),
                                     ))),
                           ],
                         ),
@@ -243,19 +238,19 @@ class RequestPending extends StatelessWidget {
                           height: 15,
                           child: IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.calendar_month_outlined,
                               color: Colors.orange,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.all(15)),
-                            Container(
+                            const Padding(padding: EdgeInsets.all(15)),
+                            const SizedBox(
                               width: 140,
                               height: 15,
                               child: Text(
@@ -264,15 +259,16 @@ class RequestPending extends StatelessWidget {
                                 style: TextStyle(fontSize: 10),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                                 width: 140,
                                 height: 45,
                                 child: TextField(
-                                    controller: TextEditingController(text: returnDateTime),
+                                    controller: TextEditingController(
+                                        text: returnDateTime),
                                     enabled: false,
-                                    decoration: InputDecoration(
-                                        hintText: '24-02-23',
-                                        hintStyle: TextStyle(fontSize: 14),
+                                    decoration: const InputDecoration(
+                                      hintText: '24-02-23',
+                                      hintStyle: TextStyle(fontSize: 14),
                                     ))),
                           ],
                         ),
@@ -280,11 +276,11 @@ class RequestPending extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Padding(padding: EdgeInsets.all(5)),
+                        const Padding(padding: EdgeInsets.all(5)),
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.all(15)),
-                            Container(
+                            const Padding(padding: EdgeInsets.all(15)),
+                            const SizedBox(
                               width: 150,
                               height: 15,
                               child: Text(
@@ -293,22 +289,24 @@ class RequestPending extends StatelessWidget {
                                 style: TextStyle(fontSize: 10),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                                 width: 150,
                                 height: 35,
                                 child: TextField(
-                                    controller: TextEditingController(text: delivery),
+                                    controller:
+                                        TextEditingController(text: delivery),
                                     enabled: false,
-                                    decoration: InputDecoration(hintText: 'Pickup'))),
+                                    decoration: const InputDecoration(
+                                        hintText: 'Pickup'))),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 35,
                         ),
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.all(15)),
-                            Container(
+                            const Padding(padding: EdgeInsets.all(15)),
+                            const SizedBox(
                               width: 145,
                               height: 15,
                               child: Text(
@@ -317,18 +315,20 @@ class RequestPending extends StatelessWidget {
                                 style: TextStyle(fontSize: 10),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                                 width: 145,
                                 height: 35,
                                 child: TextField(
-                                    controller: TextEditingController(text: purpose),
+                                    controller:
+                                        TextEditingController(text: purpose),
                                     enabled: false,
-                                    decoration: InputDecoration(hintText: 'Function'))),
+                                    decoration: const InputDecoration(
+                                        hintText: 'Function'))),
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     SizedBox(
@@ -337,9 +337,9 @@ class RequestPending extends StatelessWidget {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange,
-                              shape: StadiumBorder()),
+                              shape: const StadiumBorder()),
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                             'Cancel Request',
                             style: TextStyle(color: Colors.white, fontSize: 25),
                             textAlign: TextAlign.center,

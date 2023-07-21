@@ -2,13 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/screens/userkyc.dart';
 import 'package:need_moto/customer/widget/Request.dart';
-
-
-
 
 class VehicleTile extends StatefulWidget {
   final String imgUrl;
@@ -30,16 +28,17 @@ class VehicleTile extends StatefulWidget {
 
   // final String userId;
 
-  RxString userseats;
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
+  final RxString userseats;
+  final String vehicleLocation;
+  final String source;
+  final String destination;
+  final String pickupDateTime;
+  final String returnDateTime;
+  final String delivery;
+  final String purpose;
 
-  VehicleTile({
+  const VehicleTile({
+    super.key,
     required this.imgUrl,
     required this.vehicleName,
     required this.seats,
@@ -72,7 +71,6 @@ class VehicleTile extends StatefulWidget {
 }
 
 class _VehicleTileState extends State<VehicleTile> {
-
   MainController mainController = Get.find();
   bool kycdone = false;
   double rentalPrice = 0.0;
@@ -80,98 +78,104 @@ class _VehicleTileState extends State<VehicleTile> {
   bool hasCompletedKYC = false;
 
   Future<void> checkActionCompletion() async {
-    print('called');
-    // Get the current user
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      // Retrieve the user document from Firestore
-      final DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection('customers').doc(user.uid).get();
-      final bool fieldStatus = snapshot.data()?['kyc_status'] ?? false;
+    try {
+      // Get the current user
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Retrieve the user document from Firestore
+        final DocumentSnapshot<Map<String, dynamic>> snapshot =
+            await FirebaseFirestore.instance
+                .collection('customers')
+                .doc(user.uid)
+                .get();
+        final bool fieldStatus = snapshot.data()?['kyc_status'] ?? false;
 
-      if (fieldStatus == false) {
-        // If the field is false, navigate to the action completion page
-        showCupertinoAlertDialog(context);
-      } else {
-        // If the field is true, set the flag and continue to the main app
-        setState(() {
-          hasCompletedKYC = true;
-        });
-        // Handle booking logic here
-        Get.to(Request(
-          vehicleLocation: mainController.vehicleNeedLocations.text,//widget.vehicleLocation,
-          source: mainController.vehicleSource.text,//widget.source,
-          destination: mainController.vehicleDestination.text,//widget.destination,
-          delivery: mainController.delivery.text, //widget.delivery,
-          pickupDateTime: mainController.pickupDateTime.text, //widget.pickupDateTime,
-          returnDateTime: mainController.returnDateTime.text, //widget.returnDateTime,
-          purpose: mainController.purpose.text, //widget.purpose,
-          imgUrl: 'assets/i30n.png',
-          vehicleName: widget.vehicleName,
-          seats: widget.seats,
-          average: widget.average,
-          kpml: widget.kpml,
-          type: widget.type,
-          ownerName: widget.ownerName,
-          ownerPhoneNumber: widget.ownerPhoneNumber,
-          vehiclePlateNumber: widget.vehicleNumber,
-          base_12: widget.base_12,
-          base_24: widget.base_24,
-          pricePerKmCust: widget.pricePerKmCust,
-          pricerPerHourCust: widget.pricerPerHourCust,
-          rentalPrice: rentalPrice,
-          isRotated: true,
-          vehicleRating: '4.5',
-          bags: '5',
-        ));
+        if (fieldStatus == false) {
+          // If the field is false, navigate to the action completion page
+          showCupertinoAlertDialog(context);
+        } else {
+          // If the field is true, set the flag and continue to the main app
+          setState(() {
+            hasCompletedKYC = true;
+          });
+          // Handle booking logic here
+          Get.to(Request(
+            vehicleLocation: mainController
+                .vehicleNeedLocations.text, //widget.vehicleLocation,
+            source: mainController.vehicleSource.text, //widget.source,
+            destination:
+                mainController.vehicleDestination.text, //widget.destination,
+            delivery: mainController.delivery.text, //widget.delivery,
+            pickupDateTime:
+                mainController.pickupDateTime.text, //widget.pickupDateTime,
+            returnDateTime:
+                mainController.returnDateTime.text, //widget.returnDateTime,
+            purpose: mainController.purpose.text, //widget.purpose,
+            imgUrl: 'assets/i30n.png',
+            vehicleName: widget.vehicleName,
+            seats: widget.seats,
+            average: widget.average,
+            kpml: widget.kpml,
+            type: widget.type,
+            ownerName: widget.ownerName,
+            ownerPhoneNumber: widget.ownerPhoneNumber,
+            vehiclePlateNumber: widget.vehicleNumber,
+            base_12: widget.base_12,
+            base_24: widget.base_24,
+            pricePerKmCust: widget.pricePerKmCust,
+            pricerPerHourCust: widget.pricerPerHourCust,
+            rentalPrice: rentalPrice,
+            isRotated: true,
+            vehicleRating: '4.5',
+            bags: '5',
+          ));
+        }
       }
+    } catch (e) {
+      // Handle any errors that occur during check action completion
+      Fluttertoast.showToast(
+        msg: 'Error.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      // You can show an error message to the user or handle the error in another way.
     }
   }
-
-  // double calculateRentalPrice() {
-  //   // Retrieve the necessary values from the mainController or any other relevant source
-  //   double pricePerKmCust = double.parse(widget.pricePerKmCust);
-  //   double numberOfExtraHours = double.parse(mainController.extraHoursController.text);
-  //   double distance = double.parse(mainController.distanceController.text);
-  //   double userChoiceHours = double.parse(mainController.userChoiceHoursController.text);
-  //   double basePrice = userChoiceHours == 12 ? double.parse(widget.base_12) : double.parse(widget.base_24);
-  //   double distanceLimit = userChoiceHours == 12 ? 150.0 : 350.0;
-  //
-  //   // Perform the calculations
-  //   double extraHoursCost = numberOfExtraHours * double.parse(widget.pricerPerHourCust);
-  //   print(extraHoursCost);
-  //   double distanceCost = (distance - distanceLimit) * pricePerKmCust;
-  //   double totalCost = basePrice + extraHoursCost + distanceCost;
-  //
-  //   setState(() {
-  //     rentalPrice = totalCost;
-  //   });
-  //
-  //   return rentalPrice;
-  // }
 
   double calculateRentalPrice() {
     // Retrieve the necessary values from the mainController or any other relevant source
     double pricePerKmCust = double.parse(widget.pricePerKmCust);
-    double numberOfExtraHours = double.parse(mainController.extraHoursController.text);
+    double numberOfExtraHours =
+        double.parse(mainController.extraHoursController.text);
     double distance = double.parse(mainController.distanceController.text);
-    double userChoiceHours = double.parse(mainController.userChoiceHoursController.text);
-    double basePrice = userChoiceHours == 12 ? double.parse(widget.base_12) : double.parse(widget.base_24);
+    double userChoiceHours =
+        double.parse(mainController.userChoiceHoursController.text);
+    double basePrice = userChoiceHours == 12
+        ? double.parse(widget.base_12)
+        : double.parse(widget.base_24);
     double distanceLimit = userChoiceHours == 12 ? 150.0 : 350.0;
 
     double totalHoursDuration = 0.0;
-    totalHoursDuration= double.parse(mainController.calculateDuration(mainController.pickupDateTime.text, mainController.returnDateTime.text));
+    totalHoursDuration = double.parse(mainController.calculateDuration(
+        mainController.pickupDateTime.text,
+        mainController.returnDateTime.text));
 
     // Perform the calculations
-    double extraHoursCost = numberOfExtraHours * double.parse(widget.pricerPerHourCust);
-    double distanceCost = distance > distanceLimit ? (distance - distanceLimit) * pricePerKmCust : 0.0;
+    double extraHoursCost =
+        numberOfExtraHours * double.parse(widget.pricerPerHourCust);
+    double distanceCost = distance > distanceLimit
+        ? (distance - distanceLimit) * pricePerKmCust
+        : 0.0;
     double totalCost = double.parse(widget.base_12);
-    if (totalHoursDuration > 23)
-      {
-        totalCost += double.parse(widget.base_24);
-      }
+    if (totalHoursDuration > 23) {
+      totalCost += double.parse(widget.base_24);
+    }
 
     totalCost += distanceCost;
-
 
     setState(() {
       rentalPrice = totalCost;
@@ -179,7 +183,6 @@ class _VehicleTileState extends State<VehicleTile> {
 
     return rentalPrice;
   }
-
 
   //
   // @o
@@ -203,24 +206,23 @@ class _VehicleTileState extends State<VehicleTile> {
 
     mainController.userChoiceHoursController.addListener(() {
       setState(() {
-        rentalPrice  = calculateRentalPrice();
+        rentalPrice = calculateRentalPrice();
       });
     });
 
     calculateRentalPrice();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(children: [
         Container(
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Card(
@@ -254,14 +256,14 @@ class _VehicleTileState extends State<VehicleTile> {
                                   children: [
                                     Text(
                                       widget.vehicleName,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 23.0,
                                       ),
                                     ),
                                     Text(
                                       '(${widget.distanceFromYou} km away from you)',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12.0, color: Colors.grey),
                                     ),
                                   ],
@@ -271,15 +273,15 @@ class _VehicleTileState extends State<VehicleTile> {
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Seats :',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
                                     Text(
-                                      '${widget.seats}',
-                                      style: TextStyle(
+                                      widget.seats,
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
@@ -291,15 +293,15 @@ class _VehicleTileState extends State<VehicleTile> {
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Rent Amount : ',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
                                     Text(
-                                      '₹${rentalPrice}/-',
-                                      style: TextStyle(
+                                      '₹$rentalPrice/-',
+                                      style: const TextStyle(
                                         fontSize: 14.0,
                                       ),
                                     ),
@@ -308,7 +310,7 @@ class _VehicleTileState extends State<VehicleTile> {
 
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Daily Limit :',
                                       style: TextStyle(
                                         fontSize: 16.0,
@@ -316,7 +318,7 @@ class _VehicleTileState extends State<VehicleTile> {
                                     ),
                                     Text(
                                       '  ${widget.perKm} km',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
                                     ),
@@ -352,13 +354,13 @@ class _VehicleTileState extends State<VehicleTile> {
             onPressed: () {
               checkActionCompletion();
             },
-            child: Text('Book Now'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.orange,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
             ),
+            child: const Text('Book Now'),
           ),
         ),
       ]),
@@ -368,7 +370,7 @@ class _VehicleTileState extends State<VehicleTile> {
   showCupertinoAlertDialog(BuildContext context) {
     showDialog(
         builder: (context) => CupertinoAlertDialog(
-              title: Column(
+              title: const Column(
                 children: <Widget>[
                   Text(
                     "Complete your KYC",
@@ -376,13 +378,13 @@ class _VehicleTileState extends State<VehicleTile> {
                   ),
                 ],
               ),
-              content: Text(
+              content: const Text(
                 "Please complete your KYC\n to book vehicle",
                 style: TextStyle(fontSize: 16),
               ),
               actions: <Widget>[
                 CupertinoDialogAction(
-                  child: Text("Yes"),
+                  child: const Text("Yes"),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -400,7 +402,7 @@ class _VehicleTileState extends State<VehicleTile> {
                   },
                 ),
                 CupertinoDialogAction(
-                  child: Text("No"),
+                  child: const Text("No"),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -410,4 +412,3 @@ class _VehicleTileState extends State<VehicleTile> {
         context: context);
   }
 }
-

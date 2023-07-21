@@ -10,13 +10,10 @@ import '../controllers/imagecontroller.dart';
 import '../widget/kyc_appbar.dart';
 import '../widget/kycdocupload.dart';
 import '../widget/submitbutton.dart';
-import '../widget/tilefordocument.dart';
 import '../widget/kycwarning.dart';
-import '../widget/uploadtiledoc.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class userKYC extends StatefulWidget {
-  userKYC({
+  const userKYC({
     Key? key,
     required this.seats,
     required this.vehicleLocation,
@@ -27,14 +24,14 @@ class userKYC extends StatefulWidget {
     required this.delivery,
     required this.purpose,
   }) : super(key: key);
-  RxString seats;
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
+  final RxString seats;
+  final String vehicleLocation;
+  final String source;
+  final String destination;
+  final String pickupDateTime;
+  final String returnDateTime;
+  final String delivery;
+  final String purpose;
 
   @override
   State<userKYC> createState() => _userKYCState();
@@ -52,7 +49,6 @@ class _userKYCState extends State<userKYC> {
   String getCurrentUserId() {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      print(user.uid);
       return user.uid;
     }
     return 'qFm8nd1BODSFfJLEsGNFLzjbOiN2';
@@ -69,17 +65,17 @@ class _userKYCState extends State<userKYC> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: KycAppBar(),
+      appBar: const KycAppBar(),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Please upload documents to complete KYC',
                   style: TextStyle(
@@ -88,7 +84,7 @@ class _userKYCState extends State<userKYC> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               Row(
@@ -115,7 +111,7 @@ class _userKYCState extends State<userKYC> {
                           image: DecorationImage(
                             image: imageController.image.value != null
                                 ? FileImage(imageController.image.value!)
-                                : NetworkImage(
+                                : const NetworkImage(
                                         'https://i.pinimg.com/736x/0b/0e/d9/0b0ed9b43e39d27a7e41beff4fe2e45b.jpg')
                                     as ImageProvider<Object>,
                             fit: BoxFit.cover,
@@ -124,55 +120,55 @@ class _userKYCState extends State<userKYC> {
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Upload Photo',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 25.0,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30.0,
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               KycUploadDocumentTile(
                   fileName: 'Your Licence Front',
                   fileController: fileController),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               KycUploadDocumentTile(
                   fileName: 'Your Licence Back',
                   fileController: fileController),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               KycUploadDocumentTile(
                   fileName: 'Your Aadhaar Front',
                   fileController: fileController),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               KycUploadDocumentTile(
                   fileName: 'Your Aadhaar Back',
                   fileController: fileController),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               KycUploadDocumentTile(
                   fileName: 'Cancel Cheque', fileController: fileController),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               KycUploadDocumentTile(
                   fileName: 'PAN Card', fileController: fileController),
-              SizedBox(height: 30.0),
-              KycWarning(),
-              SizedBox(
+              const SizedBox(height: 30.0),
+              const KycWarning(),
+              const SizedBox(
                 height: 10.0,
               ),
               SubmitButton(
@@ -185,7 +181,7 @@ class _userKYCState extends State<userKYC> {
                 delivery: widget.delivery,
                 purpose: widget.purpose,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
             ],

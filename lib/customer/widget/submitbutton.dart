@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/widget/kycpopup.dart';
-import '../controllers/controllerkyc.dart';
 import '../controllers/filecontroller.dart';
 
-
 class SubmitButton extends StatefulWidget {
-  SubmitButton({
+  const SubmitButton({
     Key? key,
     required this.seats,
     required this.vehicleLocation,
@@ -17,21 +16,19 @@ class SubmitButton extends StatefulWidget {
     required this.delivery,
     required this.purpose,
   }) : super(key: key);
-  RxString seats;
-  String vehicleLocation;
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
+  final RxString seats;
+  final String vehicleLocation;
+  final String source;
+  final String destination;
+  final String pickupDateTime;
+  final String returnDateTime;
+  final String delivery;
+  final String purpose;
   @override
   State<SubmitButton> createState() => _SubmitButtonState();
 }
 
 class _SubmitButtonState extends State<SubmitButton> {
-  final KycController kycPopUpController = Get.find<KycController>();
-
   bool _isLoading = false;
 
   @override
@@ -44,7 +41,7 @@ class _SubmitButtonState extends State<SubmitButton> {
 
         try {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Row(
                 children: <Widget>[
                   CircularProgressIndicator(),
@@ -71,7 +68,7 @@ class _SubmitButtonState extends State<SubmitButton> {
               context: context,
               builder: (builder) {
                 return AlertDialog(
-                  content: Container(
+                  content: SizedBox(
                     width: 300.0,
                     height: 320.0,
                     child: Column(
@@ -97,17 +94,28 @@ class _SubmitButtonState extends State<SubmitButton> {
                 );
               });
         } catch (e) {
-          // TODO
-          print(e);
+          Fluttertoast.showToast(
+            msg: 'Error.',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.grey[600],
+            textColor: Colors.black,
+            fontSize: 16.0,
+          );
         }
       },
       child: Container(
         width: 85.0,
         height: 40.0,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(25.0),
+        ),
         child: _isLoading
-            ? Center(child: CircularProgressIndicator())
-            : Text(
+            ? const Center(child: CircularProgressIndicator())
+            : const Text(
                 'Submit',
                 style: TextStyle(
                   fontSize: 20.0,
@@ -115,10 +123,6 @@ class _SubmitButtonState extends State<SubmitButton> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-        decoration: BoxDecoration(
-          color: Colors.amber,
-          borderRadius: BorderRadius.circular(25.0),
-        ),
       ),
     );
   }

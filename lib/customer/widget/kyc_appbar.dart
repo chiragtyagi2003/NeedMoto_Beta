@@ -8,7 +8,7 @@ class KycAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.white,
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back_ios,
           color: Colors.black,
         ),
@@ -16,18 +16,15 @@ class KycAppBar extends StatelessWidget implements PreferredSizeWidget {
           // Handle menu button press
         },
       ),
-      title: Text(
-          "YOUR KYC",
+      title: const Text(
+        "YOUR KYC",
         style: TextStyle(
           color: Colors.black,
         ),
       ),
-
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
-

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
@@ -9,24 +7,24 @@ import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/ride_start.dart';
 
 class ReadyToPickup extends StatefulWidget {
+  final String source;
+  final String destination;
+  final String pickupDateTime;
+  final String returnDateTime;
+  final String delivery;
+  final String purpose;
+  final String ownerName;
+  final String ownerPhoneNumber;
+  final String type;
+  final String vehicleNumber;
+  final String vehicleName;
+  final String seats;
+  final double rentalPrice;
+  final String base_12;
+  final String base_24;
 
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
-  String ownerName;
-  String ownerPhoneNumber;
-  String type;
-  String vehicleNumber;
-  String vehicleName;
-  String seats;
-  double rentalPrice;
-  String base_12;
-  String base_24;
-
-  ReadyToPickup({
+  const ReadyToPickup({
+    super.key,
     required this.source,
     required this.destination,
     required this.pickupDateTime,
@@ -44,7 +42,6 @@ class ReadyToPickup extends StatefulWidget {
     required this.base_24,
   });
 
-
   @override
   State<ReadyToPickup> createState() => _ReadyToPickupState();
 }
@@ -61,14 +58,14 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(51, 204, 102, 1),
+        backgroundColor: const Color.fromRGBO(51, 204, 102, 1),
         title: Text(
           "Payment done ₹${widget.rentalPrice}",
-          style: TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize: 15),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {},
         ),
       ),
@@ -78,9 +75,9 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.19,
-              color: Color.fromRGBO(51, 204, 102, 1),
+              color: const Color.fromRGBO(51, 204, 102, 1),
               // color: Colors.red,
-              child: Center(
+              child: const Center(
                 child: Column(children: [
                   Icon(
                     Icons.check_circle_outline,
@@ -99,12 +96,12 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               // height: 100,
               decoration: BoxDecoration(
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black12, spreadRadius: 5, blurRadius: 5)
                 ],
@@ -118,24 +115,24 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(7),
+                            padding: const EdgeInsets.all(7),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 border: Border.all(color: Colors.grey)),
-                            child: CircleAvatar(
+                            child: const CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.red,
                             ),
                           ),
                           Text(
-                            "${mainController.assignedOwnerNameController.text}",
-                            style: TextStyle(
+                            mainController.assignedOwnerNameController.text,
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "+91 ${mainController.assignedOwnerPhoneNumberController.text}",
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.black54),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black54),
                           ),
                           RatingBarIndicator(
                               rating: 2.5,
@@ -160,12 +157,12 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                                 borderRadius: BorderRadius.circular(100)),
                             child: IconButton(
                                 onPressed: () {},
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.mail_outline,
                                   color: Colors.orange,
                                 )),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Container(
                             height: 40,
                             width: 40,
@@ -174,7 +171,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                                 borderRadius: BorderRadius.circular(100)),
                             child: IconButton(
                                 onPressed: () {},
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.call_outlined,
                                   color: Colors.green,
                                 )),
@@ -184,7 +181,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                     )
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,54 +189,54 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Fuel type",
                           style: TextStyle(color: Colors.black54, fontSize: 18),
                         ),
                         Text(
-                          "${mainController.typeController.text}",
-                          style: TextStyle(
+                          mainController.typeController.text,
+                          style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 18),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Vehicle number",
                           style: TextStyle(color: Colors.black54, fontSize: 18),
                         ),
                         Text(
-                          "${mainController.assignedVehicleNumberController.text}",
-                          style: TextStyle(
+                          mainController.assignedVehicleNumberController.text,
+                          style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 18),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
-                    Text(
+                    const SizedBox(height: 15),
+                    const Text(
                       "Message",
                       style: TextStyle(
                           color: Colors.black54,
                           fontWeight: FontWeight.w500,
                           fontSize: 18),
                     ),
-                    SizedBox(height: 7),
-                    Text(
+                    const SizedBox(height: 7),
+                    const Text(
                       "Vehicle is moving to your door step",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                           fontSize: 17),
                     ),
-                    SizedBox(height: 20),
-                    Row(
+                    const SizedBox(height: 20),
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -257,8 +254,8 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                         )
                       ],
                     ),
-                    SizedBox(height: 7),
-                    Text(
+                    const SizedBox(height: 7),
+                    const Text(
                       "5-48/3, Sri lakshmi ganapathi nilayam, Road no. 7, near saibaba temple Boduppal, peerzadiguda, Hyd, Telangana - 500092",
                       style: TextStyle(
                           color: Colors.black,
@@ -270,13 +267,13 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
               ]),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               height: MediaQuery.of(context).size.height * 0.16,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Color.fromRGBO(227, 250, 166, 1)),
-              child: Column(
+                  color: const Color.fromRGBO(227, 250, 166, 1)),
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -324,17 +321,17 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            Divider(
+            const SizedBox(height: 20),
+            const Divider(
               color: Colors.black87,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
                   Obx(
                     () => Checkbox(
-                      activeColor: Color.fromARGB(255, 33, 103, 243),
+                      activeColor: const Color.fromARGB(255, 33, 103, 243),
                       value: selected.value == true,
                       onChanged: (val) {
                         val == true
@@ -343,11 +340,11 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                       },
                     ),
                   ),
-                  Text(
+                  const Text(
                     "I accept ",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                   ),
-                  Text(
+                  const Text(
                     "Terms and conditions",
                     style: TextStyle(
                         fontSize: 15,
@@ -357,7 +354,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -368,13 +365,13 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                       borderRadius: BorderRadius.circular(25.0),
                     )),
                     backgroundColor: MaterialStateProperty.all(
-                        Color.fromRGBO(2, 100, 171, 1)),
+                        const Color.fromRGBO(2, 100, 171, 1)),
                   ),
                   onPressed: () {},
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.33,
                     height: 50,
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Receive",
                         style: TextStyle(fontSize: 22),
@@ -393,11 +390,14 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                         MaterialStateProperty.all(Colors.orange[600]),
                   ),
                   onPressed: () {
-                    vehicleSubmitController.vehicleReceivedDateTimeController.text = DateTime.now().toString();
-                    print(vehicleSubmitController.vehicleReceivedDateTimeController.text);
+                    vehicleSubmitController.vehicleReceivedDateTimeController
+                        .text = DateTime.now().toString();
                     // set the received date and time
-                    vehicleSubmitController.extractReceivedDateAndTime(vehicleSubmitController.vehicleReceivedDateTimeController.text);
-                    vehicleSubmitController.addFieldsToBooking(requestController.requestIDController.text);
+                    vehicleSubmitController.extractReceivedDateAndTime(
+                        vehicleSubmitController
+                            .vehicleReceivedDateTimeController.text);
+                    vehicleSubmitController.addFieldsToBooking(
+                        requestController.requestIDController.text);
                     Get.to(RideStart(
                       source: widget.source,
                       destination: widget.destination,
@@ -416,13 +416,13 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                       base_24: widget.base_24,
                     ));
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.33,
                     height: 50,
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Cancel Ride",
-                        style: TextStyle(fontSize: 18 ),
+                        style: TextStyle(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -430,7 +430,7 @@ class _ReadyToPickupState extends State<ReadyToPickup> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

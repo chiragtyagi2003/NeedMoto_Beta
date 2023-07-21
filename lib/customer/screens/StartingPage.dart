@@ -4,6 +4,8 @@ import 'package:need_moto/customer/screens/NewLogin.dart';
 import 'package:need_moto/customer/screens/NewSignup.dart';
 
 class AnimatedCardsListView extends StatefulWidget {
+  const AnimatedCardsListView({super.key});
+
   @override
   _AnimatedCardsListViewState createState() => _AnimatedCardsListViewState();
 }
@@ -31,7 +33,7 @@ const data = [
     "Title": "Industrial Works",
     "content":
         "Our industrial vehicles are built to withstand the demands of any job site. Whether you need a crane truck, bulldozer, or excavator, we've got the equipment you need to get the job done.",
-    "buttonText": "Intrested!",
+    "buttonText": "Interested!",
   },
   {
     "Title": "Farming",
@@ -71,35 +73,33 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
             children: [
               ElevatedButton(
                 onPressed: () {
-
                   // go to login page
                   Get.to(LoginPage());
                 },
-                child: Text(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF20A4F3)),
+                child: const Text(
                   'Login',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF20A4F3)),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               ElevatedButton(
                 onPressed: () {
 
-
                   // go to sign up page
-                  Get.to(SignupPage());
+                  Get.to(const SignupPage());
                 },
-                child: Text(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF182B3A)),
+                child: const Text(
                   'Register',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF182B3A)),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
             ],
@@ -107,13 +107,13 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
         ],
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Need Moto',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.menu,
             color: Colors.black,
           ),
@@ -135,8 +135,8 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(25, 25, 15, 10),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(25, 25, 15, 10),
               child: Text(
                 'Why do you "Need Moto" ...',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -167,7 +167,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
 
                             // alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
@@ -175,7 +175,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                     Color(0xFF182B3A)
                                   ],
                                 ),
-                                boxShadow: [
+                                boxShadow: const [
                                   BoxShadow(
                                     color: Color(0xffDDDDDD),
                                     blurRadius: 6.0,
@@ -184,7 +184,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                   )
                                 ],
                                 borderRadius: BorderRadius.circular(20)),
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             width: MediaQuery.of(context).size.width*0.2,
                             height: MediaQuery.of(context).size.height*0.3,
                             // alignment: Alignment.center,
@@ -214,7 +214,7 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                 Padding(
                                   padding: const EdgeInsets.all(6.0),
                                   child: Text(
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.white,
                                       ),
                                       textAlign: TextAlign.center,
@@ -228,17 +228,17 @@ class _AnimatedCardsListViewState extends State<AnimatedCardsListView> {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: const Color.fromARGB(
+                                                255, 255, 200, 0)),
                                         child: Text(
                                           data[index]['buttonText'].toString(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Color.fromARGB(
-                                                255, 255, 200, 0)),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       )
                                     ],

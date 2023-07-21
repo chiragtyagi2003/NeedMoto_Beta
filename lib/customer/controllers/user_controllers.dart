@@ -8,5 +8,4 @@ class UserController extends GetxController {
   TextEditingController userDobController = TextEditingController();
   TextEditingController userKycStatusController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
-
 }

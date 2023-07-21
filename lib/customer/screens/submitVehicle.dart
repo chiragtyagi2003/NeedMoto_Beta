@@ -1,40 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/rateOwner.dart';
 
 class SubmitVehicle extends StatefulWidget {
+  final String vehicleNumber;
+  final String ownerPhoneNumber;
+  final String ownerName;
+  final String base_12;
+  final String base_24;
 
-  // String reading;
-  // String scratches;
-  // String damages;
-  // String fast_tag_amt;
-  // String date_time_handover;
-  // String message;
-  String vehicleNumber;
-  String ownerPhoneNumber;
-  String ownerName;
-  String base_12;
-  String base_24;
-
-  SubmitVehicle({
-    // required this.reading,
-    // required this.scratches,
-    // required this.damages,
-    // required this.fast_tag_amt,
-    // required this.date_time_handover,
-    // required this.message,
+  const SubmitVehicle({
+    super.key,
     required this.vehicleNumber,
     required this.ownerName,
     required this.ownerPhoneNumber,
     required this.base_12,
     required this.base_24,
-});
+  });
 
   @override
   State<SubmitVehicle> createState() => _SubmitVehicleState();
@@ -45,7 +29,6 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
 
   VehicleSubmitController vehicleSubmitController = Get.find();
 
-
   MainController mainController = Get.find();
   double totalHours = 0.0;
 
@@ -53,52 +36,50 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    vehicleSubmitController.vehicleTotalDurationController.text = vehicleSubmitController.calculateDuration(mainController.pickupDateTime.text, vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
+    vehicleSubmitController.vehicleTotalDurationController.text =
+        vehicleSubmitController.calculateDuration(
+            mainController.pickupDateTime.text,
+            vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
     calculateExtraPrice();
   }
 
-  void calculateExtraPrice(){
-
+  void calculateExtraPrice() {
     double hourlyRate = 0.0;
 
-    totalHours = vehicleSubmitController.calculateExtraTime(mainController.returnDateTime.text, vehicleSubmitController.vehicleDateTimeOfHandoverController.text).toDouble();
+    totalHours = vehicleSubmitController
+        .calculateExtraTime(mainController.returnDateTime.text,
+            vehicleSubmitController.vehicleDateTimeOfHandoverController.text)
+        .toDouble();
 
-    print('TOTAL HOURS: ${totalHours}');
+    print('TOTAL HOURS: $totalHours');
     // if vehicle submitted before return date time
     if (totalHours < 0) {
-      vehicleSubmitController.vehicleOtherChargesController.text =  '0.0';
+      vehicleSubmitController.vehicleOtherChargesController.text = '0.0';
     } else {
-
       print(mainController.userChoiceHoursController.text);
       // price for different base -> 12 and 24
-      if(mainController.userChoiceHoursController.text == '12')
-        {
-          setState(() {
-            hourlyRate = double.parse(widget.base_12);
-          });
-          print('HOURLY RATE 12 HOURS: ${hourlyRate}');
-        }
-
-      else if(mainController.userChoiceHoursController.text == '24')
-        {
-          setState(() {
-            hourlyRate = double.parse(widget.base_24);
-          });
-          print('HOURLY RATE 24 HOURS: ${hourlyRate}');
-        }
+      if (mainController.userChoiceHoursController.text == '12') {
+        setState(() {
+          hourlyRate = double.parse(widget.base_12);
+        });
+        print('HOURLY RATE 12 HOURS: $hourlyRate');
+      } else if (mainController.userChoiceHoursController.text == '24') {
+        setState(() {
+          hourlyRate = double.parse(widget.base_24);
+        });
+        print('HOURLY RATE 24 HOURS: $hourlyRate');
+      }
 
       print(mainController.userChoiceHoursController.text);
-       print("HOURLY RATE: ${hourlyRate}");
+      print("HOURLY RATE: $hourlyRate");
       double extraPrice = totalHours * hourlyRate;
-      print("EXTRA PRICE: ${extraPrice}");
+      print("EXTRA PRICE: $extraPrice");
       setState(() {
-        vehicleSubmitController.vehicleOtherChargesController.text = extraPrice.toString();
+        vehicleSubmitController.vehicleOtherChargesController.text =
+            extraPrice.toString();
       });
-
     }
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -106,13 +87,13 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Text(
+          title: const Text(
             'VEHICLE SUBMISSION',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
           ),
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               color: Colors.black,
             ),
@@ -133,17 +114,17 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                     children: [
                       Text(
                         '₹${vehicleSubmitController.vehicleOtherChargesController.text}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 23, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         'Extra Charges',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -161,8 +142,13 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: ElevatedButton(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                            ),
+                            onPressed: () {},
+                            child: const Padding(
+                              padding: EdgeInsets.only(
                                   top: 8.0, bottom: 8, left: 85, right: 85),
                               child: Text(
                                 'Pay',
@@ -170,11 +156,6 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                            ),
-                            onPressed: () {},
                           ),
                         ),
                       ),
@@ -182,7 +163,7 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                   ),
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 0.4,
               ),
@@ -194,64 +175,71 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Received Date',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleReceivedDateController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleReceivedDateController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Time',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleReceivedTimeController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleReceivedTimeController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Reading',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleReadingController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleReadingController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Total Duration',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleTotalDurationController.text} Hours',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            '${vehicleSubmitController.vehicleTotalDurationController.text} Hours',
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -263,117 +251,127 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                             style: TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Submitted Date',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleSubmitDateController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleSubmitDateController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Time',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleSubmitTimeController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleSubmitTimeController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Scratches',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleScratchController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleScratchController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Damages',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleDamageController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleDamageController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Fasttag amount',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
-                        Text('${vehicleSubmitController.vehicleFastTagAmountController.text}',
-                            style: TextStyle(fontWeight: FontWeight.w600))
+                        Text(
+                            vehicleSubmitController
+                                .vehicleFastTagAmountController.text,
+                            style: const TextStyle(fontWeight: FontWeight.w600))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Other Charges',
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.w600),
                         ),
                         Text(
-                            totalHours < 0 ? 'No' : 'Yes',
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          totalHours < 0 ? 'No' : 'Yes',
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Message',
+                        const Text('Message',
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w600)),
-                        SizedBox(
+                        const SizedBox(
                           height: 7,
                         ),
                         Padding(
-                          padding:EdgeInsets.fromLTRB(15, 0, 15, 0),
+                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                             height: MediaQuery.of(context).size.height * 0.25,
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.grey,
@@ -381,7 +379,8 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text('${vehicleSubmitController.vehicleMessageController.text}'),
+                            child: Text(vehicleSubmitController
+                                .vehicleMessageController.text),
                           ),
                           //
                           // TextField(
@@ -412,7 +411,7 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                     },
                   ),
                   const SizedBox(width: 8),
-                  Text(
+                  const Text(
                     'I have received all my documents',
                     style: TextStyle(
                       fontSize: 16,
@@ -433,15 +432,6 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: ElevatedButton(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8, left: 85, right: 85),
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -451,9 +441,17 @@ class _SubmitVehicleState extends State<SubmitVehicle> {
                         vehicleNumber: widget.vehicleNumber,
                         ownerName: widget.ownerName,
                         ownerPhoneNumber: widget.ownerPhoneNumber,
-
                       ));
                     },
+                    child: const Padding(
+                      padding: EdgeInsets.only(
+                          top: 8.0, bottom: 8, left: 85, right: 85),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -7,10 +7,8 @@ class KycWarning extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(8.0),
-      margin: EdgeInsets.all(8.0),
-      child: Text('* Your documents should be in pdf/jpg/png '
-          'and size should not be more than 2mb.'),
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.red[100],
         borderRadius: BorderRadius.circular(10.0),
@@ -20,8 +18,8 @@ class KycWarning extends StatelessWidget {
           style: BorderStyle.solid,
         ),
       ),
-
-
+      child: const Text('* Your documents should be in pdf/jpg/png '
+          'and size should not be more than 2mb.'),
     );
   }
 }

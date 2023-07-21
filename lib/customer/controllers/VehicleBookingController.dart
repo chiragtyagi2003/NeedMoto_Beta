@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class VehicleBookingController extends GetxController {
@@ -18,27 +18,55 @@ class VehicleBookingController extends GetxController {
   }
 
   Future<void> _loadAllCars() async {
-    final QuerySnapshot querySnapshot = await _carsRef.get();
-    _allCars = querySnapshot.docs
-        .map((doc) => doc.data() as Map<String, dynamic>)
-        .toList();
-    print(_allCars);
-    filteredCars.addAll(_allCars);
+    try {
+      final QuerySnapshot querySnapshot = await _carsRef.get();
+      _allCars = querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+      filteredCars.addAll(_allCars);
+    } catch (e) {
+      // Handle any unexpected errors that may occur during Firestore queries
+      Fluttertoast.showToast(
+        msg: 'Error.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      // You can show an error message to the user or handle the error in another way.
+    }
   }
 
   void filterCars(String seatsString) {
-    int seats = int.parse(seatsString);
-    if (seats == 0) {
-      filteredCars.assignAll(_allCars);
-    } else if (seats == 6) {
-      final List<Map<String, dynamic>> filtered =
-          _allCars.where((car) => int.parse(car['seating']) >= seats).toList();
-      filteredCars.assignAll(filtered);
-    } else {
-      final List<Map<String, dynamic>> filtered =
-          _allCars.where((car) => int.parse(car['seating']) == seats).toList();
-      filteredCars.assignAll(filtered);
-      print(filteredCars);
+    try {
+      int seats = int.parse(seatsString);
+      if (seats == 0) {
+        filteredCars.assignAll(_allCars);
+      } else if (seats == 6) {
+        final List<Map<String, dynamic>> filtered = _allCars
+            .where((car) => int.parse(car['seating']) >= seats)
+            .toList();
+        filteredCars.assignAll(filtered);
+      } else {
+        final List<Map<String, dynamic>> filtered = _allCars
+            .where((car) => int.parse(car['seating']) == seats)
+            .toList();
+        filteredCars.assignAll(filtered);
+      }
+    } catch (e) {
+      // Handle any unexpected errors that may occur during filtering
+      Fluttertoast.showToast(
+        msg: 'Error.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      // You can show an error message to the user or handle the error in another way.
     }
   }
 }

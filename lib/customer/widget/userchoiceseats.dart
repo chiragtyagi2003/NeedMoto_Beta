@@ -1,31 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/widget/form.dart';
 import '../controllers/VehicleBookingController.dart';
 
-
 class UserChoiceSeats extends StatefulWidget {
-  // UserChoiceSeats({
-  //   Key? key,
-  //   required this.seats,
-  //   required this.vehicleLocation,
-  //   required this.source,
-  //   required this.destination,
-  //   required this.pickupDateTime,
-  //   required this.returnDateTime,
-  //   required this.delivery,
-  //   required this.purpose,
-  // }) : super(key: key);
-  // RxString seats;
-  // String vehicleLocation;
-  // String source;
-  // String destination;
-  // String pickupDateTime;
-  // String returnDateTime;
-  // String delivery;
-  // String purpose;
+  const UserChoiceSeats({super.key});
 
   @override
   State<UserChoiceSeats> createState() => _UserChoiceSeatsState();
@@ -44,134 +24,114 @@ class _UserChoiceSeatsState extends State<UserChoiceSeats> {
   // Define a callback function to pass to each UserChoiceButton
   void handleButtonTap(String label) {
     final vehicleBookingController = Get.find<VehicleBookingController>();
-    print(label);
     vehicleBookingController.filterCars(label);
     userChoiceController.selectedButton.value = label;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 50,
-            child: Obx(() => Row(
-                  children: [
-                    // SizedBox(width: 16), // Add some padding to the left
-                    Expanded(
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            // height: 20.0,
-
-                            child: UserChoiceButton(
-                              icon: Icons.event_seat_sharp,
-                              label: '4',
-                              isSelected:
-                                  userChoiceController.selectedButton.value ==
-                                      '4',
-                              onTap: handleButtonTap,
-                            ),
-                          ),
-                          UserChoiceButton(
-                            icon: Icons.event_seat_sharp,
-                            label: '5',
-                            isSelected:
-                                userChoiceController.selectedButton.value ==
-                                    '5',
-                            onTap: handleButtonTap,
-                          ),
-                          UserChoiceButton(
-                            icon: Icons.event_seat_sharp,
-                            label: '6+',
-                            isSelected:
-                                userChoiceController.selectedButton.value ==
-                                    '6+',
-                            onTap: handleButtonTap,
-                          ),
-                          UserChoiceButton(
-                            icon: Icons.directions_car,
-                            label: 'Jeeps',
-                            isSelected:
-                                userChoiceController.selectedButton.value ==
-                                    'Jeeps',
-                            onTap: handleButtonTap,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Column(
+    return Column(
+      children: [
+        SizedBox(
+          height: 50,
+          child: Obx(() => Row(
+                children: [
+                  // SizedBox(width: 16), // Add some padding to the left
+                  Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (isEditable == false)
-                              {
-                                isEditable = true;
-                                print(isEditable);
-                              }
-                              else
-                                 {
-                                   isEditable = false;
-
-                                 }
-                            });
-                          },
-                          child: Container(
-                            child: Icon(
-                              Icons.edit,
-                              size: 20,
-                            ),
-                            color: Colors.green[100],
-                            width: 50.0,
-                            height: 23.0,
-                          ),
+                        UserChoiceButton(
+                          icon: Icons.event_seat_sharp,
+                          label: '4',
+                          isSelected:
+                              userChoiceController.selectedButton.value == '4',
+                          onTap: handleButtonTap,
                         ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (isAnimated == false)
-                                isAnimated = true;
-                              else
-                                isAnimated = false;
-                            });
-                          },
-                          child: Container(
-                            child: isAnimated
-                                ? Icon(Icons.arrow_drop_up)
-                                : Icon(Icons.arrow_drop_down),
-                            color: Colors.green[100],
-                            width: 50.0,
-                            height: 20.0,
-                          ),
+                        UserChoiceButton(
+                          icon: Icons.event_seat_sharp,
+                          label: '5',
+                          isSelected:
+                              userChoiceController.selectedButton.value == '5',
+                          onTap: handleButtonTap,
+                        ),
+                        UserChoiceButton(
+                          icon: Icons.event_seat_sharp,
+                          label: '6+',
+                          isSelected:
+                              userChoiceController.selectedButton.value == '6+',
+                          onTap: handleButtonTap,
+                        ),
+                        UserChoiceButton(
+                          icon: Icons.directions_car,
+                          label: 'Jeeps',
+                          isSelected:
+                              userChoiceController.selectedButton.value ==
+                                  'Jeeps',
+                          onTap: handleButtonTap,
                         ),
                       ],
                     ),
-                    //SizedBox(width: 16), // Add some padding to the right
-                  ],
-                )),
-          ),
-          SizedBox(height: 10),
-          Divider(
-            height: 1,
-            color: Colors.black54,
-          ),
-          isAnimated
-              ? FormTile(
-                  isEditable: isEditable,
-                  // source: mainController.vehicleSource.text, //widget.source,
-                  // delivery: mainController.delivery.text, //widget.delivery,
-                  // destination: mainController.vehicleDestination.text, //widget.destination,
-                  // pickupDateTime: mainController.pickupDateTime.text, //widget.pickupDateTime,
-                  // returnDateTime: mainController.returnDateTime.text, //widget.returnDateTime,
-                  // purpose: mainController.purpose.text, //widget.purpose,
-                )
-              : Container(),
-        ],
-      ),
+                  ),
+
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (isEditable == false) {
+                              isEditable = true;
+                            } else {
+                              isEditable = false;
+                            }
+                          });
+                        },
+                        child: Container(
+                          color: Colors.green[100],
+                          width: 50.0,
+                          height: 23.0,
+                          child: const Icon(
+                            Icons.edit,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (isAnimated == false) {
+                              isAnimated = true;
+                            } else {
+                              isAnimated = false;
+                            }
+                          });
+                        },
+                        child: Container(
+                          color: Colors.green[100],
+                          width: 50.0,
+                          height: 20.0,
+                          child: isAnimated
+                              ? const Icon(Icons.arrow_drop_up)
+                              : const Icon(Icons.arrow_drop_down),
+                        ),
+                      ),
+                    ],
+                  ),
+                  //SizedBox(width: 16), // Add some padding to the right
+                ],
+              )),
+        ),
+        const SizedBox(height: 10),
+        const Divider(
+          height: 1,
+          color: Colors.black54,
+        ),
+        isAnimated
+            ? FormTile(
+                isEditable: isEditable,
+              )
+            : Container(),
+      ],
     );
   }
 }
@@ -182,7 +142,7 @@ class UserChoiceButton extends StatelessWidget {
   final bool isSelected;
   final Function(String) onTap;
 
-  VehicleBookingController vehicleBookingController = Get.find();
+  final VehicleBookingController vehicleBookingController = Get.find();
 
   UserChoiceButton({
     Key? key,
@@ -208,7 +168,7 @@ class UserChoiceButton extends StatelessWidget {
           }
         },
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 6),
+          margin: const EdgeInsets.symmetric(horizontal: 6),
           height: 15,
           width: 80,
           decoration: BoxDecoration(
