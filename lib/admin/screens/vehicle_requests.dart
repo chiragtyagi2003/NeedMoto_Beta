@@ -43,6 +43,7 @@ class _VehicleRequestsState extends State<VehicleRequests> {
                         var vehicleSnapshot = snapshot.data![index];
                         mainController.vehicleNameController.text = vehicleSnapshot['vehicleName'];
                         mainController.ownerNameController.text = vehicleSnapshot['ownerName'];
+                        mainController.typeController.text = vehicleSnapshot['type'];
                         //mainController.vehicleSeatsController.text = vehicleSnapshot['seating'];
                         return VehicleTile1(
                           //  pass the vehicleSnapshot to VehicleTile1 and access its data inside the widget

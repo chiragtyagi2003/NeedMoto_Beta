@@ -61,7 +61,7 @@ class _SignupPageState extends State<SignupPage> {
         Get.to(const Home());
       }
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      Get.snackbar("Error", "Please Enter all fields");
     }
   }
 
@@ -191,7 +191,6 @@ class _SignupPageState extends State<SignupPage> {
                           height: 60,
                           onPressed: () {
                             registerUser();
-                            Get.to(const Home());
                           },
                           color: const Color(0xFF182B3A),
                           shape: RoundedRectangleBorder(

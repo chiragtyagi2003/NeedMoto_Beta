@@ -20,6 +20,7 @@ class LoginPage extends StatelessWidget {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text, password: passwordController.text);
 
+        // Only navigate to Home screen if login is successful
         Get.offAll(() => const Home());
       } else {
         Get.snackbar("Error", "Please enter your email and password");
@@ -98,7 +99,7 @@ class LoginPage extends StatelessWidget {
                       height: 60,
                       onPressed: () {
                         loginUser();
-                        Get.to(const Home());
+
                       },
                       color: const Color(0xFF20A4F3),
                       shape: RoundedRectangleBorder(
@@ -119,7 +120,7 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Dont have an account?"),
+                    const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () {
                         Get.to(() => SignupPage());

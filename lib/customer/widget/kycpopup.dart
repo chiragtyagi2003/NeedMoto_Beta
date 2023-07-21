@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:need_moto/customer/screens/chooseVehicle.dart';
 
 class KycPopUp extends StatefulWidget {
@@ -27,6 +28,8 @@ class KycPopUp extends StatefulWidget {
 }
 
 class _KycPopUpState extends State<KycPopUp> {
+
+  MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,7 +75,7 @@ class _KycPopUpState extends State<KycPopUp> {
           ),
           GestureDetector(
             onTap: () {
-              Get.offAll(const ChooseVehicle());
+              Get.offAll(ChooseVehicle(vehicleType:  mainController.vehicleTypeController.text,));
               // Get.offAll(Home());
             },
             child: Container(

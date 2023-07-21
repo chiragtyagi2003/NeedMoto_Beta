@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:need_moto/customer/controllers/main_controller.dart';
 
 class VehicleBookingController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -10,20 +11,22 @@ class VehicleBookingController extends GetxController {
   final RxList<Map<String, dynamic>> filteredCars =
       RxList<Map<String, dynamic>>([]);
 
+  MainController  mainController = Get.find();
+
   @override
   void onInit() {
     super.onInit();
     _carsRef = _firestore.collection('vehicles');
-    _loadAllCars();
+    loadAllCars(mainController.vehicleTypeController.text);
   }
 
-  Future<void> _loadAllCars() async {
+  Future<void> loadAllCars(String vehicleType) async {
     try {
-      final QuerySnapshot querySnapshot = await _carsRef.get();
+      final QuerySnapshot querySnapshot = await _carsRef.where('adminApproval', isEqualTo: true).where('vehicleType', isEqualTo: vehicleType).get();
       _allCars = querySnapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
-      filteredCars.addAll(_allCars);
+      filteredCars.assignAll(_allCars);
     } catch (e) {
       // Handle any unexpected errors that may occur during Firestore queries
       Fluttertoast.showToast(

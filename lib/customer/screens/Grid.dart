@@ -34,7 +34,7 @@ class _GridState extends State<Grid> {
                 mainController.vehicleTypeController.text = 'self-drive';
               });
 
-              Get.to(const ChooseVehicle());
+              Get.to(ChooseVehicle(vehicleType: mainController.vehicleTypeController.text,));
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),
@@ -63,7 +63,7 @@ class _GridState extends State<Grid> {
                 mainController.vehicleTypeController.text = 'car';
               });
 
-              Get.to(const ChooseVehicle());
+              Get.to(ChooseVehicle(vehicleType: mainController.vehicleTypeController.text,));
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),
@@ -92,7 +92,7 @@ class _GridState extends State<Grid> {
                 mainController.vehicleTypeController.text = 'truck';
               });
 
-              Get.to(const ChooseVehicle());
+              Get.to(ChooseVehicle(vehicleType: mainController.vehicleTypeController.text,));
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),
@@ -120,8 +120,8 @@ class _GridState extends State<Grid> {
               setState(() {
                 mainController.vehicleTypeController.text = 'taxi';
               });
-
-              Get.to(const ChooseVehicle());
+              print(mainController.vehicleTypeController.text);
+              Get.to(ChooseVehicle(vehicleType: mainController.vehicleTypeController.text,));
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),
@@ -150,7 +150,7 @@ class _GridState extends State<Grid> {
                 mainController.vehicleTypeController.text = 'bus';
               });
 
-              Get.to(const ChooseVehicle());
+              Get.to(ChooseVehicle(vehicleType: mainController.vehicleTypeController.text,));
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),
@@ -179,7 +179,7 @@ class _GridState extends State<Grid> {
                 mainController.vehicleTypeController.text = 'traveller';
               });
 
-              Get.to(const ChooseVehicle());
+              Get.to(ChooseVehicle(vehicleType: mainController.vehicleTypeController.text,));
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),

@@ -48,6 +48,11 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
           const SizedBox(height: 20),
           TextInputField(
+            controller: mainController.vehicleFuelTypeController,
+            myLabelText: "Fuel Type",
+          ),
+          const SizedBox(height: 20),
+          TextInputField(
             controller: mainController.vehicleCurrentReadingController,
             myLabelText: "Current Reading",
           ),
