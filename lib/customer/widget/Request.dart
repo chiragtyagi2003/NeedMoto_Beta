@@ -88,6 +88,12 @@ class _RequestState extends State<Request> {
 
   RequestController requestController = Get.find();
 
+  // Firestore instance
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // Real-time listener subscription
+  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _bookingListener;
+
   void setControllerValues() {
     requestController.requestVehicleNameController.text = widget.vehicleName;
     requestController.requestSourceController.text = widget.source;
@@ -184,6 +190,7 @@ class _RequestState extends State<Request> {
       'status': mainController.requestStatusController.text,
       'userId': currentUserId,
       'vehicleType': mainController.vehicleTypeController.text,
+      'distance': mainController.distanceController.text,
       //'vehicleNeedFromLocation': widget.vehicleLocation,
     };
 
@@ -263,14 +270,53 @@ class _RequestState extends State<Request> {
     print(mainController.totalPriceController.text);
   }
 
+
+  // Function to start the real-time listener for the bookings collection
+  void startBookingListener() {
+    // Replace 'bookings' with the actual name of your collection
+    final CollectionReference<Map<String, dynamic>> bookingsCollection =
+    firestore.collection('bookings');
+
+    // Replace 'documentId' with the actual ID you want to listen to (e.g., the user's document ID)
+    final documentId = requestController.requestIDController.text;
+
+    // Start the real-time listener on the specific document ID
+    _bookingListener = bookingsCollection.doc(documentId).snapshots().listen(
+          (snapshot) {
+        if (snapshot.exists) {
+          // Document exists, call the function to check the booking document
+          checkBookingDocument(documentId);
+        } else {
+          // Document does not exist or has been deleted
+          // Handle this case if needed
+          print('Booking document with ID: $documentId does not exist');
+        }
+      },
+      onError: (error) {
+        // Handle any errors that occur during listening
+        print('Error listening to booking document: $error');
+      },
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     // startListeningNotificationEvents();
     // print('now listening to notification events');
     setControllerValues();
+    startBookingListener();
     super.initState();
   }
+
+  @override
+  void dispose() {
+    // Cancel the listener subscription to avoid memory leaks
+    _bookingListener?.cancel();
+    super.dispose();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -489,6 +535,9 @@ class _RequestState extends State<Request> {
                                     parsedBase24,
                                     parsedPricePerHourCust,
                                     parsedPricePerKmCust);
+
+                                // Start the real-time listener
+                                startBookingListener();
                               } catch (e) {
                                 print('Error parsing double: $e');
                               }
@@ -525,17 +574,17 @@ class _RequestState extends State<Request> {
                                             base_24: widget.base_24,
                                           )));
 
-                              // Start the timer for the delay
-                              const delayDuration = Duration(
-                                  seconds:
-                                      30); // Adjust the delay duration as needed
-                              Timer(delayDuration, () {
-                                // After the delay, check the status of the booking document
-                                final documentId = requestController
-                                    .requestIDController
-                                    .text; // Replace with the actual document ID
-                                checkBookingDocument(documentId);
-                              });
+                              // // Start the timer for the delay
+                              // const delayDuration = Duration(
+                              //     seconds:
+                              //         30); // Adjust the delay duration as needed
+                              // Timer(delayDuration, () {
+                              //   // After the delay, check the status of the booking document
+                              //   final documentId =  // Replace with the actual document ID
+                              //   checkBookingDocument(documentId);
+                              // });
+
+
                             },
                             child: Container(
                               decoration: BoxDecoration(

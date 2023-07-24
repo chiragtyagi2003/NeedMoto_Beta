@@ -162,6 +162,7 @@ class _AdminBookingsState extends State<AdminBookings> {
                     String returnDateTime = bookingData?['returnDateTime'];
                     String source = bookingData?['source'];
                     String destination = bookingData?['destination'];
+                    String distance = bookingData?['distance'];
 
                     String requestTime = adminbooking.calculateHoursDifference(
                         pickUpDateTime, returnDateTime);
@@ -323,7 +324,6 @@ class _AdminBookingsState extends State<AdminBookings> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    // '${adminbooking.customernames[index]}',
                                                     '$customerName',
                                                     style: const TextStyle(
                                                       fontSize: 15.0,
@@ -356,14 +356,14 @@ class _AdminBookingsState extends State<AdminBookings> {
                                                 ],
                                               ),
 
-                                              const Row(
+                                              Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     'Distance : ',
                                                     style: TextStyle(
                                                       fontWeight:
@@ -372,9 +372,8 @@ class _AdminBookingsState extends State<AdminBookings> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    '',
-                                                    //'${adminbooking.distanceinkm[index]} km',
-                                                    style: TextStyle(
+                                                    '$distance Km',
+                                                    style: const TextStyle(
                                                       fontSize: 15.0,
                                                     ),
                                                   ),

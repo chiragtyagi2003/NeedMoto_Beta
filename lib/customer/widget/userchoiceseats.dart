@@ -59,17 +59,17 @@ class _UserChoiceSeatsState extends State<UserChoiceSeats> {
                           icon: Icons.event_seat_sharp,
                           label: '6+',
                           isSelected:
-                              userChoiceController.selectedButton.value == '6+',
+                              userChoiceController.selectedButton.value == '6',
                           onTap: handleButtonTap,
                         ),
-                        UserChoiceButton(
-                          icon: Icons.directions_car,
-                          label: 'Jeeps',
-                          isSelected:
-                              userChoiceController.selectedButton.value ==
-                                  'Jeeps',
-                          onTap: handleButtonTap,
-                        ),
+                        // UserChoiceButton(
+                        //   icon: Icons.directions_car,
+                        //   label: 'Jeeps',
+                        //   isSelected:
+                        //       userChoiceController.selectedButton.value ==
+                        //           '1',
+                        //   onTap: handleButtonTap,
+                        // ),
                       ],
                     ),
                   ),
@@ -159,7 +159,7 @@ class UserChoiceButton extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           if (label == 'Jeeps') {
-            // Pass a negative value for Jeeps
+            // Pass a 1 for Jeeps
             onTap("-1");
           } else if (label == "6+") {
             onTap("6");

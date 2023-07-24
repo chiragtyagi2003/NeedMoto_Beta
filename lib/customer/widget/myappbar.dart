@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:need_moto/customer/screens/profile.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({Key? key}) : super(key: key);
@@ -35,6 +37,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             onPressed: () {
               // Handle user button press
+              Get.to(ProfilePage());
             },
           ),
         ),

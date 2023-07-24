@@ -113,6 +113,7 @@ class _AdminRequestsState extends State<AdminRequests> {
                     String returnDateTime = requestData?['returnDateTime'];
                     String source = requestData?['source'];
                     String destination = requestData?['destination'];
+                    String distance = requestData?['distance'];
 
                     String requestTime = adminRequest.calculateHoursDifference(
                         pickUpDateTime, returnDateTime);
@@ -230,14 +231,14 @@ class _AdminRequestsState extends State<AdminRequests> {
                                                 ],
                                               ),
 
-                                              const Row(
+                                              Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     'Distance : ',
                                                     style: TextStyle(
                                                       fontWeight:
@@ -246,8 +247,8 @@ class _AdminRequestsState extends State<AdminRequests> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Deafult km',
-                                                    style: TextStyle(
+                                                    '$distance Km',
+                                                    style: const TextStyle(
                                                       fontSize: 15.0,
                                                     ),
                                                   ),

@@ -22,6 +22,20 @@ class _SelfDriveState extends State<SelfDrive> {
 
   VehicleSubmitController vehicleSubmitController = Get.find();
 
+  bool areAllFieldsFilled() {
+    // Check if each text controller has a non-empty value
+    if (mainController.seatsDropDownController.selectedItem.isEmpty||
+        mainController.vehicleSource.text.isEmpty ||
+        mainController.vehicleDestination.text.isEmpty ||
+        mainController.pickupDateTime.text.isEmpty ||
+        mainController.returnDateTime.text.isEmpty ||
+        mainController.deliveryDropDownController.selectType.isEmpty ||
+        mainController.purpose.text.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   //Options display
   @override
   Widget build(BuildContext context) {
@@ -215,20 +229,26 @@ class _SelfDriveState extends State<SelfDrive> {
                       //car details display button
                       GestureDetector(
                           onTap: () {
-                            String pickupTime =
-                                mainController.pickupDateTime.text;
-                            String returnTime =
-                                mainController.returnDateTime.text;
-                            // call the function to calculate days and hours time
-                            mainController.calculateTimeDifference(
-                                pickupTime, returnTime);
+                            if (areAllFieldsFilled()) {
+                              String pickupTime =
+                                  mainController.pickupDateTime.text;
+                              String returnTime =
+                                  mainController.returnDateTime.text;
+                              // call the function to calculate days and hours time
+                              mainController.calculateTimeDifference(
+                                  pickupTime, returnTime);
 
-                            mainController.durationDaysHoursController.text =
-                                mainController.calculateDurationDaysHours(
-                                    mainController.pickupDateTime.text,
-                                    mainController.returnDateTime.text);
+                              mainController.durationDaysHoursController.text =
+                                  mainController.calculateDurationDaysHours(
+                                      mainController.pickupDateTime.text,
+                                      mainController.returnDateTime.text);
 
-                            Get.to(const Grid());
+                              Get.to(const Grid());
+                            } else {
+                              // Show a snackbar if any field is not filled
+                              Get.snackbar(
+                                  'Error', 'Please fill in all fields');
+                            }
                           },
                           child: Container(
                             width: 250,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:need_moto/customer/screens/customer_side_drawer.dart';
 import 'package:need_moto/customer/screens/side_drawer/my_requests.dart';
 import 'package:need_moto/customer/widget/myappbar.dart';
+import 'package:need_moto/owner/screens/login.dart';
 
 import 'SelfDrive.dart';
 
@@ -115,7 +116,9 @@ class Home extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Get.to(SelfDrive());
+
+                          // go to owner login screen
+                         Get.to(LoginScreen());
                         },
                         child: Container(
                           width: 250,
@@ -156,13 +159,13 @@ class Home extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.hourglass_bottom),
-        backgroundColor: Colors.orange,
-        onPressed: () {
-          Get.to(MyRequests());
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.hourglass_bottom),
+      //   backgroundColor: Colors.orange,
+      //   onPressed: () {
+      //     Get.to(MyRequests());
+      //   },
+      // ),
     );
   }
 }

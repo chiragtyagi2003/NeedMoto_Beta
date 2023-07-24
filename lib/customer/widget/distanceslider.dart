@@ -33,15 +33,10 @@ class _DistanceSliderState extends State<DistanceSlider> {
     mainController.userChoiceHoursController.addListener(setMinValue);
   }
 
-  @override
-  void dispose() {
-    mainController.userChoiceHoursController.removeListener(setMinValue);
-    super.dispose();
-  }
 
   void setMinValue() {
-    sliderController.sliderValue.value =
-        mainController.userChoiceHoursController.text == '12' ? 150.0 : 350.0;
+    double totalHours = double.parse(mainController.calculateDuration(mainController.pickupDateTime.text, mainController.returnDateTime.text));
+    sliderController.sliderValue.value = totalHours > 23.0 ? 350.0 : 150.0;
     minValue = sliderController.sliderValue.value;
   }
 
@@ -79,9 +74,8 @@ class _DistanceSliderState extends State<DistanceSlider> {
                         sliderController.sliderValue.value.toStringAsFixed(1),
                     onChanged: (newValue) {
                       sliderController.sliderValue.value = newValue;
-                      mainController.distanceController.text =
-                          newValue.toString();
-                      //print(mainController.distanceController.text);
+                      mainController.distanceController.text = newValue.toString();
+                      // print(mainController.distanceController.text);
                     },
                   ),
                 ),

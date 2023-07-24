@@ -27,7 +27,6 @@ class _ChooseVehicleState extends State<ChooseVehicle> {
   @override
   void initState() {
     // TODO: implement initState
-    print('Type: ${mainController.vehicleTypeController.text}');
     loadData();
     super.initState();
   }

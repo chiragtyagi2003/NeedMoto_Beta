@@ -96,6 +96,7 @@ class OwnerRequestHandler extends GetxController {
           'ownerID': user?.uid,
           'pay_status': false,
           'transaction_id': "",
+          'distance': requestDocSnapshot['requestDistance'],
           // Include other fields from the request document as needed
         });
       } else {

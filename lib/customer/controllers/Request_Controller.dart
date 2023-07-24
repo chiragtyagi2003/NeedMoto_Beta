@@ -77,6 +77,7 @@ class RequestController extends GetxController {
           'requestFrom': requestSourceController.text,
           'requestTo': requestDestinationNameController.text,
           'requestID': requestIDController.text,
+          'requestDistance': mainController.distanceController.text,
           // Add more fields as needed
         });
 

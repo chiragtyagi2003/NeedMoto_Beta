@@ -30,6 +30,22 @@ class LoginPage extends StatelessWidget {
     }
   }
 
+
+  Future<void> resetPassword() async {
+    try {
+      if (emailController.text.isNotEmpty) {
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: emailController.text);
+        Get.snackbar("Success", "Password reset email sent to ${emailController.text}");
+      } else {
+        Get.snackbar("Error", "Please enter your email address to reset the password");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,6 +133,28 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Forgot Password?"),
+                    TextButton(
+                      onPressed: () {
+                        resetPassword();
+                      },
+                      child: const Text(
+                        "Reset Password",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

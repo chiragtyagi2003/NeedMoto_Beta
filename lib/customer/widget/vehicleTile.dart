@@ -76,6 +76,21 @@ class _VehicleTileState extends State<VehicleTile> {
   double rentalPrice = 0.0;
   String distance = "150";
   bool hasCompletedKYC = false;
+  late String dailyLimitAsString ;
+
+  // Create a function to update the sum
+  void updateSum() {
+    // Convert the strings to integers using int.parse()
+    int perKm = int.parse(widget.perKm);
+    int distance = int.parse(mainController.distanceController.text);
+
+    // Add the two integers
+    int sum = perKm + distance;
+
+    // Convert the sum back to a string using toString()
+    dailyLimitAsString = sum.toString();
+
+  }
 
   Future<void> checkActionCompletion() async {
     try {
@@ -149,14 +164,9 @@ class _VehicleTileState extends State<VehicleTile> {
   double calculateRentalPrice() {
     // Retrieve the necessary values from the mainController or any other relevant source
     double pricePerKmCust = double.parse(widget.pricePerKmCust);
-    double numberOfExtraHours =
-        double.parse(mainController.extraHoursController.text);
     double distance = double.parse(mainController.distanceController.text);
     double userChoiceHours =
         double.parse(mainController.userChoiceHoursController.text);
-    double basePrice = userChoiceHours == 12
-        ? double.parse(widget.base_12)
-        : double.parse(widget.base_24);
     double distanceLimit = userChoiceHours == 12 ? 150.0 : 350.0;
 
     double totalHoursDuration = 0.0;
@@ -164,12 +174,10 @@ class _VehicleTileState extends State<VehicleTile> {
         mainController.pickupDateTime.text,
         mainController.returnDateTime.text));
 
-    // Perform the calculations
-    double extraHoursCost =
-        numberOfExtraHours * double.parse(widget.pricerPerHourCust);
     double distanceCost = distance > distanceLimit
         ? (distance - distanceLimit) * pricePerKmCust
         : 0.0;
+
     double totalCost = double.parse(widget.base_12);
     if (totalHoursDuration > 23) {
       totalCost += double.parse(widget.base_24);
@@ -211,6 +219,15 @@ class _VehicleTileState extends State<VehicleTile> {
     });
 
     calculateRentalPrice();
+
+    mainController.distanceController.addListener(updateSum);
+  }
+
+  // Don't forget to remove the listener when the widget is disposed to avoid memory leaks
+  @override
+  void dispose() {
+    mainController.distanceController.removeListener(updateSum);
+    super.dispose();
   }
 
   @override
@@ -317,7 +334,7 @@ class _VehicleTileState extends State<VehicleTile> {
                                       ),
                                     ),
                                     Text(
-                                      '  ${widget.perKm} km',
+                                      '  ${dailyLimitAsString} km',
                                       style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
