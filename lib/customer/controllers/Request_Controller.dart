@@ -52,25 +52,91 @@ class RequestController extends GetxController {
     }
   }
 
+  // Future<void> sendRequestsToOwners(String vehicleName) async {
+  //   try {
+  //     print('send Request to owners  inside try');
+  //     print('vehicleName: $vehicleName');
+  //
+  //     final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance.collection('vehicles').get();
+  //
+  //     print(vehicleSnapshot);
+  //
+  //     final List<String> ownerIds = vehicleSnapshot.docs
+  //         .where((doc) => doc['vehicleName'] == vehicleName)
+  //         .map((doc) {
+  //       final String ownerId = doc['ownerID'].toString();
+  //       print("owner Id: $ownerId");
+  //       final CollectionReference ownersCollection =
+  //       FirebaseFirestore.instance.collection('owners');
+  //       final DocumentReference ownerDocRef = ownersCollection.doc(ownerId);
+  //       final CollectionReference requestCollection =
+  //       ownerDocRef.collection('requests');
+  //
+  //       extractDateTime(requestPickUpController.text);
+  //
+  //       // Provide the fields to be saved in the subcollection
+  //       requestCollection.doc(requestIDController.text).set({
+  //         'vehicleName': requestVehicleNameController.text,
+  //         'requestTime': requestTimeController.text,
+  //         'requestDate': requestDateController.text,
+  //         'requestFrom': requestSourceController.text,
+  //         'requestTo': requestDestinationNameController.text,
+  //         'requestID': requestIDController.text,
+  //         'requestDistance': mainController.distanceController.text,
+  //         // Add more fields as needed
+  //       });
+  //
+  //       print('request sent to $ownerId');
+  //       return ownerId;
+  //     }).toList();
+  //   } catch (e) {
+  //     Fluttertoast.showToast(
+  //       msg: 'Error',
+  //       toastLength: Toast.LENGTH_SHORT,
+  //       gravity: ToastGravity.BOTTOM,
+  //       timeInSecForIosWeb: 1,
+  //       backgroundColor: Colors.grey[600],
+  //       textColor: Colors.black,
+  //       fontSize: 16.0,
+  //     );
+  //
+  //     print('ERROR: $e');
+  //   }
+  // }
+
   Future<void> sendRequestsToOwners(String vehicleName) async {
+
     try {
-      final QuerySnapshot vehicleSnapshot =
-          await FirebaseFirestore.instance.collection('vehicles').get();
+      print('send Request to owners  inside try');
+      print('vehicleName: $vehicleName');
+
+      String nameOfVehicle = vehicleName;
+
+      final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance.collection('vehicles').get();
+
+      print(vehicleSnapshot);
 
       final List<String> ownerIds = vehicleSnapshot.docs
-          .where((doc) => doc['vehicleName'] == vehicleName)
+          .where((doc) => doc['vehicleName'] == nameOfVehicle)
           .map((doc) {
-        final String ownerId = doc['ownerID'].toString();
+        return doc['ownerID'].toString();
+      })
+          .toList();
+
+      print("ownerIds:  $ownerIds");
+
+      for (final ownerId in ownerIds) {
+        print("owner Id: $ownerId");
         final CollectionReference ownersCollection =
-            FirebaseFirestore.instance.collection('owners');
+        FirebaseFirestore.instance.collection('owners');
         final DocumentReference ownerDocRef = ownersCollection.doc(ownerId);
         final CollectionReference requestCollection =
-            ownerDocRef.collection('requests');
+        ownerDocRef.collection('requests');
 
         extractDateTime(requestPickUpController.text);
 
         // Provide the fields to be saved in the subcollection
-        requestCollection.doc(requestIDController.text).set({
+        await requestCollection.doc(requestIDController.text).set({
           'vehicleName': requestVehicleNameController.text,
           'requestTime': requestTimeController.text,
           'requestDate': requestDateController.text,
@@ -81,8 +147,8 @@ class RequestController extends GetxController {
           // Add more fields as needed
         });
 
-        return ownerId;
-      }).toList();
+        print('request sent to $ownerId');
+      }
     } catch (e) {
       Fluttertoast.showToast(
         msg: 'Error',
@@ -93,8 +159,11 @@ class RequestController extends GetxController {
         textColor: Colors.black,
         fontSize: 16.0,
       );
+
+      print('ERROR: $e');
     }
   }
+
 
   Future<void> fetchMyRequests(String currentUserId) async {
     try {

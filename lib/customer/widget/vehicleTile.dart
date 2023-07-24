@@ -76,21 +76,28 @@ class _VehicleTileState extends State<VehicleTile> {
   double rentalPrice = 0.0;
   String distance = "150";
   bool hasCompletedKYC = false;
-  late String dailyLimitAsString ;
+  late String dailyLimitAsString = widget.perKm;
 
   // Create a function to update the sum
   void updateSum() {
     // Convert the strings to integers using int.parse()
-    int perKm = int.parse(widget.perKm);
-    int distance = int.parse(mainController.distanceController.text);
+    double perKm = double.parse(widget.perKm);
+    double distance = double.parse(mainController.distanceController.text);
 
     // Add the two integers
-    int sum = perKm + distance;
+    double sum = perKm + distance;
+
+    print(sum);
 
     // Convert the sum back to a string using toString()
-    dailyLimitAsString = sum.toString();
+    // Force the UI to update with the new value
+    setState(() {
+      dailyLimitAsString = sum.toString();
+    });
 
+    print('daily $dailyLimitAsString');
   }
+
 
   Future<void> checkActionCompletion() async {
     try {
@@ -200,10 +207,13 @@ class _VehicleTileState extends State<VehicleTile> {
     // TODO: implement initState
     super.initState();
     mainController.distanceController.addListener(() {
+
       setState(() {
         distance = mainController.distanceController.text;
         rentalPrice = calculateRentalPrice();
       });
+
+      updateSum();
     });
 
     mainController.extraHoursController.addListener(() {
@@ -220,7 +230,6 @@ class _VehicleTileState extends State<VehicleTile> {
 
     calculateRentalPrice();
 
-    mainController.distanceController.addListener(updateSum);
   }
 
   // Don't forget to remove the listener when the widget is disposed to avoid memory leaks
@@ -334,7 +343,7 @@ class _VehicleTileState extends State<VehicleTile> {
                                       ),
                                     ),
                                     Text(
-                                      '  ${dailyLimitAsString} km',
+                                      '  $dailyLimitAsString km',
                                       style: const TextStyle(
                                         fontSize: 16.0,
                                       ),

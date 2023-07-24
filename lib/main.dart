@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'NotoSans',
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/StartPage',
+        initialRoute: '/home',
         debugShowCheckedModeBanner: false,
         getPages: [
           GetPage(name: '/home', page: () => const Home()),

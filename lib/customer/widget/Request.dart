@@ -89,10 +89,10 @@ class _RequestState extends State<Request> {
   RequestController requestController = Get.find();
 
   // Firestore instance
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  // Real-time listener subscription
-  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _bookingListener;
+  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //
+  // // Real-time listener subscription
+  // late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _bookingListener;
 
   void setControllerValues() {
     requestController.requestVehicleNameController.text = widget.vehicleName;
@@ -161,6 +161,7 @@ class _RequestState extends State<Request> {
   }
 
   void storeUserRequestData() {
+    print('store user Request data');
     // Get the current user ID
     String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -272,32 +273,32 @@ class _RequestState extends State<Request> {
 
 
   // Function to start the real-time listener for the bookings collection
-  void startBookingListener() {
-    // Replace 'bookings' with the actual name of your collection
-    final CollectionReference<Map<String, dynamic>> bookingsCollection =
-    firestore.collection('bookings');
-
-    // Replace 'documentId' with the actual ID you want to listen to (e.g., the user's document ID)
-    final documentId = requestController.requestIDController.text;
-
-    // Start the real-time listener on the specific document ID
-    _bookingListener = bookingsCollection.doc(documentId).snapshots().listen(
-          (snapshot) {
-        if (snapshot.exists) {
-          // Document exists, call the function to check the booking document
-          checkBookingDocument(documentId);
-        } else {
-          // Document does not exist or has been deleted
-          // Handle this case if needed
-          print('Booking document with ID: $documentId does not exist');
-        }
-      },
-      onError: (error) {
-        // Handle any errors that occur during listening
-        print('Error listening to booking document: $error');
-      },
-    );
-  }
+  // void startBookingListener(String bookingDocId) {
+  //   // Replace 'bookings' with the actual name of your collection
+  //   final CollectionReference<Map<String, dynamic>> bookingsCollection =
+  //   firestore.collection('bookings');
+  //
+  //   // Replace 'documentId' with the actual ID you want to listen to (e.g., the user's document ID)
+  //   final documentId = bookingDocId;
+  //
+  //   // Start the real-time listener on the specific document ID
+  //   _bookingListener = bookingsCollection.doc(documentId).snapshots().listen(
+  //         (snapshot) {
+  //       if (snapshot.exists) {
+  //         // Document exists, call the function to check the booking document
+  //         checkBookingDocument(documentId);
+  //       } else {
+  //         // Document does not exist or has been deleted
+  //         // Handle this case if needed
+  //         print('Booking document with ID: $documentId does not exist');
+  //       }
+  //     },
+  //     onError: (error) {
+  //       // Handle any errors that occur during listening
+  //       print('Error listening to booking document: $error');
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
@@ -305,16 +306,16 @@ class _RequestState extends State<Request> {
     // startListeningNotificationEvents();
     // print('now listening to notification events');
     setControllerValues();
-    startBookingListener();
+    //startBookingListener();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // Cancel the listener subscription to avoid memory leaks
-    _bookingListener?.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // Cancel the listener subscription to avoid memory leaks
+  //   _bookingListener?.cancel();
+  //   super.dispose();
+  // }
 
 
 
@@ -518,73 +519,63 @@ class _RequestState extends State<Request> {
                           height: size.height * 0.07,
                           width: size.width,
                           child: InkWell(
-                            onTap: () {
+                            onTap: ()  async {
                               storeUserRequestData();
+
                               try {
-                                double parsedBase12 =
-                                    double.parse(widget.base_12);
-                                double parsedBase24 =
-                                    double.parse(widget.base_24);
-                                double parsedPricePerHourCust =
-                                    double.parse(widget.pricerPerHourCust);
-                                double parsedPricePerKmCust =
-                                    double.parse(widget.pricePerKmCust);
+                                double parsedBase12 = double.parse(widget.base_12);
+                                double parsedBase24 = double.parse(widget.base_24);
+                                double parsedPricePerHourCust = double.parse(
+                                    widget.pricerPerHourCust);
+                                double parsedPricePerKmCust = double.parse(
+                                    widget.pricePerKmCust);
 
                                 calculateRentalPrice(
-                                    parsedBase12,
-                                    parsedBase24,
-                                    parsedPricePerHourCust,
+                                    parsedBase12, parsedBase24, parsedPricePerHourCust,
                                     parsedPricePerKmCust);
-
-                                // Start the real-time listener
-                                startBookingListener();
                               } catch (e) {
                                 print('Error parsing double: $e');
                               }
 
                               print('called');
 
-                              requestController
-                                  .sendRequestsToOwners(widget.vehicleName);
+                              print('${widget.vehicleName}');
+
+                              await requestController.sendRequestsToOwners(widget.vehicleName);
+
+                              print('${widget.vehicleName}');
+
+
+
 
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => RequestPending(
-                                            vehicleLocation:
-                                                widget.vehicleLocation,
+                                      builder: (context) =>
+                                          RequestPending(
+                                            vehicleLocation: widget.vehicleLocation,
                                             source: widget.source,
                                             destination: widget.destination,
-                                            pickupDateTime:
-                                                widget.pickupDateTime,
-                                            returnDateTime:
-                                                widget.returnDateTime,
+                                            pickupDateTime: widget.pickupDateTime,
+                                            returnDateTime: widget.returnDateTime,
                                             delivery: widget.delivery,
                                             purpose: widget.purpose,
                                             ownerName: widget.ownerName,
-                                            ownerPhoneNumber:
-                                                widget.ownerPhoneNumber,
+                                            ownerPhoneNumber: widget.ownerPhoneNumber,
                                             type: widget.type,
-                                            vehicleNumber:
-                                                widget.vehiclePlateNumber,
+                                            vehicleNumber: widget.vehiclePlateNumber,
                                             vehicleName: widget.vehicleName,
                                             seats: widget.seats,
-                                            rentalPrice: widget.rentalPrice,
-                                            base_12: widget.base_12,
-                                            base_24: widget.base_24,
+                                            rentalPrice: widget.rentalPrice, base_12: widget.base_12, base_24: widget.base_24,
                                           )));
 
                               // // Start the timer for the delay
-                              // const delayDuration = Duration(
-                              //     seconds:
-                              //         30); // Adjust the delay duration as needed
+                              // const delayDuration = Duration(seconds: 10); // Adjust the delay duration as needed
                               // Timer(delayDuration, () {
                               //   // After the delay, check the status of the booking document
-                              //   final documentId =  // Replace with the actual document ID
+                              //   final documentId =  requestController.requestIDController.text; // Replace with the actual document ID
                               //   checkBookingDocument(documentId);
                               // });
-
-
                             },
                             child: Container(
                               decoration: BoxDecoration(
