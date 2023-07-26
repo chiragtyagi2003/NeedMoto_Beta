@@ -61,7 +61,7 @@ class _SignupPageState extends State<SignupPage> {
         Get.to(const Home());
       }
     } catch (e) {
-      Get.snackbar("Error", "Please Enter all fields");
+      Get.snackbar("Error", '$e');
     }
   }
 

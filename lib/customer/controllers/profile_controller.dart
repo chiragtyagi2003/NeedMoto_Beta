@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileController extends GetxController {
 
-  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController userEmailController = TextEditingController();

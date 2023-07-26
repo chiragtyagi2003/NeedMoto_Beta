@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:math';
+import 'package:image_picker/image_picker.dart';
+
 
 class VehicleSubmitController extends GetxController {
   TextEditingController vehicleReadingController = TextEditingController();
@@ -31,6 +35,8 @@ class VehicleSubmitController extends GetxController {
   TextEditingController vehicleOTPController = TextEditingController();
 
   RequestController requestController = Get.find();
+
+
 
   void extractSubmitDateAndTime(String dateTimeString) {
     try {
@@ -171,4 +177,18 @@ class VehicleSubmitController extends GetxController {
       );
     }
   }
+
+  Future<void> recordVideo() async {
+    try {
+      XFile? recordedVideo = await ImagePicker().pickVideo(source: ImageSource.camera);
+
+      if (recordedVideo != null) {
+        await GallerySaver.saveVideo(recordedVideo.path);
+      }
+    } catch (e) {
+      // Handle the exception here (e.g., display an error message or log the error).
+      print('Error saving video: $e');
+    }
+  }
+
 }

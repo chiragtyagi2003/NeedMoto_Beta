@@ -56,6 +56,12 @@ class _RideCompleteState extends State<RideComplete> {
   VehicleSubmitController vehicleSubmitController = Get.find();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -78,6 +84,7 @@ class _RideCompleteState extends State<RideComplete> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.sizeOf(context).height * 1.0,
           color: Colors.white,
           child: Column(children: [
             const Divider(
@@ -216,7 +223,13 @@ class _RideCompleteState extends State<RideComplete> {
           ]),
         ),
       ),
-    );
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+           vehicleSubmitController.recordVideo();
+        },
+        child: Icon(Icons.video_camera_back_outlined),
+        ),
+      );
   }
 
   Future<void> _selectDate(BuildContext context) async {

@@ -107,23 +107,40 @@ class RequestController extends GetxController {
   Future<void> sendRequestsToOwners(String vehicleName) async {
 
     try {
-      print('send Request to owners  inside try');
-      print('vehicleName: $vehicleName');
+      // print('send Request to owners  inside try');
+      // print('vehicleName: $vehicleName');
 
-      String nameOfVehicle = vehicleName;
+      // String nameOfVehicle = vehicleName.trim();
+      //
+      // String str = 'Tata Safari';
+      //
+      // print("name of vehicle: ${nameOfVehicle.length}");
+      //
+      // print("str: ${str.length}");
+      //
+      // print(nameOfVehicle == 'Tata Safari');
 
       final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance.collection('vehicles').get();
 
-      print(vehicleSnapshot);
-
+      //print(vehicleSnapshot);
+      //
       final List<String> ownerIds = vehicleSnapshot.docs
-          .where((doc) => doc['vehicleName'] == nameOfVehicle)
+          .where((doc) => doc['vehicleName'] == vehicleName.trim())
           .map((doc) {
         return doc['ownerID'].toString();
       })
           .toList();
 
-      print("ownerIds:  $ownerIds");
+      // final List<String> ownerIds = vehicleSnapshot.docs
+      //     .where((doc) {
+      //   bool condition = doc['vehicleName'] == vehicleName.trim();
+      //   print('Condition: $condition, Doc: ${doc['vehicleName']}');
+      //   return condition;
+      // })
+      //     .map((doc) => doc['ownerID'].toString())
+      //     .toList();
+
+      //print("ownerIds:  $ownerIds");
 
       for (final ownerId in ownerIds) {
         print("owner Id: $ownerId");
@@ -296,9 +313,13 @@ class RequestController extends GetxController {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('vehicles')
           .where('ownerID', isEqualTo: ownerId)
-          .where('vehicleNumber', isEqualTo: vehicleNumber)
+          .where('vehicleNumber', isEqualTo: vehicleNumber.trim())
           .get();
 
+
+        print('vehicleNumber: ${vehicleNumber}');
+        print('vehicleNumber: ${vehicleNumber.length}');
+        print('vehicle snapshot on ride: ${snapshot.docs.isEmpty}');
       // Check if a matching vehicle document exists
       if (snapshot.docs.isNotEmpty) {
         // Get the first matching document

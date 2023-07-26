@@ -86,13 +86,15 @@ class _RequestState extends State<Request> {
 
   double totalPrice = 0.0;
 
+  String vehicleNameToPass = "";
+
   RequestController requestController = Get.find();
 
   // Firestore instance
-  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //
-  // // Real-time listener subscription
-  // late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _bookingListener;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // listener for bookings
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _bookingListener;
 
   void setControllerValues() {
     requestController.requestVehicleNameController.text = widget.vehicleName;
@@ -103,17 +105,108 @@ class _RequestState extends State<Request> {
         widget.destination;
   }
 
-  void checkBookingDocument(String documentId) async {
-    try {
+  // void checkBookingDocument(String documentId) async {
+  //   try {
+  //     final DocumentSnapshot snapshot = await FirebaseFirestore.instance
+  //         .collection('bookings')
+  //         .doc(documentId)
+  //         .get();
+  //
+  //     if (snapshot.exists) {
+  //       //fetch details
+  //       await requestController
+  //           .searchAndFetchDetails(requestController.requestIDController.text);
+  //       // Document exists, navigate to a certain page
+  //       // Replace 'YourPage()' with the desired page widget or navigation logic
+  //       Get.to(RequestAccepted(
+  //         // vehicleLocation: vehicleLocation,
+  //         source: widget.source,
+  //         destination: widget.destination,
+  //         pickupDateTime: widget.pickupDateTime,
+  //         returnDateTime: widget.returnDateTime,
+  //         delivery: widget.delivery,
+  //         purpose: widget.purpose,
+  //         ownerName: widget.ownerName,
+  //         ownerPhoneNumber: widget.ownerPhoneNumber,
+  //         type: widget.type,
+  //         vehicleNumber: widget.vehiclePlateNumber,
+  //         vehicleName: widget.vehicleName,
+  //         seats: widget.seats,
+  //         rentalPrice: widget.rentalPrice,
+  //         base_12: widget.base_12,
+  //         base_24: widget.base_24,
+  //       ));
+  //     } else {
+  //       Get.to(RequestRejected(
+  //         // vehicleLocation: vehicleLocation,
+  //         source: widget.source,
+  //         destination: widget.destination,
+  //         pickupDateTime: widget.pickupDateTime,
+  //         returnDateTime: widget.returnDateTime,
+  //         delivery: widget.delivery,
+  //         purpose: widget.purpose,
+  //         ownerName: widget.ownerName,
+  //         ownerPhoneNumber: widget.ownerPhoneNumber,
+  //         type: widget.type,
+  //         vehicleNumber: widget.vehiclePlateNumber,
+  //         vehicleName: widget.vehicleName,
+  //         seats: widget.seats,
+  //         rentalPrice: widget.rentalPrice,
+  //       ));
+  //       // Document does not exist
+  //       // Handle the case when the document does not exist, if needed
+  //     }
+  //   } catch (e) {
+  //     // Handle error
+  //     print('Error checking booking document: $e');
+  //   }
+  // }
+
+  void startBookingListener() {
+    // Replace 'bookings' with the actual name of your collection
+    final CollectionReference<Map<String, dynamic>> bookingsCollection =
+    firestore.collection('bookings');
+
+    // Start the real-time listener on the 'bookings' collection
+    _bookingListener = bookingsCollection.snapshots().listen(
+          (querySnapshot) {
+        // Iterate through the changes to the query snapshot
+        for (var change in querySnapshot.docChanges) {
+          // Check if the change type is 'added' (i.e., a new document was added)
+          if (change.type == DocumentChangeType.added) {
+            // Call the function to handle the newly added booking document
+            // to check if our request doc id added or not
+            checkBookingDocumentLoop(requestController.requestIDController.text);
+          }
+        }
+      },
+      onError: (error) {
+        // Handle any errors that occur during listening
+        print('Error listening to booking collection: $error');
+      },
+    );
+  }
+  // Function to continuously check the booking document for 30 minutes
+  void checkBookingDocumentLoop(String documentId) async {
+    final int checkIntervalInSeconds = 5; // Adjust the interval as needed (5 seconds in this example)
+    final int totalCheckingTimeInSeconds = 1 * 60; // 30 minutes (30 * 60 seconds)
+
+    final DateTime startTime = DateTime.now();
+    bool documentFound = false; // Add a flag to track if the document is found
+
+    // start checking for the doc
+    while (DateTime.now().difference(startTime).inSeconds < totalCheckingTimeInSeconds) {
       final DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('bookings')
           .doc(documentId)
           .get();
 
       if (snapshot.exists) {
+
+        documentFound = true;
         //fetch details
-        await requestController
-            .searchAndFetchDetails(requestController.requestIDController.text);
+              await requestController
+                  .searchAndFetchDetails(requestController.requestIDController.text);
         // Document exists, navigate to a certain page
         // Replace 'YourPage()' with the desired page widget or navigation logic
         Get.to(RequestAccepted(
@@ -134,30 +227,34 @@ class _RequestState extends State<Request> {
           base_12: widget.base_12,
           base_24: widget.base_24,
         ));
-      } else {
-        Get.to(RequestRejected(
-          // vehicleLocation: vehicleLocation,
-          source: widget.source,
-          destination: widget.destination,
-          pickupDateTime: widget.pickupDateTime,
-          returnDateTime: widget.returnDateTime,
-          delivery: widget.delivery,
-          purpose: widget.purpose,
-          ownerName: widget.ownerName,
-          ownerPhoneNumber: widget.ownerPhoneNumber,
-          type: widget.type,
-          vehicleNumber: widget.vehiclePlateNumber,
-          vehicleName: widget.vehicleName,
-          seats: widget.seats,
-          rentalPrice: widget.rentalPrice,
-        ));
-        // Document does not exist
-        // Handle the case when the document does not exist, if needed
+        break; // Stop the loop when the document is found
       }
-    } catch (e) {
-      // Handle error
-      print('Error checking booking document: $e');
+
+      // Sleep for the specified interval before checking again
+      await Future.delayed(Duration(seconds: checkIntervalInSeconds));
     }
+
+    // The loop will only reach this point if the document is not found within 30 minutes
+    print('Continuous checking stopped after 30 minutes. Document not found.');
+    if(!documentFound){
+      Get.to(RequestRejected(
+        // vehicleLocation: vehicleLocation,
+        source: widget.source,
+        destination: widget.destination,
+        pickupDateTime: widget.pickupDateTime,
+        returnDateTime: widget.returnDateTime,
+        delivery: widget.delivery,
+        purpose: widget.purpose,
+        ownerName: widget.ownerName,
+        ownerPhoneNumber: widget.ownerPhoneNumber,
+        type: widget.type,
+        vehicleNumber: widget.vehiclePlateNumber,
+        vehicleName: widget.vehicleName,
+        seats: widget.seats,
+        rentalPrice: widget.rentalPrice,
+      ));
+    }
+
   }
 
   void storeUserRequestData() {
@@ -181,7 +278,7 @@ class _RequestState extends State<Request> {
     Map<String, dynamic> userData = {
       // Add your desired fields and values here
       //'vehicleNumber': widget.vehiclePlateNumber,
-      'vehicleName': widget.vehicleName,
+      'vehicleName': widget.vehicleName.trim(),
       'source': widget.source,
       'destination': widget.destination,
       'pickupDateTime': widget.pickupDateTime,
@@ -272,30 +369,29 @@ class _RequestState extends State<Request> {
   }
 
 
-  // Function to start the real-time listener for the bookings collection
-  // void startBookingListener(String bookingDocId) {
+
+  // void startBookingListener() {
   //   // Replace 'bookings' with the actual name of your collection
   //   final CollectionReference<Map<String, dynamic>> bookingsCollection =
   //   firestore.collection('bookings');
   //
-  //   // Replace 'documentId' with the actual ID you want to listen to (e.g., the user's document ID)
-  //   final documentId = bookingDocId;
+  //   // Start the real-time listener on the 'bookings' collection
+  //   _bookingListener = bookingsCollection.snapshots().listen(
+  //         (querySnapshot) {
+  //       // Iterate through the changes to the query snapshot
+  //       querySnapshot.docChanges.forEach((change) {
+  //         // Check if the change type is 'added' (i.e., a new document was added)
+  //         if (change.type == DocumentChangeType.added) {
   //
-  //   // Start the real-time listener on the specific document ID
-  //   _bookingListener = bookingsCollection.doc(documentId).snapshots().listen(
-  //         (snapshot) {
-  //       if (snapshot.exists) {
-  //         // Document exists, call the function to check the booking document
-  //         checkBookingDocument(documentId);
-  //       } else {
-  //         // Document does not exist or has been deleted
-  //         // Handle this case if needed
-  //         print('Booking document with ID: $documentId does not exist');
-  //       }
+  //           // Call the function to handle the newly added booking document
+  //           checkBookingDocument(requestController.requestIDController.text);
+  //
+  //         }
+  //       });
   //     },
   //     onError: (error) {
   //       // Handle any errors that occur during listening
-  //       print('Error listening to booking document: $error');
+  //       print('Error listening to booking collection: $error');
   //     },
   //   );
   // }
@@ -541,7 +637,10 @@ class _RequestState extends State<Request> {
 
                               print('${widget.vehicleName}');
 
-                              await requestController.sendRequestsToOwners(widget.vehicleName);
+                              vehicleNameToPass = widget.vehicleName;
+
+
+                              await requestController.sendRequestsToOwners(vehicleNameToPass);
 
                               print('${widget.vehicleName}');
 
@@ -576,6 +675,9 @@ class _RequestState extends State<Request> {
                               //   final documentId =  requestController.requestIDController.text; // Replace with the actual document ID
                               //   checkBookingDocument(documentId);
                               // });
+
+                              startBookingListener();
+
                             },
                             child: Container(
                               decoration: BoxDecoration(

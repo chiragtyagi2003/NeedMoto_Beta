@@ -44,6 +44,11 @@ class OwnerRequestHandler extends GetxController {
       print(requestDocRef.toString());
       print(requestDocSnapshot);
 
+      print("Owner Id: ${user?.uid}");
+
+      print("REQUESTED VEHICLE: ${requestDocSnapshot['vehicleName']}");
+      print("${requestDocSnapshot['vehicleName']}".length);
+
       // Query the "vehicles" collection for a matching vehicle
       QuerySnapshot vehicleQuerySnapshot = await FirebaseFirestore.instance
           .collection('vehicles')
@@ -53,6 +58,8 @@ class OwnerRequestHandler extends GetxController {
           .where('onRide', isEqualTo: false)
           .get();
 
+
+      print("vehicle  snapshot : ${vehicleQuerySnapshot.docs.isEmpty}");
       // Check if a matching vehicle document exists
       // this will also handle if all the vehicle
       // of requested type are on ride
@@ -96,7 +103,7 @@ class OwnerRequestHandler extends GetxController {
           'ownerID': user?.uid,
           'pay_status': false,
           'transaction_id': "",
-          'distance': requestDocSnapshot['requestDistance'],
+          'distance': requestDocSnapshot['distance'],
           // Include other fields from the request document as needed
         });
       } else {
@@ -120,6 +127,7 @@ class OwnerRequestHandler extends GetxController {
         textColor: Colors.black,
         fontSize: 16.0,
       );
+      print('Error transferring document to "bookings" collection: $error');
     }
   }
 

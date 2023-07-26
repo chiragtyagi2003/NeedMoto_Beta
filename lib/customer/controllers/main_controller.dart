@@ -248,4 +248,8 @@ class MainController extends GetxController {
       );
     }
   }
+
+
+
+
 }
