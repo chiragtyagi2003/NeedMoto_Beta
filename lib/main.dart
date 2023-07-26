@@ -9,8 +9,8 @@ import 'package:need_moto/admin/controllers/payment_controller.dart';
 import 'package:need_moto/customer/controllers/Request_Controller.dart';
 import 'package:need_moto/customer/controllers/VehicleBookingController.dart';
 import 'package:need_moto/customer/controllers/booking_controller.dart';
-import 'package:need_moto/customer/controllers/controllerkyc.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
+import 'package:need_moto/customer/controllers/profile_controller.dart';
 import 'package:need_moto/customer/controllers/user_controllers.dart';
 import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/Grid.dart';
@@ -33,14 +33,13 @@ void main() async {
   // put get controllers for state management
 
   // customer controllers
-  Get.put(KycController());
   Get.put(MainController());
   Get.put(UserController());
   Get.put(RequestController());
   Get.put(VehicleBookingController());
   Get.put(BookingController());
   Get.put(VehicleSubmitController());
-
+  Get.put(ProfileController());
   // owner controllers
   Get.put(OwnerMainController());
   Get.put(OwnerAuthController());
@@ -74,14 +73,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         getPages: [
           GetPage(name: '/home', page: () => const Home()),
-          GetPage(name: '/StartPage', page: () => AnimatedCardsListView()),
+          GetPage(name: '/StartPage', page: () => const AnimatedCardsListView()),
           GetPage(name: '/grid', page: () => const Grid()),
           GetPage(name: '/owner', page: () => const OwnerHome()),
 
           // testing routes
           GetPage(
               name: '/reqAcc',
-              page: () => RequestAccepted(
+              page: () => const RequestAccepted(
                     source: 'delhi',
                     destination: 'lucknow',
                     pickupDateTime: '22-02-22 14:28',

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
-
 
 class RequestController extends GetxController {
   RxList productData = [].obs;
@@ -15,7 +15,8 @@ class RequestController extends GetxController {
 
   TextEditingController requestVehicleNameController = TextEditingController();
   TextEditingController requestSourceController = TextEditingController();
-  TextEditingController requestDestinationNameController = TextEditingController();
+  TextEditingController requestDestinationNameController =
+      TextEditingController();
   TextEditingController requestPickUpController = TextEditingController();
   TextEditingController requestDropController = TextEditingController();
   TextEditingController requestTimeController = TextEditingController();
@@ -23,64 +24,160 @@ class RequestController extends GetxController {
   TextEditingController requestIDController = TextEditingController();
 
   void extractDateTime(String dateTimeString) {
-    List<String> dateTimeParts = dateTimeString.split(' ');
+    try {
+      List<String> dateTimeParts = dateTimeString.split(' ');
 
-    // Extracting the date
-    List<String> dateParts = dateTimeParts[0].split('-');
-    String date =
-        '${dateParts[2]}-${dateParts[1].padLeft(2, '0')}-${dateParts[0].padLeft(2, '0')}';
-    requestDateController.text = date;
-    print('Request Date: $date');
+      // Extracting the date
+      List<String> dateParts = dateTimeParts[0].split('-');
+      String date =
+          '${dateParts[2]}-${dateParts[1].padLeft(2, '0')}-${dateParts[0].padLeft(2, '0')}';
+      requestDateController.text = date;
 
-    // Extracting the time
-    List<String> timeParts = dateTimeParts[1].split(':');
-    String time =
-        '${timeParts[0].padLeft(2, '0')}:${timeParts[1].padLeft(2, '0')}';
-    requestTimeController.text = time;
-    print('request time: $time');
+      // Extracting the time
+      List<String> timeParts = dateTimeParts[1].split(':');
+      String time =
+          '${timeParts[0].padLeft(2, '0')}:${timeParts[1].padLeft(2, '0')}';
+      requestTimeController.text = time;
+    } catch (e) {
+      // Handle any unexpected errors that may occur during extraction
+      Fluttertoast.showToast(
+        msg: 'Error: Something went wrong.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+    }
   }
 
-
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  // Future<void> sendRequestsToOwners(String vehicleName) async {
+  //   try {
+  //     print('send Request to owners  inside try');
+  //     print('vehicleName: $vehicleName');
+  //
+  //     final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance.collection('vehicles').get();
+  //
+  //     print(vehicleSnapshot);
+  //
+  //     final List<String> ownerIds = vehicleSnapshot.docs
+  //         .where((doc) => doc['vehicleName'] == vehicleName)
+  //         .map((doc) {
+  //       final String ownerId = doc['ownerID'].toString();
+  //       print("owner Id: $ownerId");
+  //       final CollectionReference ownersCollection =
+  //       FirebaseFirestore.instance.collection('owners');
+  //       final DocumentReference ownerDocRef = ownersCollection.doc(ownerId);
+  //       final CollectionReference requestCollection =
+  //       ownerDocRef.collection('requests');
+  //
+  //       extractDateTime(requestPickUpController.text);
+  //
+  //       // Provide the fields to be saved in the subcollection
+  //       requestCollection.doc(requestIDController.text).set({
+  //         'vehicleName': requestVehicleNameController.text,
+  //         'requestTime': requestTimeController.text,
+  //         'requestDate': requestDateController.text,
+  //         'requestFrom': requestSourceController.text,
+  //         'requestTo': requestDestinationNameController.text,
+  //         'requestID': requestIDController.text,
+  //         'requestDistance': mainController.distanceController.text,
+  //         // Add more fields as needed
+  //       });
+  //
+  //       print('request sent to $ownerId');
+  //       return ownerId;
+  //     }).toList();
+  //   } catch (e) {
+  //     Fluttertoast.showToast(
+  //       msg: 'Error',
+  //       toastLength: Toast.LENGTH_SHORT,
+  //       gravity: ToastGravity.BOTTOM,
+  //       timeInSecForIosWeb: 1,
+  //       backgroundColor: Colors.grey[600],
+  //       textColor: Colors.black,
+  //       fontSize: 16.0,
+  //     );
+  //
+  //     print('ERROR: $e');
+  //   }
+  // }
 
   Future<void> sendRequestsToOwners(String vehicleName) async {
-    try {
-      final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance
-          .collection('vehicles')
-          .get();
 
+    try {
+      // print('send Request to owners  inside try');
+      // print('vehicleName: $vehicleName');
+
+      // String nameOfVehicle = vehicleName.trim();
+      //
+      // String str = 'Tata Safari';
+      //
+      // print("name of vehicle: ${nameOfVehicle.length}");
+      //
+      // print("str: ${str.length}");
+      //
+      // print(nameOfVehicle == 'Tata Safari');
+
+      final QuerySnapshot vehicleSnapshot = await FirebaseFirestore.instance.collection('vehicles').get();
+
+      //print(vehicleSnapshot);
+      //
       final List<String> ownerIds = vehicleSnapshot.docs
-          .where((doc) => doc['vehicleName'] == vehicleName)
+          .where((doc) => doc['vehicleName'] == vehicleName.trim())
           .map((doc) {
-        final String ownerId = doc['ownerID'].toString();
+        return doc['ownerID'].toString();
+      })
+          .toList();
+
+      // final List<String> ownerIds = vehicleSnapshot.docs
+      //     .where((doc) {
+      //   bool condition = doc['vehicleName'] == vehicleName.trim();
+      //   print('Condition: $condition, Doc: ${doc['vehicleName']}');
+      //   return condition;
+      // })
+      //     .map((doc) => doc['ownerID'].toString())
+      //     .toList();
+
+      //print("ownerIds:  $ownerIds");
+
+      for (final ownerId in ownerIds) {
+        print("owner Id: $ownerId");
         final CollectionReference ownersCollection =
         FirebaseFirestore.instance.collection('owners');
         final DocumentReference ownerDocRef = ownersCollection.doc(ownerId);
-        final CollectionReference requestCollection = ownerDocRef.collection('requests');
+        final CollectionReference requestCollection =
+        ownerDocRef.collection('requests');
 
         extractDateTime(requestPickUpController.text);
 
         // Provide the fields to be saved in the subcollection
-        requestCollection.doc(requestIDController.text).set({
+        await requestCollection.doc(requestIDController.text).set({
           'vehicleName': requestVehicleNameController.text,
           'requestTime': requestTimeController.text,
           'requestDate': requestDateController.text,
           'requestFrom': requestSourceController.text,
           'requestTo': requestDestinationNameController.text,
           'requestID': requestIDController.text,
+          'requestDistance': mainController.distanceController.text,
           // Add more fields as needed
         });
 
-        return ownerId;
-      })
-          .toList();
-
+        print('request sent to $ownerId');
+      }
     } catch (e) {
-      print('Error retrieving owner IDs: $e');
+      Fluttertoast.showToast(
+        msg: 'Error',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+
+      print('ERROR: $e');
     }
   }
 
@@ -92,31 +189,49 @@ class RequestController extends GetxController {
           .where('userId', isEqualTo: currentUserId)
           .get();
 
-
       // Store the documents in the bookingData list
       myRequests.assignAll(querySnapshot.docs);
-
-      print(myRequests);
-
-      print('My Booking data fetched successfully!');
     } catch (e) {
-      print('Error fetching bookings: $e');
-
+      Fluttertoast.showToast(
+        msg: 'No data found.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
 
-  String calculateHoursDifference(String pickupDatetime, String returnDatetime) {
-    // Parse the date strings into DateTime objects
-    DateTime pickupDate = DateFormat('dd-MM-yyyy HH:mm').parse(pickupDatetime);
-    DateTime returnDate = DateFormat('dd-MM-yyyy HH:mm').parse(returnDatetime);
+  String calculateHoursDifference(
+      String pickupDatetime, String returnDatetime) {
+    try {
+      // Parse the date strings into DateTime objects
+      DateTime pickupDate =
+          DateFormat('dd-MM-yyyy HH:mm').parse(pickupDatetime);
+      DateTime returnDate =
+          DateFormat('dd-MM-yyyy HH:mm').parse(returnDatetime);
 
-    // Calculate the difference in hours
-    Duration difference = returnDate.difference(pickupDate);
-    int differenceInHours = difference.inHours;
+      // Calculate the difference in hours
+      Duration difference = returnDate.difference(pickupDate);
+      int differenceInHours = difference.inHours;
 
-    String finalRequestTime = differenceInHours.toString();
-
-    return finalRequestTime;
+      String finalRequestTime = differenceInHours.toString();
+      return finalRequestTime;
+    } catch (e) {
+      // Handle any errors that may occur during date parsing
+      Fluttertoast.showToast(
+        msg: 'Invalid date format.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      return 'Error: Invalid date format';
+    }
   }
 
   Future<void> searchAndFetchDetails(String docId) async {
@@ -149,39 +264,48 @@ class RequestController extends GetxController {
 
           // Fetch the desired fields from the vehicle document
           // ...
-          mainController.assignedVehicleNumberController.text = vehicleDocSnapshot['vehicleNumber'];
-          mainController.assignedOwnerNameController.text = vehicleDocSnapshot['ownerName'];
-          mainController.assignedOwnerPhoneNumberController.text = vehicleDocSnapshot['ownerPhoneNumber'];
-
-
-          print('name: ${mainController.assignedOwnerNameController.text}');
-          print('v-number: ${mainController.assignedVehicleNumberController.text}');
-          print('ph: ${mainController.assignedOwnerPhoneNumberController.text}');
-
-
-          // Further processing with the fetched details
-          // ...
-          // Your code here
-
-          // Example: Print the fetched details
-          print('Owner ID: $ownerId');
-          print('Vehicle Number: $vehicleNumber');
-
-          // ...
+          mainController.assignedVehicleNumberController.text =
+              vehicleDocSnapshot['vehicleNumber'];
+          mainController.assignedOwnerNameController.text =
+              vehicleDocSnapshot['ownerName'];
+          mainController.assignedOwnerPhoneNumberController.text =
+              vehicleDocSnapshot['ownerPhoneNumber'];
         } else {
-          print('No matching vehicle found.');
+          Fluttertoast.showToast(
+            msg: 'Vehicle not found.',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.grey[600],
+            textColor: Colors.black,
+            fontSize: 16.0,
+          );
           // Handle the case when no matching vehicle is found
         }
       } else {
-        print('No matching booking found.');
+        Fluttertoast.showToast(
+          msg: 'No data found.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey[600],
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
         // Handle the case when no matching booking is found
       }
     } catch (error) {
-      print('Error searching and fetching details: $error');
+      Fluttertoast.showToast(
+        msg: 'Error',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
-
-
 
   Future<void> updateOnRideField(String ownerId, String vehicleNumber) async {
     try {
@@ -189,9 +313,13 @@ class RequestController extends GetxController {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('vehicles')
           .where('ownerID', isEqualTo: ownerId)
-          .where('vehicleNumber', isEqualTo: vehicleNumber)
+          .where('vehicleNumber', isEqualTo: vehicleNumber.trim())
           .get();
 
+
+        print('vehicleNumber: ${vehicleNumber}');
+        print('vehicleNumber: ${vehicleNumber.length}');
+        print('vehicle snapshot on ride: ${snapshot.docs.isEmpty}');
       // Check if a matching vehicle document exists
       if (snapshot.docs.isNotEmpty) {
         // Get the first matching document
@@ -205,18 +333,28 @@ class RequestController extends GetxController {
             .collection('vehicles')
             .doc(docId)
             .update({'onRide': false});
-
-        print('on_ride field updated successfully!');
       } else {
-        print('No matching vehicle found.');
+        Fluttertoast.showToast(
+          msg: 'Vehicle not found.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey[600],
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
         // Handle the case when no matching vehicle is found
       }
     } catch (error) {
-      print('Error updating on_ride field: $error');
+      Fluttertoast.showToast(
+        msg: 'Error occurred.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
   }
-
-
-
-
 }

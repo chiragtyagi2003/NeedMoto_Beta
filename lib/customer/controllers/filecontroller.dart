@@ -4,21 +4,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:toast/toast.dart';
 
 class FileController {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  late final String _userId;
 
   final user = FirebaseAuth.instance.currentUser;
 
-  List<File> _files = [];
+  final List<File> _files = [];
 
   void addFile(File file) {
     _files.add(file);
-    print('Files: ${_files}');
   }
 
   void removeFile(int index) {
@@ -26,50 +23,46 @@ class FileController {
   }
 
   Future<void> uploadFiles() async {
-    //User user = await auth.getUserByUid('qFm8nd1BODSFfJLEsGNFLzjbOiN2');
+    try {
+      if (_files.length < 7) {
+        Fluttertoast.showToast(msg: 'Please Upload all Files');
+        return;
+      }
 
+      Map<String, String> downloadUrls = {};
 
-    if (_files.length < 7) {
-      print('Please upload all files.');
-      Fluttertoast.showToast(msg: 'Please Upload all Files');
-      return;
+      for (int i = 0; i < _files.length; i++) {
+        File file = _files[i];
+        String fileName = file.path.split('/').last;
+        Reference reference = _firebaseStorage
+            .ref()
+            .child('user-docs')
+            .child(user!.uid)
+            .child(fileName);
+        UploadTask uploadTask = reference.putFile(file);
+
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+        downloadUrls[fileName] = downloadUrl;
+      }
+
+      await _firestore
+          .collection('customers')
+          .doc(user!.uid)
+          .collection('kyc-docs')
+          .doc('user-kyc-docs')
+          .set({'fileLinks': downloadUrls});
+    } catch (e) {
+      // Handle any errors that may occur during file uploading or Firestore operations
+      Fluttertoast.showToast(
+        msg: "Error.Try Again!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
-    Map<String, String> downloadUrls =
-        {}; // Use a map instead of a list to store key-value pairs
-    for (int i = 0; i < _files.length; i++) {
-      File file = _files[i];
-      String fileName = file.path.split('/').last;
-      Reference reference = _firebaseStorage
-          .ref()
-          .child('user-docs')
-          .child(user!.uid)
-          .child(fileName);
-      UploadTask uploadTask = reference.putFile(file);
-
-      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-        double progress = snapshot.bytesTransferred / snapshot.totalBytes;
-        print('Upload progress: $progress');
-      });
-
-      TaskSnapshot taskSnapshot = await uploadTask;
-      print('File uploaded');
-      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-      downloadUrls[fileName] = downloadUrl; // Use the filename as the key
-    }
-
-    await _firestore
-        .collection('customers')
-        .doc(user!.uid)
-        .collection('kyc-docs')
-        .doc('user-kyc-docs')
-        .set({'fileLinks': downloadUrls});
   }
-
-  // Future<void> submitFiles() async {
-  //   downloadURLs.clear();
-  //   await Future.wait(fileReferences.map((ref) => ref.getDownloadURL())).then((urls) {
-  //     downloadURLs.addAll(urls.cast<String>());
-  //   });
-  //   // do something with the download URLs, like saving them to the user's document in Firebase Firestore
-  // }
 }

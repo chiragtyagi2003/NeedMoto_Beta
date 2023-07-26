@@ -28,14 +28,14 @@ class _MyRequestsState extends State<MyRequests> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Requests',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -72,7 +72,7 @@ class _MyRequestsState extends State<MyRequests> {
                 child: Stack(children: [
                   Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Card(
@@ -113,7 +113,7 @@ class _MyRequestsState extends State<MyRequests> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Car name  :',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -121,8 +121,8 @@ class _MyRequestsState extends State<MyRequests> {
                                               ),
                                             ),
                                             Text(
-                                              '${carName}',
-                                              style: TextStyle(
+                                              carName,
+                                              style: const TextStyle(
                                                 fontSize: 15.0,
                                               ),
                                             ),
@@ -134,7 +134,7 @@ class _MyRequestsState extends State<MyRequests> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Request time : ',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -143,14 +143,14 @@ class _MyRequestsState extends State<MyRequests> {
                                             ),
                                             Text(
                                               '$requestTime hrs',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 15.0,
                                               ),
                                             ),
                                           ],
                                         ),
 
-                                        Row(
+                                        const Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
@@ -177,7 +177,7 @@ class _MyRequestsState extends State<MyRequests> {
                                           children: [
                                             Row(
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'From : ',
                                                   style: TextStyle(
                                                     fontWeight:
@@ -186,8 +186,8 @@ class _MyRequestsState extends State<MyRequests> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${source}',
-                                                  style: TextStyle(
+                                                  source,
+                                                  style: const TextStyle(
                                                     fontSize: 15.0,
                                                   ),
                                                 ),
@@ -195,7 +195,7 @@ class _MyRequestsState extends State<MyRequests> {
                                             ),
                                             Row(
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'To : ',
                                                   style: TextStyle(
                                                     fontWeight:
@@ -204,8 +204,8 @@ class _MyRequestsState extends State<MyRequests> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${destination}',
-                                                  style: TextStyle(
+                                                  destination,
+                                                  style: const TextStyle(
                                                     fontSize: 15.0,
                                                   ),
                                                 ),

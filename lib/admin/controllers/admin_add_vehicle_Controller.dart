@@ -21,7 +21,7 @@ class AdminAddVehicleController extends GetxController {
   TextEditingController type = TextEditingController();
   TextEditingController vehicleNumber = TextEditingController();
   DropdownController dropDowncontroller = DropdownController();
-
+  TextEditingController vehicleTypeController = TextEditingController();
   Future<void> addVehicleToCollection(String vehicleId) async {
     try {
       // Access Firestore instance
@@ -43,10 +43,10 @@ class AdminAddVehicleController extends GetxController {
         'model': model.text,
         'pricePerDay': pricePerDay.text,
         'pricePerHourCust': pricePerHour.text,
-        'pricePerKm': pricePerKm.text,
+        'pricePerKmCust': pricePerKm.text,
         'seating': dropDowncontroller.selectedItem.toString(),
-        'type': type.text,
         'adminApproval': true,
+        'vehicleType': vehicleTypeController.text,
       };
 
       // Add the vehicle data to the Firestore document

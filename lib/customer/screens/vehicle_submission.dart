@@ -9,7 +9,7 @@ class VehicleSubmission extends StatefulWidget {
 }
 
 class _VehicleSubmissionState extends State<VehicleSubmission> {
-  TextEditingController _messageController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
   final Rxn<bool> selected = Rxn<bool>();
 
   @override
@@ -18,12 +18,12 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "VEHICLE SUBMISSION",
           style: TextStyle(fontSize: 20, color: Colors.black),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new,
             color: Colors.black,
           ),
@@ -36,19 +36,19 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
           child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: Center(
               child: Column(children: [
-                Text(
+                const Text(
                   "₹ 1500.00",
                   style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   "Extra charges",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 ElevatedButton(
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -56,13 +56,13 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                       borderRadius: BorderRadius.circular(25.0),
                     )),
                     backgroundColor: MaterialStateProperty.all(
-                        Color.fromRGBO(2, 100, 171, 1)),
+                        const Color.fromRGBO(2, 100, 171, 1)),
                   ),
                   onPressed: () {},
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.7,
                     height: 50,
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Pay",
                         style: TextStyle(fontSize: 22),
@@ -74,14 +74,14 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
               ]),
             ),
           ),
-          Divider(
+          const Divider(
             color: Colors.black87,
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             child: Column(
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -97,8 +97,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -114,8 +114,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -131,8 +131,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -148,8 +148,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -165,8 +165,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -182,8 +182,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -199,8 +199,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -216,8 +216,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -233,8 +233,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -250,8 +250,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                const SizedBox(height: 10),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -267,7 +267,7 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     )
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: _messageController,
                   // maxLength: 10,
@@ -277,7 +277,8 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     // hintText: 'Message',
                     labelText: 'Message',
                     alignLabelWithHint: true,
-                    constraints: BoxConstraints(maxHeight: 150, minHeight: 50),
+                    constraints:
+                        const BoxConstraints(maxHeight: 150, minHeight: 50),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: const BorderSide(
@@ -295,12 +296,12 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
                 Obx(
                   () => Checkbox(
-                    activeColor: Color.fromARGB(255, 33, 103, 243),
+                    activeColor: const Color.fromARGB(255, 33, 103, 243),
                     value: selected.value == true,
                     onChanged: (val) {
                       val == true
@@ -309,7 +310,7 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                     },
                   ),
                 ),
-                Text(
+                const Text(
                   "I have received all my documents",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                 ),
@@ -322,14 +323,14 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
                   RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
               )),
-              backgroundColor:
-                  MaterialStateProperty.all(Color.fromRGBO(2, 100, 171, 1)),
+              backgroundColor: MaterialStateProperty.all(
+                  const Color.fromRGBO(2, 100, 171, 1)),
             ),
             onPressed: () {},
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               height: 50,
-              child: Center(
+              child: const Center(
                 child: Text(
                   "Submit",
                   style: TextStyle(fontSize: 22),
@@ -338,7 +339,7 @@ class _VehicleSubmissionState extends State<VehicleSubmission> {
               ),
             ),
           ),
-          SizedBox(height: 20)
+          const SizedBox(height: 20)
         ],
       )),
     );

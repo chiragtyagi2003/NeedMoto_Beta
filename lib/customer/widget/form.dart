@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 import 'package:need_moto/customer/controllers/main_controller.dart';
 import 'package:intl/intl.dart';
 
-
 class FormTile extends StatefulWidget {
-  FormTile(
+  const FormTile(
       {Key? key,
       // required this.source,
       // required this.destination,
@@ -22,7 +21,7 @@ class FormTile extends StatefulWidget {
   // String returnDateTime;
   // String delivery;
   // String purpose;
-  bool isEditable;
+  final bool isEditable;
 
   @override
   State<FormTile> createState() => _FormTileState();
@@ -52,10 +51,13 @@ class _FormTileState extends State<FormTile> {
     super.initState();
 
     // Set initial values to the controllers
-    fromController.text = mainController.vehicleSource.text;//widget.source;
-    toController.text = mainController.vehicleDestination.text; //widget.destination;
-    fromTimeController.text = mainController.pickupDateTime.text; //widget.pickupDateTime;
-    toTimeController.text =  mainController.returnDateTime.text; //widget.returnDateTime;
+    fromController.text = mainController.vehicleSource.text; //widget.source;
+    toController.text =
+        mainController.vehicleDestination.text; //widget.destination;
+    fromTimeController.text =
+        mainController.pickupDateTime.text; //widget.pickupDateTime;
+    toTimeController.text =
+        mainController.returnDateTime.text; //widget.returnDateTime;
     pickupController.text = mainController.delivery.text; //widget.delivery;
     purposeController.text = mainController.purpose.text; //widget.purpose;
   }
@@ -72,19 +74,10 @@ class _FormTileState extends State<FormTile> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0),
-      // padding: EdgeInsets.all(16),
-      // decoration: BoxDecoration(
-      //   border: Border.all(
-      //     color: Colors.grey.shade400,
-      //     width: 1,
-      //   ),
-      //   borderRadius: BorderRadius.circular(8),
-      // ),
+      margin: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -99,7 +92,8 @@ class _FormTileState extends State<FormTile> {
                         onChanged: (value) {
                           isFromValid.value = value.isNotEmpty;
                           setState(() {
-                            mainController.vehicleSource.text = value.toString();
+                            mainController.vehicleSource.text =
+                                value.toString();
                           });
                         },
                         decoration: InputDecoration(
@@ -112,18 +106,19 @@ class _FormTileState extends State<FormTile> {
                       )
                     : _edit(mainController.vehicleSource.text, 'Form'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Icon(Icons.compare_arrows_sharp, color: Colors.orange[600]),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: widget.isEditable
                     ? TextField(
                         controller: toController,
                         onChanged: (value) {
-                              isToValid.value = value.isNotEmpty;
-                              setState(() {
-                                mainController.vehicleDestination.text = value.toString();
-                              });
+                          isToValid.value = value.isNotEmpty;
+                          setState(() {
+                            mainController.vehicleDestination.text =
+                                value.toString();
+                          });
                         },
                         decoration: InputDecoration(
                           labelText: 'To',
@@ -137,14 +132,14 @@ class _FormTileState extends State<FormTile> {
               ),
             ],
           ),
-          Divider(
+          const Divider(
             indent: 20,
             endIndent: 20,
             height: 1,
             color: Colors.black54,
           ),
 
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
 
           // Second row with date and time fields
           Row(
@@ -152,87 +147,110 @@ class _FormTileState extends State<FormTile> {
               Expanded(
                 child: widget.isEditable
                     ? TextField(
-                  controller: mainController.pickupDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
-                      .format(mainController.pickUpdateTimeController.selectedDateTime.value)
-                      .toString(),
-                  readOnly: true,
-                  onTap: () async {
-                    final selectedDateTime = await mainController.pickUpdateTimeController.selectDateTime(context);
-                    if (selectedDateTime != null) {
-                      setState(() {
-                        mainController.pickupDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
-                        mainController.durationDaysHoursController.text = mainController.calculateDurationDaysHours(mainController.pickupDateTime.text, mainController.returnDateTime.text);
-                      });
-                    }},
-                  decoration: InputDecoration(
-                      // border: OutlineInputBorder(
-                      //     borderRadius: BorderRadius.circular(30)),
-                      labelText: 'Pickup date & Time'),
-                )
-                    : _edit(mainController.pickupDateTime.text, 'Pickup Date and Time'),
+                        controller: mainController.pickupDateTime
+                          ..text = DateFormat('dd-MM-yyyy HH:mm')
+                              .format(mainController.pickUpdateTimeController
+                                  .selectedDateTime.value)
+                              .toString(),
+                        readOnly: true,
+                        onTap: () async {
+                          final selectedDateTime = await mainController
+                              .pickUpdateTimeController
+                              .selectDateTime(context);
+                          if (selectedDateTime != null) {
+                            setState(() {
+                              mainController.pickupDateTime.text =
+                                  DateFormat('dd-MM-yyyy HH:mm')
+                                      .format(selectedDateTime);
+                              mainController.durationDaysHoursController.text =
+                                  mainController.calculateDurationDaysHours(
+                                      mainController.pickupDateTime.text,
+                                      mainController.returnDateTime.text);
+                            });
+                          }
+                        },
+                        decoration: const InputDecoration(
+                            // border: OutlineInputBorder(
+                            //     borderRadius: BorderRadius.circular(30)),
+                            labelText: 'Pickup date & Time'),
+                      )
+                    : _edit(mainController.pickupDateTime.text,
+                        'Pickup Date and Time'),
               ),
-              SizedBox(width: 8),
-              Icon(Icons.calendar_today_outlined, color: Colors.orange),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
+              const Icon(Icons.calendar_today_outlined, color: Colors.orange),
+              const SizedBox(width: 8),
               Expanded(
                 child: widget.isEditable
-                    ?  TextField(
-                  controller: mainController.returnDateTime..text = DateFormat('dd-MM-yyyy HH:mm')
-                      .format(mainController.returndateTimeController.selectedDateTime.value)
-                      .toString(),
-                  readOnly: true,
-                  onTap: () async {
-                    final selectedDateTime = await mainController.returndateTimeController.selectDateTime(context);
-                    if (selectedDateTime != null) {
-                     setState(() {
-                       mainController.returnDateTime.text = DateFormat('dd-MM-yyyy HH:mm').format(selectedDateTime);
-                       mainController.durationDaysHoursController.text = mainController.calculateDurationDaysHours(mainController.pickupDateTime.text, mainController.returnDateTime.text);
-                     });
-                    }},
-                  decoration: InputDecoration(
-                      labelText: 'Return date & Time'),
-                )
-                    : _edit(mainController.returnDateTime.text, 'Return Date and Time'),
+                    ? TextField(
+                        controller: mainController.returnDateTime
+                          ..text = DateFormat('dd-MM-yyyy HH:mm')
+                              .format(mainController.returnDateTimeController
+                                  .selectedDateTime.value)
+                              .toString(),
+                        readOnly: true,
+                        onTap: () async {
+                          final selectedDateTime = await mainController
+                              .returnDateTimeController
+                              .selectDateTime(context);
+                          if (selectedDateTime != null) {
+                            setState(() {
+                              mainController.returnDateTime.text =
+                                  DateFormat('dd-MM-yyyy HH:mm')
+                                      .format(selectedDateTime);
+                              mainController.durationDaysHoursController.text =
+                                  mainController.calculateDurationDaysHours(
+                                      mainController.pickupDateTime.text,
+                                      mainController.returnDateTime.text);
+                            });
+                          }
+                        },
+                        decoration: const InputDecoration(
+                            labelText: 'Return date & Time'),
+                      )
+                    : _edit(mainController.returnDateTime.text,
+                        'Return Date and Time'),
               ),
             ],
           ),
-          Divider(
+          const Divider(
             indent: 20,
             endIndent: 20,
             height: 1,
             color: Colors.black54,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           // Third row with "Pickup/Delivery" and "Purpose" fields
           Row(
             children: [
               Expanded(
                 child: widget.isEditable
-                    ?  DropdownSearch(
-                        popupProps: PopupProps.menu(
-                          constraints: BoxConstraints(maxHeight: 200),
-                          searchDelay: Duration(milliseconds: 500)),
-                          items: mainController.deliveryDropDownController.option,
-                            dropdownDecoratorProps: DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                // border: OutlineInputBorder(
-                                // borderRadius: BorderRadius.circular(30)),
-                                labelText: 'Delivery',
-                            )),
-                          onChanged: (value) {
-                             setState(() {
-                               mainController.deliveryDropDownController.setvalue(value!);
-                               mainController.delivery.text = value!;
-                               print('delivery: ${mainController.delivery.text}');
-                             });
-                          },
-                        selectedItem: mainController.deliveryDropDownController.selectType,
+                    ? DropdownSearch(
+                        popupProps: const PopupProps.menu(
+                            constraints: BoxConstraints(maxHeight: 200),
+                            searchDelay: Duration(milliseconds: 500)),
+                        items: mainController.deliveryDropDownController.option,
+                        dropdownDecoratorProps: const DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                          // border: OutlineInputBorder(
+                          // borderRadius: BorderRadius.circular(30)),
+                          labelText: 'Delivery',
+                        )),
+                        onChanged: (value) {
+                          setState(() {
+                            mainController.deliveryDropDownController
+                                .setvalue(value!);
+                            mainController.delivery.text = value!;
+                          });
+                        },
+                        selectedItem: mainController
+                            .deliveryDropDownController.selectType,
                       )
                     : _edit(mainController.delivery.text, 'Pickup/Delivery'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               //Icon(Icons.compare_arrows_sharp, color: Colors.orange),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: widget.isEditable
                     ? TextField(
@@ -262,20 +280,20 @@ class _FormTileState extends State<FormTile> {
 
   Widget _edit(String text, String lable) {
     return Container(
-      margin: EdgeInsets.only(left: 18),
-      decoration: BoxDecoration(),
+      margin: const EdgeInsets.only(left: 18),
+      decoration: const BoxDecoration(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             lable,
-            style: TextStyle(fontSize: 15, color: Colors.grey),
+            style: const TextStyle(fontSize: 15, color: Colors.grey),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             text,
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
         ],
       ),

@@ -28,6 +28,25 @@ class _AddVehicleState extends State<AddVehicle> {
   OwnerImageController ownerImageController = Get.find();
   OwnerFileController ownerFileController = Get.find();
 
+  // Method to check if all fields are filled
+  bool areAllFieldsFilled(BuildContext context) {
+    // Check if each text controller has a non-empty value
+    if (mainController.vehicleNameController.text.isEmpty ||
+        mainController.vehicleNumberController.text.isEmpty ||
+        mainController.vehicleModelController.text.isEmpty ||
+        mainController.vehicleFuelTypeController.text.isEmpty ||
+        mainController.vehicleCurrentReadingController.text.isEmpty ||
+        mainController.vehicleRcNumberController.text.isEmpty ||
+        mainController.vehicleLocationController.text.isEmpty ||
+        mainController.vehicleInsuranceController.text.isEmpty ||
+        mainController.vehiclePendingChallansController.text.isEmpty) {
+      // Show a Snackbar if any field is not filled
+      Get.snackbar('Error', 'Please fill in all fields');
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,9 +209,13 @@ class _AddVehicleState extends State<AddVehicle> {
                       ),
                     ),
                     onPressed: () {
-                      _currentStep < 2
-                          ? setState(() => _currentStep += 1)
-                          : null;
+                      // Check if all fields are filled
+                      bool allFieldsFilled = areAllFieldsFilled(context);
+
+                      if (allFieldsFilled) {
+                        // Proceed to the next step
+                        _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+                      }
                     },
                     child: const Center(
                       child: Text(

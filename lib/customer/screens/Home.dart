@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:need_moto/customer/screens/Grid.dart';
 import 'package:need_moto/customer/screens/customer_side_drawer.dart';
 import 'package:need_moto/customer/screens/side_drawer/my_requests.dart';
 import 'package:need_moto/customer/widget/myappbar.dart';
+import 'package:need_moto/owner/screens/login.dart';
 
 import 'SelfDrive.dart';
 
@@ -13,18 +13,18 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      drawer: CustomerSideDrawer(),
+      appBar: const MyAppBar(),
+      drawer: const CustomerSideDrawer(),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                   padding: EdgeInsets.only(
                       left: 20, right: 20, top: 10, bottom: 10)),
-              Align(
+              const Align(
                 alignment: Alignment.center,
               ),
               Text(
@@ -33,11 +33,11 @@ class Home extends StatelessWidget {
                     fontSize: MediaQuery.of(context).size.width * 0.06,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                   color: Colors.blue.shade100,
@@ -47,7 +47,7 @@ class Home extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
+                    const Text(
                       'You can book vehicle for local long drive \n with driver or without driver and commercial \n purpose also you can book',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -60,19 +60,18 @@ class Home extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-
                                   builder: (context) => SelfDrive()));
                         },
                         child: Container(
                           width: 250,
                           height: 50,
-                          padding: EdgeInsets.all(7),
+                          padding: const EdgeInsets.all(7),
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                   colors: [Colors.orange, Colors.orangeAccent],
                                   stops: [0.1, 0.7]),
                               borderRadius: BorderRadius.circular(25)),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'Find Vehicle',
                               style: TextStyle(
@@ -86,18 +85,18 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text('Rent your Vehicle',
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.06,
                       fontWeight: FontWeight.bold)),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                   color: Colors.lightGreenAccent.shade100,
@@ -107,7 +106,7 @@ class Home extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
+                    const Text(
                       'Get money by adding your vehicle to \n rush wheels and give for rent 1 day \n to so many days',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -117,18 +116,20 @@ class Home extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Get.to(SelfDrive());
+
+                          // go to owner login screen
+                         Get.to(LoginScreen());
                         },
                         child: Container(
                           width: 250,
                           height: 50,
-                          padding: EdgeInsets.all(7),
+                          padding: const EdgeInsets.all(7),
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                   colors: [Colors.orange, Colors.orangeAccent],
                                   stops: [0.1, 0.7]),
                               borderRadius: BorderRadius.circular(25)),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'Add Vehicle',
                               style: TextStyle(
@@ -142,13 +143,13 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
                 width: 370,
                 height: 200,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                   color: Colors.grey.shade300,
@@ -158,14 +159,13 @@ class Home extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.hourglass_bottom),
-        backgroundColor: Colors.orange,
-        onPressed: () {
-          Get.to(MyRequests());
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.hourglass_bottom),
+      //   backgroundColor: Colors.orange,
+      //   onPressed: () {
+      //     Get.to(MyRequests());
+      //   },
+      // ),
     );
   }
 }
-

@@ -108,6 +108,25 @@ class _VehicleTile1State extends State<VehicleTile1> {
                                 const SizedBox(
                                   height: 8.0,
                                 ),
+
+
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Fuel Type:',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${vehicleData['type']}',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    // Icon(Icons.event_seat_sharp),
+                                  ],
+                                ),
                                 // Seats
 
                                 // Row(

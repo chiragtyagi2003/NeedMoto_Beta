@@ -30,14 +30,14 @@ class _MyBookingsState extends State<MyBookings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Bookings',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -74,7 +74,7 @@ class _MyBookingsState extends State<MyBookings> {
                 child: Stack(children: [
                   Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Card(
@@ -115,7 +115,7 @@ class _MyBookingsState extends State<MyBookings> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Car name  :',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -123,14 +123,14 @@ class _MyBookingsState extends State<MyBookings> {
                                               ),
                                             ),
                                             Text(
-                                              '${carName}',
-                                              style: TextStyle(
+                                              carName,
+                                              style: const TextStyle(
                                                 fontSize: 15.0,
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Row(
+                                        const Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
@@ -151,7 +151,7 @@ class _MyBookingsState extends State<MyBookings> {
                                             ),
                                           ],
                                         ),
-                                        Row(
+                                        const Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
@@ -178,7 +178,7 @@ class _MyBookingsState extends State<MyBookings> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Car number  :',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -186,8 +186,8 @@ class _MyBookingsState extends State<MyBookings> {
                                               ),
                                             ),
                                             Text(
-                                              '${carNumber}',
-                                              style: TextStyle(
+                                              carNumber,
+                                              style: const TextStyle(
                                                 fontSize: 15.0,
                                               ),
                                             ),
@@ -203,7 +203,7 @@ class _MyBookingsState extends State<MyBookings> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Request time : ',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -212,14 +212,14 @@ class _MyBookingsState extends State<MyBookings> {
                                             ),
                                             Text(
                                               '$requestTime hrs',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 15.0,
                                               ),
                                             ),
                                           ],
                                         ),
 
-                                        Row(
+                                        const Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
@@ -246,7 +246,7 @@ class _MyBookingsState extends State<MyBookings> {
                                           children: [
                                             Row(
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'From : ',
                                                   style: TextStyle(
                                                     fontWeight:
@@ -255,8 +255,8 @@ class _MyBookingsState extends State<MyBookings> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${source}',
-                                                  style: TextStyle(
+                                                  source,
+                                                  style: const TextStyle(
                                                     fontSize: 15.0,
                                                   ),
                                                 ),
@@ -264,7 +264,7 @@ class _MyBookingsState extends State<MyBookings> {
                                             ),
                                             Row(
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'To : ',
                                                   style: TextStyle(
                                                     fontWeight:
@@ -273,8 +273,8 @@ class _MyBookingsState extends State<MyBookings> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${destination}',
-                                                  style: TextStyle(
+                                                  destination,
+                                                  style: const TextStyle(
                                                     fontSize: 15.0,
                                                   ),
                                                 ),

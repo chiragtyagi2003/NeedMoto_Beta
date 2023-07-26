@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:need_moto/owner/controller/owner_auth_controller.dart';
@@ -11,6 +12,21 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Future<void> resetPassword() async {
+      try {
+        if (_emailController.text.isNotEmpty) {
+          await FirebaseAuth.instance
+              .sendPasswordResetEmail(email: _emailController.text);
+          Get.snackbar("Success", "Password reset email sent to ${_emailController.text}");
+        } else {
+          Get.snackbar("Error", "Please enter your email address to reset the password");
+        }
+      } catch (e) {
+        Get.snackbar("Error", e.toString());
+      }
+    }
+
     OwnerAuthController ownerAuthController = Get.find();
     // Use media queries to get the available height and width of the screen
     final screenHeight = MediaQuery.of(context).size.height;
@@ -62,6 +78,27 @@ class LoginScreen extends StatelessWidget {
                   obscureText: true,
                 ),
               ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Forgot Password?"),
+                  TextButton(
+                    onPressed: () {
+                      resetPassword();
+                    },
+                    child: const Text(
+                      "Reset Password",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18),
+                    ),
+                  )
+                ],
+              ),
               SizedBox(
                 height: screenHeight * 0.06,
               ),
@@ -90,6 +127,7 @@ class LoginScreen extends StatelessWidget {
                   child: const Text("Login"),
                 ),
               ),
+
               const SizedBox(
                 height: 10.0,
               ),

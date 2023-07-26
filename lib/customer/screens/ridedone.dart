@@ -1,32 +1,30 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:need_moto/customer/controllers/vehicleSubmitController.dart';
 import 'package:need_moto/customer/screens/submitVehicle.dart';
 
-
 class RideComplete extends StatefulWidget {
+  final String source;
+  final String destination;
+  final String pickupDateTime;
+  final String returnDateTime;
+  final String delivery;
+  final String purpose;
+  final String ownerName;
+  final String ownerPhoneNumber;
+  final String type;
+  final String vehicleNumber;
+  final String vehicleName;
+  final String seats;
+  final double rentalPrice;
+  final String base_12;
+  final String base_24;
 
-  String source;
-  String destination;
-  String pickupDateTime;
-  String returnDateTime;
-  String delivery;
-  String purpose;
-  String ownerName;
-  String ownerPhoneNumber;
-  String type;
-  String vehicleNumber;
-  String vehicleName;
-  String seats;
-  double rentalPrice;
-  String base_12;
-  String base_24;
-
-  RideComplete({
+  const RideComplete({
+    super.key,
     required this.source,
     required this.destination,
     required this.pickupDateTime,
@@ -44,46 +42,38 @@ class RideComplete extends StatefulWidget {
     required this.base_24,
   });
 
-
   @override
   State<RideComplete> createState() => _RideCompleteState();
 }
 
 class _RideCompleteState extends State<RideComplete> {
-  final _readingController = TextEditingController();
-
-  final _fastTagController = TextEditingController();
-
-  final _damageController = TextEditingController();
-
-  final _dateController = TextEditingController();
-
-  final _messageController = TextEditingController();
-
   final DateFormat _dateFormat = DateFormat('dd-MM-yyyy HH:mm');
 
   final List<String> options = ['Option 1', 'Option 2', 'Option 3'];
 
   String? _selectedOption;
 
-
   VehicleSubmitController vehicleSubmitController = Get.find();
 
   @override
-  Widget build(BuildContext context) {
-    final _currentIndex = 0.obs;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'HANDOVER VEHICLE',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -94,9 +84,10 @@ class _RideCompleteState extends State<RideComplete> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.sizeOf(context).height * 1.0,
           color: Colors.white,
           child: Column(children: [
-            Divider(
+            const Divider(
               color: Colors.black,
               thickness: 0.3,
             ),
@@ -105,16 +96,17 @@ class _RideCompleteState extends State<RideComplete> {
               child: Column(
                 children: [
                   TextFormField(
-                    controller: vehicleSubmitController.vehicleReadingController,
-                    decoration: InputDecoration(
+                    controller:
+                        vehicleSubmitController.vehicleReadingController,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       labelText: 'Reading',
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Scratches',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -123,7 +115,8 @@ class _RideCompleteState extends State<RideComplete> {
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value;
-                        vehicleSubmitController.vehicleScratchController.text = value.toString();
+                        vehicleSubmitController.vehicleScratchController.text =
+                            value.toString();
                       });
                     },
                     items: options
@@ -133,31 +126,33 @@ class _RideCompleteState extends State<RideComplete> {
                             ))
                         .toList(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: vehicleSubmitController.vehicleDamageController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       labelText: 'Damages',
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
-                    controller: vehicleSubmitController.vehicleFastTagAmountController,
-                    decoration: InputDecoration(
+                    controller:
+                        vehicleSubmitController.vehicleFastTagAmountController,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       labelText: 'Fast Tag amount',
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   InkWell(
                     onTap: () => _selectDate(context),
                     child: IgnorePointer(
                       child: TextFormField(
-                        controller: vehicleSubmitController.vehicleDateTimeOfHandoverController,
-                        decoration: InputDecoration(
+                        controller: vehicleSubmitController
+                            .vehicleDateTimeOfHandoverController,
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30))),
@@ -167,9 +162,10 @@ class _RideCompleteState extends State<RideComplete> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextField(
-                    controller: vehicleSubmitController.vehicleMessageController,
+                    controller:
+                        vehicleSubmitController.vehicleMessageController,
                     maxLines: 5,
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -192,8 +188,25 @@ class _RideCompleteState extends State<RideComplete> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: ElevatedButton(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                        onPressed: () {
+                          vehicleSubmitController.extractSubmitDateAndTime(
+                              vehicleSubmitController
+                                  .vehicleDateTimeOfHandoverController.text);
+
+                          Get.to(() => SubmitVehicle(
+                                vehicleNumber: widget.vehicleNumber,
+                                ownerName: widget.ownerName,
+                                ownerPhoneNumber: widget.ownerPhoneNumber,
+                                base_12: widget.base_12,
+                                base_24: widget.base_24,
+                              ));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(
                               top: 8.0, bottom: 8, left: 85, right: 85),
                           child: Text(
                             'Submit',
@@ -201,23 +214,6 @@ class _RideCompleteState extends State<RideComplete> {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                        ),
-                        onPressed: () {
-                          print(vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
-                          vehicleSubmitController.extractSubmitDateAndTime(vehicleSubmitController.vehicleDateTimeOfHandoverController.text);
-
-                          Get.to(() => SubmitVehicle(
-                            vehicleNumber: widget.vehicleNumber,
-                            ownerName: widget.ownerName,
-                            ownerPhoneNumber: widget.ownerPhoneNumber,
-                            base_12: widget.base_12,
-                            base_24: widget.base_24,
-
-                          ));
-                        },
                       ),
                     ),
                   ),
@@ -227,36 +223,55 @@ class _RideCompleteState extends State<RideComplete> {
           ]),
         ),
       ),
-    );
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+           vehicleSubmitController.recordVideo();
+        },
+        child: Icon(Icons.video_camera_back_outlined),
+        ),
+      );
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    if (pickedDate != null) {
-      final TimeOfDay? pickedTime = await showTimePicker(
+    try {
+      final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialTime: TimeOfDay.now(),
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
       );
 
-      if (pickedTime != null) {
-        DateTime selectedDateTime = DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          pickedTime.hour,
-          pickedTime.minute,
+      if (pickedDate != null) {
+        final TimeOfDay? pickedTime = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.now(),
         );
 
-        vehicleSubmitController.vehicleDateTimeOfHandoverController.text =
-            _dateFormat.format(selectedDateTime);
+        if (pickedTime != null) {
+          DateTime selectedDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+
+          vehicleSubmitController.vehicleDateTimeOfHandoverController.text =
+              _dateFormat.format(selectedDateTime);
+        }
       }
+    } catch (e) {
+      // Handle any errors that occur during date and time selection
+      Fluttertoast.showToast(
+        msg: 'Error.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      // You can show an error message to the user or handle the error in another way.
     }
   }
-
 }

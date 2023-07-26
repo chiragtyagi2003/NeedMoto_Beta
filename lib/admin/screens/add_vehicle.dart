@@ -109,7 +109,7 @@ class _AddVehicleState extends State<AddVehicle> {
                         width: 350,
                         height: 60,
                         child: TextField(
-                          controller: adminAddVehicleController.type,
+                          controller: adminAddVehicleController.vehicleTypeController,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30)),

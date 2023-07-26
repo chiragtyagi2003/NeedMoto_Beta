@@ -78,6 +78,7 @@ class SignUpScreen extends StatelessWidget {
                 child: TextInputField(
                   controller: _passwordController,
                   myLabelText: "Password",
+                  obscureText: true,
                 ),
               ),
               SizedBox(

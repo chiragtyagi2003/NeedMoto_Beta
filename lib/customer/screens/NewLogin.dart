@@ -7,30 +7,44 @@ import 'package:need_moto/customer/screens/Home.dart';
 import 'package:need_moto/customer/screens/NewSignup.dart';
 import 'package:need_moto/owner/screens/login.dart';
 
-
-
 class LoginPage extends StatelessWidget {
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  LoginPage({super.key});
 
   Future<void> loginUser() async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
+      if (emailController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty) {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
 
-      if (userCredential.user != null) {
-        // User logged in successfully
-          // Redirect to home page
-          Get.to(() => Home());
+        // Only navigate to Home screen if login is successful
+        Get.offAll(() => const Home());
+      } else {
+        Get.snackbar("Error", "Please enter your email and password");
       }
     } catch (e) {
-      print('Error logging in user: $e');
+      Get.snackbar("Error", e.toString());
     }
   }
+
+
+  Future<void> resetPassword() async {
+    try {
+      if (emailController.text.isNotEmpty) {
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: emailController.text);
+        Get.snackbar("Success", "Password reset email sent to ${emailController.text}");
+      } else {
+        Get.snackbar("Error", "Please enter your email address to reset the password");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +59,13 @@ class LoginPage extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               size: 20,
               color: Colors.black,
             )),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
         child: Column(
@@ -59,7 +73,7 @@ class LoginPage extends StatelessWidget {
           children: [
             Column(
               children: [
-                Column(
+                const Column(
                   children: [
                     Text(
                       "Login",
@@ -74,21 +88,24 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                     children: [
                       makeInput(label: "Email", controller: emailController),
-                      makeInput(label: "Password", obsureText: true, controller: passwordController),
+                      makeInput(
+                          label: "Password",
+                          obsureText: true,
+                          controller: passwordController),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Container(
-                    padding: EdgeInsets.only(top: 3, left: 3),
+                    padding: const EdgeInsets.only(top: 3, left: 3),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
-                        border: Border(
+                        border: const Border(
                             bottom: BorderSide(color: Colors.black),
                             top: BorderSide(color: Colors.black),
                             right: BorderSide(color: Colors.black),
@@ -98,12 +115,12 @@ class LoginPage extends StatelessWidget {
                       height: 60,
                       onPressed: () {
                         loginUser();
-                        Get.to(Home());
+
                       },
-                      color: Color(0xFF20A4F3),
+                      color: const Color(0xFF20A4F3),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40)),
-                      child: Text(
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -113,18 +130,40 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Dont have an account?"),
+                    const Text("Forgot Password?"),
+                    TextButton(
+                      onPressed: () {
+                        resetPassword();
+                      },
+                      child: const Text(
+                        "Reset Password",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () {
                         Get.to(() => SignupPage());
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign Up",
                         style: TextStyle(
                             color: Colors.black,
@@ -137,12 +176,12 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Login as Owner"),
+                    const Text("Login as Owner"),
                     TextButton(
                       onPressed: () {
                         Get.to(() => LoginScreen());
                       },
-                      child: Text(
+                      child: const Text(
                         "Owner Login",
                         style: TextStyle(
                             color: Colors.black,
@@ -152,16 +191,15 @@ class LoginPage extends StatelessWidget {
                     )
                   ],
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Login as Admin"),
+                    const Text("Login as Admin"),
                     TextButton(
                       onPressed: () {
-                        Get.to(() => AdminHome());
+                        Get.to(() => const AdminHome());
                       },
-                      child: Text(
+                      child: const Text(
                         "Admin Login",
                         style: TextStyle(
                             color: Colors.black,
@@ -180,34 +218,35 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-Widget makeInput({label, obsureText = false, TextEditingController? controller}) {
+Widget makeInput(
+    {label, obsureText = false, TextEditingController? controller}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         label,
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
-      SizedBox(
+      const SizedBox(
         height: 5,
       ),
       TextField(
         controller: controller,
         obscureText: obsureText,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.grey,
             ),
           ),
           border:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+              const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 30,
       )
     ],

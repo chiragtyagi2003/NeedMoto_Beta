@@ -17,6 +17,7 @@ class OwnerMainController extends GetxController {
       TextEditingController();
   TextEditingController vehicleInsuranceController = TextEditingController();
   TextEditingController vehicleLocationController = TextEditingController();
+  TextEditingController vehicleFuelTypeController = TextEditingController();
 
   TextEditingController ownerNameController = TextEditingController();
   TextEditingController ownerPhoneNumberController = TextEditingController();
@@ -65,7 +66,8 @@ class OwnerMainController extends GetxController {
       'owner_on_ride': true,
       'ownerName': ownerNameController.text,
       'ownerPhoneNumber': ownerPhoneNumberController.text,
-      'ownerId': user?.uid,
+      'ownerID': user?.uid,
+      'type': vehicleFuelTypeController.text,
     };
 
     try {
@@ -120,8 +122,10 @@ class OwnerMainController extends GetxController {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('vehicles')
           .where('ownerID', isEqualTo: user!.uid)
+          .where('adminApproval', isEqualTo: true)
           .get();
 
+      print(querySnapshot.docs.length);
       return querySnapshot.docs;
     } catch (e) {
       // TODO

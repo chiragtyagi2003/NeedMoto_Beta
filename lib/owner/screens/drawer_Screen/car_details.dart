@@ -86,7 +86,7 @@ class _CarDetailsState extends State<CarDetails> {
             final bookings = snapshot.data ?? [];
 
             if (bookings.isEmpty) {
-              return const Text('No bookings found.');
+              return Center(child: const Text('No bookings found.'));
             }
 
             return ListView.builder(
